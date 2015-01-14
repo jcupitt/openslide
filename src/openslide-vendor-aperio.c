@@ -91,6 +91,9 @@ static bool render_missing_tile(struct level *l,
                                 uint32_t *dest,
                                 int64_t tile_col, int64_t tile_row,
                                 GError **err) {
+  printf( "aperio: render_missing_tile: tile_col = %ld, tile_row = %ld\n",
+    tile_col, tile_row ); 
+
   bool success = true;
 
   int64_t tw = l->tiffl.tile_w;
@@ -193,6 +196,9 @@ static bool read_tile(openslide_t *osr,
 		      int64_t tile_col, int64_t tile_row,
 		      void *arg,
 		      GError **err) {
+  printf( "aperio: read_tile: tile_col = %ld, tile_row = %ld\n",
+    tile_col, tile_row ); 
+
   struct level *l = (struct level *) level;
   struct _openslide_tiff_level *tiffl = &l->tiffl;
   TIFF *tiff = arg;

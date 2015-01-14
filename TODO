@@ -1,0 +1,186 @@
+make aperio use vips instead of cairo 
+
+	openslide-vendor-aperio.c
+
+	read_tile() is the only function we call during decode which uses
+	cairo ... it calls:
+
+  cairo_surface_t *surface = cairo_image_surface_create_for_data(
+   	(unsigned char *) tiledata,
+	CAIRO_FORMAT_ARGB32,
+	tw, th, tw * 4);
+  cairo_set_source_surface(cr, surface, 0, 0);
+  cairo_surface_destroy(surface);
+  cairo_paint(cr);
+
+	ie. paints pixels into cr at 0, 0
+
+what other bits of openslide do we need to remove cairo from?
+
+	$ grep -l cairo *.c
+	openslide.c
+	openslide-decode-tiff.c
+	openslide-error.c
+	openslide-grid.c
+	openslide-util.c
+
+need to remove ARGB from tiff creation in openslide-vendor-aperio.c
+
+add vips to configure
+
+maybe remove other vendor readers to make build simpler
+
+add a new path for vips, or change the exisiting cairo path?
+
+lets's add a new path, it'll mean we can build sooner
+
+where does the path go? openslide2vips() calls:
+
+	openslide_close( osr );
+	openslide_get_property_value()
+	openslide_detect_vendor();
+	openslide_get_associated_image_names();
+	openslide_get_error();
+	openslide_get_level_count();
+	openslide_get_associated_image_dimensions();
+	openslide_get_level_dimensions()'
+	openslide_get_level_downsample();
+	openslide_get_property_names()'
+
+	openslide_t *osr = openslide_open( filename );
+
+		openslide_t will need a VipsImage I guess
+
+	openslide_read_region( openslide_t *osr, uint32_t *buf,
+		int64_t left, int64_t top, int32_t level, 
+		int64_t width, int64_t height );
+
+		reads ARGB pixels to buf, we throw away A in openslide2vips
+
+	openslide_read_associated_image( openslide_t *osr, 
+		const char *name, uint32_t *buf );
+
+		reads ARGB to buf ... always reads entire image
+
+we need two new calls:
+
+	openslide_read_region_vips( openslide_t *osr, uint8_t *buf,
+		int left, int top, int level, int width, int height );
+	openslide_read_associated_image_vips( openslide_t *osr, 
+		const char *name, uint8_t *buf );
+
+		add stuff to support any number of bands and variable bit
+		depth later ... fix the names as well
+
+openslide_read_region(), src/openslide.c, calls:
+
+	int read_region( openslide_t *osr, 
+		cairo_t *cr, 
+		int64_t x, int64_t y, int level, 
+		int64_t w, int64_t h, GError **err );
+
+		@cr is the context to write to, it will write to the passed-in
+		memory buffer ... return FALSE and set err on failure
+
+read_region(), src/openslide.c, calls:
+
+	looks up level in osr->levels[] as l
+
+	success = osr->ops->paint_region(osr, cr, x, y, l, w, h, err);
+
+paint_region is set by openslide-vendor-aperio.c, see aperio_open()
+
+	static bool paint_region( openslide_t *osr, cairo_t *cr,
+		int64_t x, int64_t y,
+		struct _openslide_level *level,
+		int32_t w, int32_t h, GError **err );
+
+paint_region(), src/aperio.c, calls:
+
+	looks up TIFF* in aperio cache, held in osr
+
+	look up grid in level
+
+	_openslide_grid_paint_region( struct _openslide_grid *grid,
+		cairo_t *cr, tiff (passed in void *arg param),
+		int64_t x, int64_t y,
+		struct _openslide_level *level,
+		int32_t w, int32_t h, GError **err );
+
+_openslide_grid_paint_region(), src/openslide-grid.c, calls:
+
+	grid->ops->paint_region( grid, cr, arg, x, y, level, w, h, err );
+
+		grid paint_region is set to simple_paint_region() 
+		by _openslide_grid_create_simple(), called from aperio_open()
+
+simple_paint_region(), src/openslide-grid.c, calls:
+
+	does some translating
+
+	static bool read_tiles( cairo_t *cr,
+		struct _openslide_level *level,
+		struct _openslide_grid *grid,
+		struct region *region,
+		read_tiles_callback_fn callback (passes simple_read_tile),
+		void *arg, GError **err )
+
+read_tiles(), src/openslide-grid.c, calls:
+
+	loops over tiles, calling
+
+	callback( grid, region, cr, level, tile_x, tile_y, arg, err );
+
+	in this case, it'll be
+
+	static bool simple_read_tile( struct _openslide_grid *_grid,
+		struct region *region G_GNUC_UNUSED,
+		cairo_t *cr,
+		struct _openslide_level *level,
+		int64_t tile_col, int64_t tile_row, void *arg, GError **err )
+
+simple_read_tile(), src/openslide-grid.c, calls:
+
+	grid->read_tile( grid->base.osr, 
+		cr, level, tile_col, tile_row, arg, err )
+
+		greid->read_tile() is set by _openslide_grid_create_simple()
+		to the param passed by aperio_open(), read_tile()
+
+	static bool read_tile( openslide_t *osr,
+		cairo_t *cr, struct _openslide_level *level,
+		int64_t tile_col, int64_t tile_row, void *arg, GError **err )
+
+read_tile(), src/openslide-vendor-aperio.c, calls:
+
+	gets an ARGB tile with 
+
+	static bool decode_tile( struct level *l, TIFF *tiff, uint32_t *dest, 
+		int64_t tile_col, int64_t tile_row, GError **err ):
+
+	uses _openslide_cache_get() etc. to save and reuse tile buffers
+
+	paints the tilebuffer to the cr with cairo
+
+decode_tile(), src/openslide-vendor-aperio.c, calls:
+	
+	render_missing_tile() to paint an area to background
+
+		our test image, CMU-1.svs, never calls this path
+
+		uses cairo to paint the background
+
+	_openslide_tiff_read_tile() for non-jp2k tiffs
+
+		calls tiff_read_region(), which calls TIFFRGBAImageGet() and
+		then swaps ABGR to ARGB for the tile
+
+	_openslide_tiff_read_tile_data() and _openslide_jp2k_decode_buffer()
+	for jp2k tiffs
+
+	_openslide_tiff_read_tile_data() calls TIFFReadRawTile()
+
+	_openslide_jp2k_decode_buffer() calls opj_decode() to decompress, then
+	calls unpack_argb() to reapck to ARGB
+
+

@@ -1,0 +1,1085 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALLOC_VALUES_OR_FAIL	openslide-decode-tifflike.c	190;"	d	file:
+APERIO_COMPRESSION_JP2K_RGB	openslide-vendor-aperio.c	47;"	d	file:
+APERIO_COMPRESSION_JP2K_YCBCR	openslide-vendor-aperio.c	46;"	d	file:
+APERIO_DESCRIPTION	openslide-vendor-aperio.c	/^static const char APERIO_DESCRIPTION[] = "Aperio";$/;"	v	file:
+ASSOCIATED_IMAGE_DATA_XPATH	openslide-vendor-philips.c	60;"	d	file:
+ATTR_AOI_SCANNED	openslide-vendor-ventana.c	/^static const char ATTR_AOI_SCANNED[] = "AOIScanned";$/;"	v	file:
+ATTR_CONFIDENCE	openslide-vendor-ventana.c	/^static const char ATTR_CONFIDENCE[] = "Confidence";$/;"	v	file:
+ATTR_DIRECTION	openslide-vendor-ventana.c	/^static const char ATTR_DIRECTION[] = "Direction";$/;"	v	file:
+ATTR_HEIGHT	openslide-vendor-ventana.c	/^static const char ATTR_HEIGHT[] = "Height";$/;"	v	file:
+ATTR_NUM_COLS	openslide-vendor-ventana.c	/^static const char ATTR_NUM_COLS[] = "NumCols";$/;"	v	file:
+ATTR_NUM_ROWS	openslide-vendor-ventana.c	/^static const char ATTR_NUM_ROWS[] = "NumRows";$/;"	v	file:
+ATTR_ORIGIN_X	openslide-vendor-ventana.c	/^static const char ATTR_ORIGIN_X[] = "OriginX";$/;"	v	file:
+ATTR_ORIGIN_Y	openslide-vendor-ventana.c	/^static const char ATTR_ORIGIN_Y[] = "OriginY";$/;"	v	file:
+ATTR_OVERLAP_X	openslide-vendor-ventana.c	/^static const char ATTR_OVERLAP_X[] = "OverlapX";$/;"	v	file:
+ATTR_OVERLAP_Y	openslide-vendor-ventana.c	/^static const char ATTR_OVERLAP_Y[] = "OverlapY";$/;"	v	file:
+ATTR_TILE1	openslide-vendor-ventana.c	/^static const char ATTR_TILE1[] = "Tile1";$/;"	v	file:
+ATTR_TILE2	openslide-vendor-ventana.c	/^static const char ATTR_TILE2[] = "Tile2";$/;"	v	file:
+ATTR_WIDTH	openslide-vendor-ventana.c	/^static const char ATTR_WIDTH[] = "Width";$/;"	v	file:
+ATTR_Z_LAYERS	openslide-vendor-ventana.c	/^static const char ATTR_Z_LAYERS[] = "Z-layers";$/;"	v	file:
+BACKGROUND_COLOR	openslide-vendor-trestle.c	/^static const char BACKGROUND_COLOR[] = "Background Color=";$/;"	v	file:
+BIND_TEXT_OR_FAIL	openslide-vendor-sakura.c	77;"	d	file:
+BUFSIZE	openslide-decode-gdkpixbuf.c	38;"	d	file:
+BUSY_TIMEOUT	openslide-decode-sqlite.c	28;"	d	file:
+CHK	openslide-vendor-hamamatsu.c	908;"	d	file:
+COLOR_BIN	openslide-grid.c	31;"	d	file:
+COLOR_TILE	openslide-grid.c	30;"	d	file:
+CONVERT_VALUES_EXTEND	openslide-decode-tifflike.c	199;"	d	file:
+CONVERT_VALUES_RATIONAL	openslide-decode-tifflike.c	206;"	d	file:
+DEBUG_ENV_VAR	openslide-util.c	/^static const char DEBUG_ENV_VAR[] = "OPENSLIDE_DEBUG";$/;"	v	file:
+DIRECTION_RIGHT	openslide-vendor-ventana.c	/^static const char DIRECTION_RIGHT[] = "RIGHT";$/;"	v	file:
+DIRECTION_UP	openslide-vendor-ventana.c	/^static const char DIRECTION_UP[] = "UP";$/;"	v	file:
+EMPTY_STRING_ARRAY	openslide.c	/^static const char * const EMPTY_STRING_ARRAY[] = { NULL };$/;"	v	file:
+FORMAT_BMP	openslide-vendor-mirax.c	/^  FORMAT_BMP,$/;"	e	enum:image_format	file:
+FORMAT_JPEG	openslide-vendor-mirax.c	/^  FORMAT_JPEG,$/;"	e	enum:image_format	file:
+FORMAT_PNG	openslide-vendor-mirax.c	/^  FORMAT_PNG,$/;"	e	enum:image_format	file:
+FORMAT_UNKNOWN	openslide-vendor-mirax.c	/^  FORMAT_UNKNOWN,$/;"	e	enum:image_format	file:
+GET_FIELD_OR_FAIL	openslide-decode-tiff.c	67;"	d	file:
+GROUP_DATAFILE	openslide-vendor-mirax.c	/^static const char GROUP_DATAFILE[] = "DATAFILE";$/;"	v	file:
+GROUP_GENERAL	openslide-vendor-mirax.c	/^static const char GROUP_GENERAL[] = "GENERAL";$/;"	v	file:
+GROUP_HIERARCHICAL	openslide-vendor-mirax.c	/^static const char GROUP_HIERARCHICAL[] = "HIERARCHICAL";$/;"	v	file:
+GROUP_VMS	openslide-vendor-hamamatsu.c	/^static const char GROUP_VMS[] = "Virtual Microscope Specimen";$/;"	v	file:
+GROUP_VMU	openslide-vendor-hamamatsu.c	/^static const char GROUP_VMU[] = "Uncompressed Virtual Microscope Specimen";$/;"	v	file:
+HANDLE_CACHE_MAX	openslide-decode-tiff.c	38;"	d	file:
+HAVE_GROUP_OR_FAIL	openslide-vendor-mirax.c	109;"	d	file:
+HAVE_STDLIB_H	openslide-decode-jpeg.h	26;"	d
+HAVE_STDLIB_H	openslide-decode-jpeg.h	28;"	d
+INDEX_BLUE	openslide-vendor-sakura.c	/^  INDEX_BLUE = 2,$/;"	e	enum:color_index	file:
+INDEX_GREEN	openslide-vendor-sakura.c	/^  INDEX_GREEN = 1,$/;"	e	enum:color_index	file:
+INDEX_RED	openslide-vendor-sakura.c	/^  INDEX_RED = 0,$/;"	e	enum:color_index	file:
+INDEX_VERSION	openslide-vendor-mirax.c	/^static const char INDEX_VERSION[] = "01.02";$/;"	v	file:
+INPUT_BUF_SIZE	openslide-jdatasrc.c	44;"	d	file:
+JPEG_MAX_DIMENSION_HIGH	openslide-vendor-hamamatsu.c	86;"	d	file:
+JPEG_MAX_DIMENSION_LOW	openslide-vendor-hamamatsu.c	87;"	d	file:
+KEY_BITS_PER_PIXEL	openslide-vendor-hamamatsu.c	/^static const char KEY_BITS_PER_PIXEL[] = "BitsPerPixel";$/;"	v	file:
+KEY_CAMERA_IMAGE_DIVISIONS_PER_SIDE	openslide-vendor-mirax.c	/^static const char KEY_CAMERA_IMAGE_DIVISIONS_PER_SIDE[] = "CameraImageDivisionsPerSide";$/;"	v	file:
+KEY_DIGITIZER_HEIGHT	openslide-vendor-mirax.c	/^static const char KEY_DIGITIZER_HEIGHT[] = "DIGITIZER_HEIGHT";$/;"	v	file:
+KEY_DIGITIZER_WIDTH	openslide-vendor-mirax.c	/^static const char KEY_DIGITIZER_WIDTH[] = "DIGITIZER_WIDTH";$/;"	v	file:
+KEY_FILE_COUNT	openslide-vendor-mirax.c	/^static const char KEY_FILE_COUNT[] = "FILE_COUNT";$/;"	v	file:
+KEY_FILE_HARD_MAX_SIZE	openslide-util.c	38;"	d	file:
+KEY_FILE_MAX_SIZE	openslide-vendor-hamamatsu.c	/^static const int KEY_FILE_MAX_SIZE = 64 << 10;$/;"	v	file:
+KEY_HIER_COUNT	openslide-vendor-mirax.c	/^static const char KEY_HIER_COUNT[] = "HIER_COUNT";$/;"	v	file:
+KEY_HIER_d_COUNT	openslide-vendor-mirax.c	/^static const char KEY_HIER_d_COUNT[] = "HIER_%d_COUNT";$/;"	v	file:
+KEY_HIER_d_NAME	openslide-vendor-mirax.c	/^static const char KEY_HIER_d_NAME[] = "HIER_%d_NAME";$/;"	v	file:
+KEY_HIER_d_VAL_d_SECTION	openslide-vendor-mirax.c	/^static const char KEY_HIER_d_VAL_d_SECTION[] = "HIER_%d_VAL_%d_SECTION";$/;"	v	file:
+KEY_IMAGENUMBER_X	openslide-vendor-mirax.c	/^static const char KEY_IMAGENUMBER_X[] = "IMAGENUMBER_X";$/;"	v	file:
+KEY_IMAGENUMBER_Y	openslide-vendor-mirax.c	/^static const char KEY_IMAGENUMBER_Y[] = "IMAGENUMBER_Y";$/;"	v	file:
+KEY_IMAGE_CONCAT_FACTOR	openslide-vendor-mirax.c	/^static const char KEY_IMAGE_CONCAT_FACTOR[] = "IMAGE_CONCAT_FACTOR";$/;"	v	file:
+KEY_IMAGE_FILE	openslide-vendor-hamamatsu.c	/^static const char KEY_IMAGE_FILE[] = "ImageFile";$/;"	v	file:
+KEY_IMAGE_FILL_COLOR_BGR	openslide-vendor-mirax.c	/^static const char KEY_IMAGE_FILL_COLOR_BGR[] = "IMAGE_FILL_COLOR_BGR";$/;"	v	file:
+KEY_IMAGE_FORMAT	openslide-vendor-mirax.c	/^static const char KEY_IMAGE_FORMAT[] = "IMAGE_FORMAT";$/;"	v	file:
+KEY_INDEXFILE	openslide-vendor-mirax.c	/^static const char KEY_INDEXFILE[] = "INDEXFILE";$/;"	v	file:
+KEY_LABEL_IMAGE_TYPE	openslide-vendor-mirax.c	/^static const char KEY_LABEL_IMAGE_TYPE[] = "BARCODE_IMAGE_TYPE";$/;"	v	file:
+KEY_MACRO_IMAGE	openslide-vendor-hamamatsu.c	/^static const char KEY_MACRO_IMAGE[] = "MacroImage";$/;"	v	file:
+KEY_MACRO_IMAGE_TYPE	openslide-vendor-mirax.c	/^static const char KEY_MACRO_IMAGE_TYPE[] = "THUMBNAIL_IMAGE_TYPE";$/;"	v	file:
+KEY_MAP_FILE	openslide-vendor-hamamatsu.c	/^static const char KEY_MAP_FILE[] = "MapFile";$/;"	v	file:
+KEY_MPP_X	openslide-vendor-mirax.c	/^static const char KEY_MPP_X[] = "MICROMETER_PER_PIXEL_X";$/;"	v	file:
+KEY_MPP_Y	openslide-vendor-mirax.c	/^static const char KEY_MPP_Y[] = "MICROMETER_PER_PIXEL_Y";$/;"	v	file:
+KEY_NONHIER_COUNT	openslide-vendor-mirax.c	/^static const char KEY_NONHIER_COUNT[] = "NONHIER_COUNT";$/;"	v	file:
+KEY_NONHIER_d_COUNT	openslide-vendor-mirax.c	/^static const char KEY_NONHIER_d_COUNT[] = "NONHIER_%d_COUNT";$/;"	v	file:
+KEY_NONHIER_d_NAME	openslide-vendor-mirax.c	/^static const char KEY_NONHIER_d_NAME[] = "NONHIER_%d_NAME";$/;"	v	file:
+KEY_NONHIER_d_VAL_d	openslide-vendor-mirax.c	/^static const char KEY_NONHIER_d_VAL_d[] = "NONHIER_%d_VAL_%d";$/;"	v	file:
+KEY_NONHIER_d_VAL_d_SECTION	openslide-vendor-mirax.c	/^static const char KEY_NONHIER_d_VAL_d_SECTION[] = "NONHIER_%d_VAL_%d_SECTION";$/;"	v	file:
+KEY_NUM_JPEG_COLS	openslide-vendor-hamamatsu.c	/^static const char KEY_NUM_JPEG_COLS[] = "NoJpegColumns";$/;"	v	file:
+KEY_NUM_JPEG_ROWS	openslide-vendor-hamamatsu.c	/^static const char KEY_NUM_JPEG_ROWS[] = "NoJpegRows";$/;"	v	file:
+KEY_OBJECTIVE_MAGNIFICATION	openslide-vendor-mirax.c	/^static const char KEY_OBJECTIVE_MAGNIFICATION[] = "OBJECTIVE_MAGNIFICATION";$/;"	v	file:
+KEY_OPTIMISATION_FILE	openslide-vendor-hamamatsu.c	/^static const char KEY_OPTIMISATION_FILE[] = "OptimisationFile";$/;"	v	file:
+KEY_OVERLAP_X	openslide-vendor-mirax.c	/^static const char KEY_OVERLAP_X[] = "OVERLAP_X";$/;"	v	file:
+KEY_OVERLAP_Y	openslide-vendor-mirax.c	/^static const char KEY_OVERLAP_Y[] = "OVERLAP_Y";$/;"	v	file:
+KEY_PHYSICAL_HEIGHT	openslide-vendor-hamamatsu.c	/^static const char KEY_PHYSICAL_HEIGHT[] = "PhysicalHeight";$/;"	v	file:
+KEY_PHYSICAL_WIDTH	openslide-vendor-hamamatsu.c	/^static const char KEY_PHYSICAL_WIDTH[] = "PhysicalWidth";$/;"	v	file:
+KEY_PIXEL_ORDER	openslide-vendor-hamamatsu.c	/^static const char KEY_PIXEL_ORDER[] = "PixelOrder";$/;"	v	file:
+KEY_SLIDE_ID	openslide-vendor-mirax.c	/^static const char KEY_SLIDE_ID[] = "SLIDE_ID";$/;"	v	file:
+KEY_SLIDE_VERSION	openslide-vendor-mirax.c	/^static const char KEY_SLIDE_VERSION[] = "SLIDE_VERSION";$/;"	v	file:
+KEY_THUMBNAIL_IMAGE_TYPE	openslide-vendor-mirax.c	/^static const char KEY_THUMBNAIL_IMAGE_TYPE[] = "PREVIEW_IMAGE_TYPE";$/;"	v	file:
+KEY_d_FILE	openslide-vendor-mirax.c	/^static const char KEY_d_FILE[] = "FILE_%d";$/;"	v	file:
+LABEL_DATA_XPATH	openslide-vendor-philips.c	/^static const char LABEL_DATA_XPATH[] = ASSOCIATED_IMAGE_DATA_XPATH("LABELIMAGE");$/;"	v	file:
+LABEL_DESCRIPTION	openslide-vendor-philips.c	/^static const char LABEL_DESCRIPTION[] = "Label";$/;"	v	file:
+LEICA_ATTR_IFD	openslide-vendor-leica.c	/^static const char LEICA_ATTR_IFD[] = "ifd";$/;"	v	file:
+LEICA_ATTR_OFFSET_X	openslide-vendor-leica.c	/^static const char LEICA_ATTR_OFFSET_X[] = "offsetX";$/;"	v	file:
+LEICA_ATTR_OFFSET_Y	openslide-vendor-leica.c	/^static const char LEICA_ATTR_OFFSET_Y[] = "offsetY";$/;"	v	file:
+LEICA_ATTR_SIZE_X	openslide-vendor-leica.c	/^static const char LEICA_ATTR_SIZE_X[] = "sizeX";$/;"	v	file:
+LEICA_ATTR_SIZE_Y	openslide-vendor-leica.c	/^static const char LEICA_ATTR_SIZE_Y[] = "sizeY";$/;"	v	file:
+LEICA_ATTR_Z_PLANE	openslide-vendor-leica.c	/^static const char LEICA_ATTR_Z_PLANE[] = "z";$/;"	v	file:
+LEICA_VALUE_BRIGHTFIELD	openslide-vendor-leica.c	/^static const char LEICA_VALUE_BRIGHTFIELD[] = "brightfield";$/;"	v	file:
+LEICA_XMLNS_1	openslide-vendor-leica.c	/^static const char LEICA_XMLNS_1[] = "http:\/\/www.leica-microsystems.com\/scn\/2010\/03\/10";$/;"	v	file:
+LEICA_XMLNS_2	openslide-vendor-leica.c	/^static const char LEICA_XMLNS_2[] = "http:\/\/www.leica-microsystems.com\/scn\/2010\/10\/01";$/;"	v	file:
+LEVEL0_IMAGEDESCRIPTION_MAGIC	openslide-vendor-ventana.c	/^static const char LEVEL0_IMAGEDESCRIPTION_MAGIC[] = "level=0";$/;"	v	file:
+LEVEL0_XML_MAGIC	openslide-vendor-ventana.c	/^static const char LEVEL0_XML_MAGIC[] = "iScan";$/;"	v	file:
+LEVEL0_XML_ROOT	openslide-vendor-ventana.c	/^static const char LEVEL0_XML_ROOT[] = "EncodeInfo";$/;"	v	file:
+LEVEL_DESCRIPTION_TOKEN	openslide-vendor-ventana.c	/^static const char LEVEL_DESCRIPTION_TOKEN[] = "level=";$/;"	v	file:
+LEVEL_KEY	openslide-vendor-ventana.c	/^static const char LEVEL_KEY[] = "level";$/;"	v	file:
+MACRO_DATA_XPATH	openslide-vendor-philips.c	/^static const char MACRO_DATA_XPATH[] = ASSOCIATED_IMAGE_DATA_XPATH("MACROIMAGE");$/;"	v	file:
+MACRO_DESCRIPTION	openslide-vendor-philips.c	/^static const char MACRO_DESCRIPTION[] = "Macro";$/;"	v	file:
+MACRO_DESCRIPTION	openslide-vendor-ventana.c	/^static const char MACRO_DESCRIPTION[] = "Label Image";$/;"	v	file:
+MACRO_DESCRIPTION2	openslide-vendor-ventana.c	/^static const char MACRO_DESCRIPTION2[] = "Label_Image";$/;"	v	file:
+MAGIC_BYTES	openslide-vendor-sakura.c	/^static const char MAGIC_BYTES[] = "SVGigaPixelImage";$/;"	v	file:
+MAGNIFICATION_KEY	openslide-vendor-ventana.c	/^static const char MAGNIFICATION_KEY[] = "mag";$/;"	v	file:
+MAIN_IMAGE_XPATH	openslide-vendor-philips.c	/^static const char MAIN_IMAGE_XPATH[] = SCANNED_IMAGE_XPATH("WSI");$/;"	v	file:
+MRXS_EXT	openslide-vendor-mirax.c	/^static const char MRXS_EXT[] = ".mrxs";$/;"	v	file:
+NDPI_FOCAL_PLANE	openslide-vendor-hamamatsu.c	82;"	d	file:
+NDPI_FORMAT_FLAG	openslide-vendor-hamamatsu.c	78;"	d	file:
+NDPI_MCU_STARTS	openslide-vendor-hamamatsu.c	83;"	d	file:
+NDPI_PROPERTY_MAP	openslide-vendor-hamamatsu.c	85;"	d	file:
+NDPI_REFERENCE	openslide-vendor-hamamatsu.c	84;"	d	file:
+NDPI_SOURCELENS	openslide-vendor-hamamatsu.c	79;"	d	file:
+NDPI_TAG	openslide-decode-tifflike.c	46;"	d	file:
+NDPI_XOFFSET	openslide-vendor-hamamatsu.c	80;"	d	file:
+NDPI_YOFFSET	openslide-vendor-hamamatsu.c	81;"	d	file:
+NGR_TILE_HEIGHT	openslide-vendor-hamamatsu.c	58;"	d	file:
+NON_NEGATIVE_OR_FAIL	openslide-vendor-mirax.c	135;"	d	file:
+NO_OFFSET	openslide-decode-tifflike.c	44;"	d	file:
+NUM_INDEXES	openslide-vendor-sakura.c	/^  NUM_INDEXES = 3,$/;"	e	enum:color_index	file:
+OPENSLIDE_DEBUG_DETECTION	openslide-private.h	/^  OPENSLIDE_DEBUG_DETECTION,$/;"	e	enum:_openslide_debug_flag
+OPENSLIDE_DEBUG_JPEG_MARKERS	openslide-private.h	/^  OPENSLIDE_DEBUG_JPEG_MARKERS,$/;"	e	enum:_openslide_debug_flag
+OPENSLIDE_DEBUG_TILES	openslide-private.h	/^  OPENSLIDE_DEBUG_TILES,$/;"	e	enum:_openslide_debug_flag
+OPENSLIDE_DEPRECATED	openslide-features.h	66;"	d
+OPENSLIDE_DEPRECATED	openslide-features.h	68;"	d
+OPENSLIDE_DEPRECATED	openslide-features.h	70;"	d
+OPENSLIDE_DEPRECATED	openslide-features.h	72;"	d
+OPENSLIDE_DEPRECATED_FOR	openslide-features.h	76;"	d
+OPENSLIDE_DEPRECATED_FOR	openslide-features.h	78;"	d
+OPENSLIDE_DEPRECATED_FOR	openslide-features.h	81;"	d
+OPENSLIDE_DEPRECATED_FOR	openslide-features.h	84;"	d
+OPENSLIDE_ERROR	openslide-private.h	298;"	d
+OPENSLIDE_ERROR_CAIRO_ERROR	openslide-private.h	/^  OPENSLIDE_ERROR_CAIRO_ERROR,$/;"	e	enum:OpenSlideError
+OPENSLIDE_ERROR_FAILED	openslide-private.h	/^  OPENSLIDE_ERROR_FAILED,$/;"	e	enum:OpenSlideError
+OPENSLIDE_ERROR_NO_VALUE	openslide-private.h	/^  OPENSLIDE_ERROR_NO_VALUE,$/;"	e	enum:OpenSlideError
+OPENSLIDE_HAMAMATSU_ERROR	openslide-vendor-hamamatsu.c	169;"	d	file:
+OPENSLIDE_HAMAMATSU_ERROR_NO_RESTART_MARKERS	openslide-vendor-hamamatsu.c	/^  OPENSLIDE_HAMAMATSU_ERROR_NO_RESTART_MARKERS,$/;"	e	enum:OpenSlideHamamatsuError	file:
+OPENSLIDE_JP2K_RGB	openslide-decode-jp2k.h	/^  OPENSLIDE_JP2K_RGB,$/;"	e	enum:_openslide_jp2k_colorspace
+OPENSLIDE_JP2K_YCBCR	openslide-decode-jp2k.h	/^  OPENSLIDE_JP2K_YCBCR,$/;"	e	enum:_openslide_jp2k_colorspace
+OPENSLIDE_OPENSLIDE_CAIRO_H_	openslide-cairo.h	28;"	d
+OPENSLIDE_OPENSLIDE_DECODE_GDKPIXBUF_H_	openslide-decode-gdkpixbuf.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_JP2K_H_	openslide-decode-jp2k.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_JPEG_H_	openslide-decode-jpeg.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_PNG_H_	openslide-decode-png.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_SQLITE_H_	openslide-decode-sqlite.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_TIFFLIKE_H_	openslide-decode-tifflike.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_TIFF_H_	openslide-decode-tiff.h	23;"	d
+OPENSLIDE_OPENSLIDE_DECODE_XML_H_	openslide-decode-xml.h	23;"	d
+OPENSLIDE_OPENSLIDE_ERROR_H_	openslide-error.h	23;"	d
+OPENSLIDE_OPENSLIDE_FEATURES_H_	openslide-features.h	23;"	d
+OPENSLIDE_OPENSLIDE_HASH_H_	openslide-hash.h	23;"	d
+OPENSLIDE_OPENSLIDE_H_	openslide.h	31;"	d
+OPENSLIDE_OPENSLIDE_PRIVATE_H_	openslide-private.h	23;"	d
+OPENSLIDE_PROPERTY_NAME_BACKGROUND_COLOR	openslide.h	265;"	d
+OPENSLIDE_PROPERTY_NAME_BOUNDS_HEIGHT	openslide.h	320;"	d
+OPENSLIDE_PROPERTY_NAME_BOUNDS_WIDTH	openslide.h	312;"	d
+OPENSLIDE_PROPERTY_NAME_BOUNDS_X	openslide.h	296;"	d
+OPENSLIDE_PROPERTY_NAME_BOUNDS_Y	openslide.h	304;"	d
+OPENSLIDE_PROPERTY_NAME_COMMENT	openslide.h	247;"	d
+OPENSLIDE_PROPERTY_NAME_MPP_X	openslide.h	280;"	d
+OPENSLIDE_PROPERTY_NAME_MPP_Y	openslide.h	288;"	d
+OPENSLIDE_PROPERTY_NAME_OBJECTIVE_POWER	openslide.h	272;"	d
+OPENSLIDE_PROPERTY_NAME_QUICKHASH1	openslide.h	257;"	d
+OPENSLIDE_PROPERTY_NAME_VENDOR	openslide.h	252;"	d
+OPENSLIDE_PUBLIC	openslide-features.h	49;"	d
+OPENSLIDE_PUBLIC	openslide-features.h	51;"	d
+OPENSLIDE_PUBLIC	openslide-features.h	55;"	d
+OPENSLIDE_PUBLIC	openslide-features.h	57;"	d
+OPENSLIDE_PUBLIC	openslide-features.h	59;"	d
+OVERLAPS_XY	openslide-vendor-trestle.c	/^static const char OVERLAPS_XY[] = "OverlapsXY=";$/;"	v	file:
+OpenSlideError	openslide-private.h	/^enum OpenSlideError {$/;"	g
+OpenSlideHamamatsuError	openslide-vendor-hamamatsu.c	/^enum OpenSlideHamamatsuError {$/;"	g	file:
+PARSE_DOUBLE_ATTRIBUTE_OR_FAIL	openslide-vendor-ventana.c	83;"	d	file:
+PARSE_INT_ATTRIBUTE_OR_FAIL	openslide-vendor-leica.c	55;"	d	file:
+PARSE_INT_ATTRIBUTE_OR_FAIL	openslide-vendor-ventana.c	73;"	d	file:
+PHILIPS_SOFTWARE	openslide-vendor-philips.c	/^static const char PHILIPS_SOFTWARE[] = "Philips";$/;"	v	file:
+POSITIVE_OR_FAIL	openslide-vendor-mirax.c	126;"	d	file:
+PREPARE_OR_FAIL	openslide-vendor-sakura.c	70;"	d	file:
+PROFILE	openslide-decode-sqlite.c	29;"	d	file:
+RANGE_BIN_SIZE_MULTIPLIER	openslide-grid.c	29;"	d	file:
+READ_KEY_OR_FAIL	openslide-vendor-mirax.c	99;"	d	file:
+SCANNED_IMAGE_XPATH	openslide-vendor-philips.c	54;"	d	file:
+SET_DIR_OR_FAIL	openslide-decode-tiff.c	60;"	d	file:
+SLIDEDAT_INI	openslide-vendor-mirax.c	/^static const char SLIDEDAT_INI[] = "Slidedat.ini";$/;"	v	file:
+SLIDEDAT_MAX_SIZE	openslide-vendor-mirax.c	/^static const int SLIDEDAT_MAX_SIZE = 1 << 20;$/;"	v	file:
+SLIDE_POSITION_RECORD_SIZE	openslide-vendor-mirax.c	/^static const int SLIDE_POSITION_RECORD_SIZE = 9;$/;"	v	file:
+STEP_OR_FAIL	openslide-vendor-sakura.c	84;"	d	file:
+SUCCESSFUL_OR_FAIL	openslide-vendor-mirax.c	118;"	d	file:
+THUMBNAIL_DESCRIPTION	openslide-vendor-ventana.c	/^static const char THUMBNAIL_DESCRIPTION[] = "Thumbnail";$/;"	v	file:
+TIFFClientOpen	openslide-decode-tiff.c	442;"	d	file:
+TIFFClientOpen	openslide-decode-tiff.c	523;"	d	file:
+TIFFClientOpen	openslide-private.h	357;"	d
+TIFFFdOpen	openslide-private.h	358;"	d
+TIFFOpen	openslide-private.h	359;"	d
+TIFFSetDirectory	openslide-decode-tiff.c	78;"	d	file:
+TIFFSetDirectory	openslide-decode-tiff.c	93;"	d	file:
+TIFFSetDirectory	openslide-private.h	360;"	d
+TIFF_GET_UINT_OR_FAIL	openslide-vendor-hamamatsu.c	89;"	d	file:
+TIFF_IFD8	openslide-decode-tifflike.c	41;"	d	file:
+TIFF_LONG8	openslide-decode-tifflike.c	39;"	d	file:
+TIFF_SLONG8	openslide-decode-tifflike.c	40;"	d	file:
+TIFF_VERSION_BIG	openslide-decode-tifflike.c	38;"	d	file:
+TIFF_VERSION_CLASSIC	openslide-decode-tifflike.c	37;"	d	file:
+TRESTLE_SOFTWARE	openslide-vendor-trestle.c	/^static const char TRESTLE_SOFTWARE[] = "MedScan";$/;"	v	file:
+VALUE_SCAN_DATA_LAYER	openslide-vendor-mirax.c	/^static const char VALUE_SCAN_DATA_LAYER[] = "Scan data layer";$/;"	v	file:
+VALUE_SCAN_DATA_LAYER_LABEL	openslide-vendor-mirax.c	/^static const char VALUE_SCAN_DATA_LAYER_LABEL[] = "ScanDataLayer_SlideBarcode";$/;"	v	file:
+VALUE_SCAN_DATA_LAYER_MACRO	openslide-vendor-mirax.c	/^static const char VALUE_SCAN_DATA_LAYER_MACRO[] = "ScanDataLayer_SlideThumbnail";$/;"	v	file:
+VALUE_SCAN_DATA_LAYER_THUMBNAIL	openslide-vendor-mirax.c	/^static const char VALUE_SCAN_DATA_LAYER_THUMBNAIL[] = "ScanDataLayer_SlidePreview";$/;"	v	file:
+VALUE_SLIDE_ZOOM_LEVEL	openslide-vendor-mirax.c	/^static const char VALUE_SLIDE_ZOOM_LEVEL[] = "Slide zoom level";$/;"	v	file:
+VALUE_STITCHING_INTENSITY_LAYER	openslide-vendor-mirax.c	/^static const char VALUE_STITCHING_INTENSITY_LAYER[] = "StitchingIntensityLayer";$/;"	v	file:
+VALUE_VIMSLIDE_POSITION_BUFFER	openslide-vendor-mirax.c	/^static const char VALUE_VIMSLIDE_POSITION_BUFFER[] = "VIMSLIDE_POSITION_BUFFER";$/;"	v	file:
+XML_DATA_REPRESENTATION_NAME	openslide-vendor-philips.c	/^static const char XML_DATA_REPRESENTATION_NAME[] = "PIIM_PIXEL_DATA_REPRESENTATION_SEQUENCE";$/;"	v	file:
+XML_NAME_ATTR	openslide-vendor-philips.c	/^static const char XML_NAME_ATTR[] = "Name";$/;"	v	file:
+XML_ROOT	openslide-vendor-philips.c	/^static const char XML_ROOT[] = "DataObject";$/;"	v	file:
+XML_ROOT_TYPE_ATTR	openslide-vendor-philips.c	/^static const char XML_ROOT_TYPE_ATTR[] = "ObjectType";$/;"	v	file:
+XML_ROOT_TYPE_VALUE	openslide-vendor-philips.c	/^static const char XML_ROOT_TYPE_VALUE[] = "DPUfsImport";$/;"	v	file:
+XML_SCANNED_IMAGES_NAME	openslide-vendor-philips.c	/^static const char XML_SCANNED_IMAGES_NAME[] = "PIM_DP_SCANNED_IMAGES";$/;"	v	file:
+_OPENSLIDE_POISON	openslide-private.h	349;"	d
+_OPENSLIDE_PROPERTY_NAME_LEVEL_COUNT	openslide-private.h	317;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_DOWNSAMPLE	openslide-private.h	320;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_HEIGHT	openslide-private.h	319;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_TILE_HEIGHT	openslide-private.h	322;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_TILE_WIDTH	openslide-private.h	321;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_WIDTH	openslide-private.h	318;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_REGION_HEIGHT	openslide-private.h	326;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_REGION_WIDTH	openslide-private.h	325;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_REGION_X	openslide-private.h	323;"	d
+_OPENSLIDE_PROPERTY_NAME_TEMPLATE_REGION_Y	openslide-private.h	324;"	d
+_OPENSLIDE_USEFUL_CACHE_SIZE	openslide-private.h	255;"	d
+__bool_true_false_are_defined	openslide-features.h	38;"	d
+_add_associated_image	openslide-decode-tiff.c	/^static bool _add_associated_image(openslide_t *osr,$/;"	f	file:
+_compute_mcu_start	openslide-vendor-hamamatsu.c	/^static bool _compute_mcu_start(struct jpeg *jpeg,$/;"	f	file:
+_get_associated_image_data	openslide-decode-tiff.c	/^static bool _get_associated_image_data(TIFF *tiff,$/;"	f	file:
+_openslide	openslide-private.h	/^struct _openslide {$/;"	s
+_openslide_B_Cb	openslide-tables.c	/^const int16_t _openslide_B_Cb[256] = {$/;"	v
+_openslide_G_CbCr	openslide-tables.c	/^const int16_t _openslide_G_CbCr[256][256] = {$/;"	v
+_openslide_R_Cr	openslide-tables.c	/^const int16_t _openslide_R_Cr[256] = {$/;"	v
+_openslide_associated_image	openslide-private.h	/^struct _openslide_associated_image {$/;"	s
+_openslide_associated_image_ops	openslide-private.h	/^struct _openslide_associated_image_ops {$/;"	s
+_openslide_cache	openslide-cache.c	/^struct _openslide_cache {$/;"	s	file:
+_openslide_cache_create	openslide-cache.c	/^struct _openslide_cache *_openslide_cache_create(int capacity_in_bytes) {$/;"	f
+_openslide_cache_destroy	openslide-cache.c	/^void _openslide_cache_destroy(struct _openslide_cache *cache) {$/;"	f
+_openslide_cache_entry	openslide-cache.c	/^struct _openslide_cache_entry {$/;"	s	file:
+_openslide_cache_entry_unref	openslide-cache.c	/^void _openslide_cache_entry_unref(struct _openslide_cache_entry *entry) {$/;"	f
+_openslide_cache_get	openslide-cache.c	/^void *_openslide_cache_get(struct _openslide_cache *cache,$/;"	f
+_openslide_cache_get_capacity	openslide-cache.c	/^int _openslide_cache_get_capacity(struct _openslide_cache *cache) {$/;"	f
+_openslide_cache_key	openslide-cache.c	/^struct _openslide_cache_key {$/;"	s	file:
+_openslide_cache_put	openslide-cache.c	/^void _openslide_cache_put(struct _openslide_cache *cache,$/;"	f
+_openslide_cache_set_capacity	openslide-cache.c	/^void _openslide_cache_set_capacity(struct _openslide_cache *cache,$/;"	f
+_openslide_cache_value	openslide-cache.c	/^struct _openslide_cache_value {$/;"	s	file:
+_openslide_check_cairo_status	openslide-error.c	/^bool _openslide_check_cairo_status(cairo_t *cr, GError **err) {$/;"	f
+_openslide_clip_tile	openslide-util.c	/^bool _openslide_clip_tile(uint32_t *tiledata,$/;"	f
+_openslide_debug	openslide-util.c	/^bool _openslide_debug(enum _openslide_debug_flag flag) {$/;"	f
+_openslide_debug_flag	openslide-private.h	/^enum _openslide_debug_flag {$/;"	g
+_openslide_debug_init	openslide-util.c	/^void _openslide_debug_init(void) {$/;"	f
+_openslide_duplicate_double_prop	openslide-util.c	/^void _openslide_duplicate_double_prop(openslide_t *osr, const char *src,$/;"	f
+_openslide_duplicate_int_prop	openslide-util.c	/^void _openslide_duplicate_int_prop(openslide_t *osr, const char *src,$/;"	f
+_openslide_error_quark	openslide-error.c	/^GQuark _openslide_error_quark(void) {$/;"	f
+_openslide_fopen	openslide-util.c	/^FILE *_openslide_fopen(const char *path, const char *mode, GError **err)$/;"	f
+_openslide_format	openslide-private.h	/^struct _openslide_format {$/;"	s
+_openslide_format_aperio	openslide-vendor-aperio.c	/^const struct _openslide_format _openslide_format_aperio = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_double	openslide-util.c	/^char *_openslide_format_double(double d) {$/;"	f
+_openslide_format_generic_tiff	openslide-vendor-generic-tiff.c	/^const struct _openslide_format _openslide_format_generic_tiff = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_hamamatsu_ndpi	openslide-vendor-hamamatsu.c	/^const struct _openslide_format _openslide_format_hamamatsu_ndpi = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_hamamatsu_vms_vmu	openslide-vendor-hamamatsu.c	/^const struct _openslide_format _openslide_format_hamamatsu_vms_vmu = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_leica	openslide-vendor-leica.c	/^const struct _openslide_format _openslide_format_leica = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_mirax	openslide-vendor-mirax.c	/^const struct _openslide_format _openslide_format_mirax = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_philips	openslide-vendor-philips.c	/^const struct _openslide_format _openslide_format_philips = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_sakura	openslide-vendor-sakura.c	/^const struct _openslide_format _openslide_format_sakura = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_trestle	openslide-vendor-trestle.c	/^const struct _openslide_format _openslide_format_trestle = {$/;"	v	typeref:struct:_openslide_format
+_openslide_format_ventana	openslide-vendor-ventana.c	/^const struct _openslide_format _openslide_format_ventana = {$/;"	v	typeref:struct:_openslide_format
+_openslide_gdkpixbuf_read	openslide-decode-gdkpixbuf.c	/^bool _openslide_gdkpixbuf_read(const char *format,$/;"	f
+_openslide_grid	openslide-grid.c	/^struct _openslide_grid {$/;"	s	file:
+_openslide_grid_create_range	openslide-grid.c	/^struct _openslide_grid *_openslide_grid_create_range(openslide_t *osr,$/;"	f
+_openslide_grid_create_simple	openslide-grid.c	/^struct _openslide_grid *_openslide_grid_create_simple(openslide_t *osr,$/;"	f
+_openslide_grid_create_tilemap	openslide-grid.c	/^struct _openslide_grid *_openslide_grid_create_tilemap(openslide_t *osr,$/;"	f
+_openslide_grid_destroy	openslide-grid.c	/^void _openslide_grid_destroy(struct _openslide_grid *grid) {$/;"	f
+_openslide_grid_draw_tile_info	openslide-grid.c	/^void _openslide_grid_draw_tile_info(cairo_t *cr, const char *fmt, ...) {$/;"	f
+_openslide_grid_get_bounds	openslide-grid.c	/^void _openslide_grid_get_bounds(struct _openslide_grid *grid,$/;"	f
+_openslide_grid_paint_region	openslide-grid.c	/^bool _openslide_grid_paint_region(struct _openslide_grid *grid,$/;"	f
+_openslide_grid_range_add_tile	openslide-grid.c	/^void _openslide_grid_range_add_tile(struct _openslide_grid *_grid,$/;"	f
+_openslide_grid_range_finish_adding_tiles	openslide-grid.c	/^void _openslide_grid_range_finish_adding_tiles(struct _openslide_grid *_grid) {$/;"	f
+_openslide_grid_range_read_fn	openslide-private.h	/^typedef bool (*_openslide_grid_range_read_fn)(openslide_t *osr,$/;"	t
+_openslide_grid_simple_read_fn	openslide-private.h	/^typedef bool (*_openslide_grid_simple_read_fn)(openslide_t *osr,$/;"	t
+_openslide_grid_tilemap_add_tile	openslide-grid.c	/^void _openslide_grid_tilemap_add_tile(struct _openslide_grid *_grid,$/;"	f
+_openslide_grid_tilemap_read_fn	openslide-private.h	/^typedef bool (*_openslide_grid_tilemap_read_fn)(openslide_t *osr,$/;"	t
+_openslide_hamamatsu_error_quark	openslide-vendor-hamamatsu.c	/^static GQuark _openslide_hamamatsu_error_quark(void) {$/;"	f	file:
+_openslide_hash	openslide-hash.c	/^struct _openslide_hash {$/;"	s	file:
+_openslide_hash_data	openslide-hash.c	/^void _openslide_hash_data(struct _openslide_hash *hash, const void *data,$/;"	f
+_openslide_hash_destroy	openslide-hash.c	/^void _openslide_hash_destroy(struct _openslide_hash *hash) {$/;"	f
+_openslide_hash_disable	openslide-hash.c	/^void _openslide_hash_disable(struct _openslide_hash *hash) {$/;"	f
+_openslide_hash_file	openslide-hash.c	/^bool _openslide_hash_file(struct _openslide_hash *hash, const char *filename,$/;"	f
+_openslide_hash_file_part	openslide-hash.c	/^bool _openslide_hash_file_part(struct _openslide_hash *hash,$/;"	f
+_openslide_hash_get_string	openslide-hash.c	/^const char *_openslide_hash_get_string(struct _openslide_hash *hash) {$/;"	f
+_openslide_hash_quickhash1_create	openslide-hash.c	/^struct _openslide_hash *_openslide_hash_quickhash1_create(void) {$/;"	f
+_openslide_hash_string	openslide-hash.c	/^void _openslide_hash_string(struct _openslide_hash *hash, const char *str) {$/;"	f
+_openslide_init	openslide.c	/^static void __attribute__((constructor)) _openslide_init(void) {$/;"	f	file:
+_openslide_int64_equal	openslide-util.c	/^gboolean _openslide_int64_equal(gconstpointer v1, gconstpointer v2) {$/;"	f
+_openslide_int64_free	openslide-util.c	/^void _openslide_int64_free(gpointer data) {$/;"	f
+_openslide_int64_hash	openslide-util.c	/^guint _openslide_int64_hash(gconstpointer v) {$/;"	f
+_openslide_io_error	openslide-error.c	/^void _openslide_io_error(GError **err, const char *fmt, ...) {$/;"	f
+_openslide_jp2k_colorspace	openslide-decode-jp2k.h	/^enum _openslide_jp2k_colorspace {$/;"	g
+_openslide_jp2k_decode_buffer	openslide-decode-jp2k.c	/^bool _openslide_jp2k_decode_buffer(uint32_t *dest,$/;"	f
+_openslide_jpeg_add_associated_image	openslide-decode-jpeg.c	/^bool _openslide_jpeg_add_associated_image(openslide_t *osr,$/;"	f
+_openslide_jpeg_create_decompress	openslide-decode-jpeg.c	/^struct jpeg_decompress_struct *_openslide_jpeg_create_decompress(void) {$/;"	f
+_openslide_jpeg_decode_buffer	openslide-decode-jpeg.c	/^bool _openslide_jpeg_decode_buffer(const void *buf, uint32_t len,$/;"	f
+_openslide_jpeg_decode_buffer_dimensions	openslide-decode-jpeg.c	/^bool _openslide_jpeg_decode_buffer_dimensions(const void *buf, uint32_t len,$/;"	f
+_openslide_jpeg_decode_buffer_gray	openslide-decode-jpeg.c	/^bool _openslide_jpeg_decode_buffer_gray(const void *buf, uint32_t len,$/;"	f
+_openslide_jpeg_destroy_decompress	openslide-decode-jpeg.c	/^void _openslide_jpeg_destroy_decompress(struct jpeg_decompress_struct *cinfo) {$/;"	f
+_openslide_jpeg_init_decompress	openslide-decode-jpeg.c	/^void _openslide_jpeg_init_decompress(struct jpeg_decompress_struct *cinfo,$/;"	f
+_openslide_jpeg_mem_src	openslide-jdatasrc.c	/^void _openslide_jpeg_mem_src (j_decompress_ptr cinfo,$/;"	f
+_openslide_jpeg_propagate_error	openslide-decode-jpeg.c	/^void _openslide_jpeg_propagate_error(GError **err,$/;"	f
+_openslide_jpeg_read	openslide-decode-jpeg.c	/^bool _openslide_jpeg_read(const char *filename,$/;"	f
+_openslide_jpeg_read_dimensions	openslide-decode-jpeg.c	/^bool _openslide_jpeg_read_dimensions(const char *filename,$/;"	f
+_openslide_jpeg_stdio_src	openslide-jdatasrc.c	/^void _openslide_jpeg_stdio_src (j_decompress_ptr cinfo, FILE * infile)$/;"	f
+_openslide_level	openslide-private.h	/^struct _openslide_level {$/;"	s
+_openslide_ops	openslide-private.h	/^struct _openslide_ops {$/;"	s
+_openslide_parse_double	openslide-util.c	/^double _openslide_parse_double(const char *value) {$/;"	f
+_openslide_png_read	openslide-decode-png.c	/^bool _openslide_png_read(const char *filename,$/;"	f
+_openslide_propagate_error	openslide-error.c	/^void _openslide_propagate_error(openslide_t *osr, GError *err) {$/;"	f
+_openslide_read_key_file	openslide-util.c	/^bool _openslide_read_key_file(GKeyFile *key_file, const char *filename,$/;"	f
+_openslide_release_info	openslide.c	/^const char _openslide_release_info[] = "OpenSlide " SUFFIXED_VERSION ", copyright (C) 2007-2015 Carnegie Mellon University and others.\\nLicensed under the GNU Lesser General Public License, version 2.1.";$/;"	v
+_openslide_set_background_color_prop	openslide-util.c	/^void _openslide_set_background_color_prop(openslide_t *osr,$/;"	f
+_openslide_set_bounds_props_from_grid	openslide-util.c	/^void _openslide_set_bounds_props_from_grid(openslide_t *osr,$/;"	f
+_openslide_sqlite_close	openslide-decode-sqlite.c	/^void _openslide_sqlite_close(sqlite3 *db) {$/;"	f
+_openslide_sqlite_open	openslide-decode-sqlite.c	/^sqlite3 *_openslide_sqlite_open(const char *filename, GError **err) {$/;"	f
+_openslide_sqlite_prepare	openslide-decode-sqlite.c	/^sqlite3_stmt *_openslide_sqlite_prepare(sqlite3 *db, const char *sql,$/;"	f
+_openslide_sqlite_propagate_error	openslide-decode-sqlite.c	/^void _openslide_sqlite_propagate_error(sqlite3 *db, GError **err) {$/;"	f
+_openslide_sqlite_propagate_stmt_error	openslide-decode-sqlite.c	/^void _openslide_sqlite_propagate_stmt_error(sqlite3_stmt *stmt, GError **err) {$/;"	f
+_openslide_sqlite_step	openslide-decode-sqlite.c	/^bool _openslide_sqlite_step(sqlite3_stmt *stmt, GError **err) {$/;"	f
+_openslide_tiff_add_associated_image	openslide-decode-tiff.c	/^bool _openslide_tiff_add_associated_image(openslide_t *osr,$/;"	f
+_openslide_tiff_check_missing_tile	openslide-decode-tiff.c	/^bool _openslide_tiff_check_missing_tile(struct _openslide_tiff_level *tiffl,$/;"	f
+_openslide_tiff_clip_tile	openslide-decode-tiff.c	/^bool _openslide_tiff_clip_tile(struct _openslide_tiff_level *tiffl,$/;"	f
+_openslide_tiff_level	openslide-decode-tiff.h	/^struct _openslide_tiff_level {$/;"	s
+_openslide_tiff_level_init	openslide-decode-tiff.c	/^bool _openslide_tiff_level_init(TIFF *tiff,$/;"	f
+_openslide_tiff_read_tile	openslide-decode-tiff.c	/^bool _openslide_tiff_read_tile(struct _openslide_tiff_level *tiffl,$/;"	f
+_openslide_tiff_read_tile_data	openslide-decode-tiff.c	/^bool _openslide_tiff_read_tile_data(struct _openslide_tiff_level *tiffl,$/;"	f
+_openslide_tiff_set_dir	openslide-decode-tiff.c	/^bool _openslide_tiff_set_dir(TIFF *tiff,$/;"	f
+_openslide_tiffcache	openslide-decode-tiff.c	/^struct _openslide_tiffcache {$/;"	s	file:
+_openslide_tiffcache_create	openslide-decode-tiff.c	/^struct _openslide_tiffcache *_openslide_tiffcache_create(const char *filename) {$/;"	f
+_openslide_tiffcache_destroy	openslide-decode-tiff.c	/^void _openslide_tiffcache_destroy(struct _openslide_tiffcache *tc) {$/;"	f
+_openslide_tiffcache_get	openslide-decode-tiff.c	/^TIFF *_openslide_tiffcache_get(struct _openslide_tiffcache *tc, GError **err) {$/;"	f
+_openslide_tiffcache_put	openslide-decode-tiff.c	/^void _openslide_tiffcache_put(struct _openslide_tiffcache *tc, TIFF *tiff) {$/;"	f
+_openslide_tifflike	openslide-decode-tifflike.c	/^struct _openslide_tifflike {$/;"	s	file:
+_openslide_tifflike_create	openslide-decode-tifflike.c	/^struct _openslide_tifflike *_openslide_tifflike_create(const char *filename,$/;"	f
+_openslide_tifflike_destroy	openslide-decode-tifflike.c	/^void _openslide_tifflike_destroy(struct _openslide_tifflike *tl) {$/;"	f
+_openslide_tifflike_get_buffer	openslide-decode-tifflike.c	/^const void *_openslide_tifflike_get_buffer(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_directory_count	openslide-decode-tifflike.c	/^int64_t _openslide_tifflike_get_directory_count(struct _openslide_tifflike *tl) {$/;"	f
+_openslide_tifflike_get_float	openslide-decode-tifflike.c	/^double _openslide_tifflike_get_float(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_floats	openslide-decode-tifflike.c	/^const double *_openslide_tifflike_get_floats(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_sint	openslide-decode-tifflike.c	/^int64_t _openslide_tifflike_get_sint(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_sints	openslide-decode-tifflike.c	/^const int64_t *_openslide_tifflike_get_sints(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_uint	openslide-decode-tifflike.c	/^uint64_t _openslide_tifflike_get_uint(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_uints	openslide-decode-tifflike.c	/^const uint64_t *_openslide_tifflike_get_uints(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_get_value_count	openslide-decode-tifflike.c	/^int64_t _openslide_tifflike_get_value_count(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_init_properties_and_hash	openslide-decode-tifflike.c	/^bool _openslide_tifflike_init_properties_and_hash(openslide_t *osr,$/;"	f
+_openslide_tifflike_is_tiled	openslide-decode-tifflike.c	/^bool _openslide_tifflike_is_tiled(struct _openslide_tifflike *tl,$/;"	f
+_openslide_tifflike_print	openslide-decode-tifflike.c	/^void _openslide_tifflike_print(struct _openslide_tifflike *tl) {$/;"	f
+_openslide_tifflike_uint_fix_offset_ndpi	openslide-decode-tifflike.c	/^uint64_t _openslide_tifflike_uint_fix_offset_ndpi(struct _openslide_tifflike *tl,$/;"	f
+_openslide_xml_has_default_namespace	openslide-decode-xml.c	/^bool _openslide_xml_has_default_namespace(xmlDoc *doc, const char *ns) {$/;"	f
+_openslide_xml_parse	openslide-decode-xml.c	/^xmlDoc *_openslide_xml_parse(const char *xml, GError **err) {$/;"	f
+_openslide_xml_parse_double_attr	openslide-decode-xml.c	/^double _openslide_xml_parse_double_attr(xmlNode *node, const char *name,$/;"	f
+_openslide_xml_parse_int_attr	openslide-decode-xml.c	/^int64_t _openslide_xml_parse_int_attr(xmlNode *node, const char *name,$/;"	f
+_openslide_xml_set_prop_from_xpath	openslide-decode-xml.c	/^void _openslide_xml_set_prop_from_xpath(openslide_t *osr,$/;"	f
+_openslide_xml_xpath_create	openslide-decode-xml.c	/^xmlXPathContext *_openslide_xml_xpath_create(xmlDoc *doc) {$/;"	f
+_openslide_xml_xpath_eval	openslide-decode-xml.c	/^xmlXPathObject *_openslide_xml_xpath_eval(xmlXPathContext *ctx,$/;"	f
+_openslide_xml_xpath_get_node	openslide-decode-xml.c	/^xmlNode *_openslide_xml_xpath_get_node(xmlXPathContext *ctx,$/;"	f
+_openslide_xml_xpath_get_string	openslide-decode-xml.c	/^char *_openslide_xml_xpath_get_string(xmlXPathContext *ctx,$/;"	f
+_parse_tileid_column	openslide-vendor-sakura.c	/^static bool _parse_tileid_column(const char *tileid, const char *col,$/;"	f	file:
+add_associated_image	openslide-vendor-aperio.c	/^static bool add_associated_image(openslide_t *osr,$/;"	f	file:
+add_associated_image	openslide-vendor-mirax.c	/^static bool add_associated_image(openslide_t *osr,$/;"	f	file:
+add_associated_image	openslide-vendor-sakura.c	/^static bool add_associated_image(openslide_t *osr,$/;"	f	file:
+add_associated_jpeg	openslide-vendor-trestle.c	/^static void add_associated_jpeg(openslide_t *osr, TIFF *tiff,$/;"	f	file:
+add_key_to_strv	openslide.c	/^static void add_key_to_strv(gpointer key,$/;"	f	file:
+add_key_to_strv_data	openslide.c	/^struct add_key_to_strv_data {$/;"	s	file:
+add_mpp_properties	openslide-vendor-philips.c	/^static void add_mpp_properties(openslide_t *osr) {$/;"	f	file:
+add_mpp_property	openslide-vendor-hamamatsu.c	/^static void add_mpp_property(openslide_t *osr, GKeyFile *kf,$/;"	f	file:
+add_properties	openslide-vendor-aperio.c	/^static void add_properties(openslide_t *osr, char **props) {$/;"	f	file:
+add_properties	openslide-vendor-hamamatsu.c	/^static void add_properties(openslide_t *osr,$/;"	f	file:
+add_properties	openslide-vendor-mirax.c	/^static void add_properties(openslide_t *osr, GKeyFile *kf) {$/;"	f	file:
+add_properties	openslide-vendor-philips.c	/^static void add_properties(openslide_t *osr,$/;"	f	file:
+add_properties	openslide-vendor-sakura.c	/^static void add_properties(openslide_t *osr,$/;"	f	file:
+add_properties	openslide-vendor-trestle.c	/^static void add_properties(openslide_t *osr, char **tags) {$/;"	f	file:
+add_properties_from_array	openslide-vendor-philips.c	/^static void add_properties_from_array(openslide_t *osr,$/;"	f	file:
+all_jpegs	openslide-vendor-hamamatsu.c	/^  struct jpeg **all_jpegs;$/;"	m	struct:hamamatsu_jpeg_ops_data	typeref:struct:hamamatsu_jpeg_ops_data::jpeg	file:
+aperio_detect	openslide-vendor-aperio.c	/^static bool aperio_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+aperio_open	openslide-vendor-aperio.c	/^static bool aperio_open(openslide_t *osr,$/;"	f	file:
+aperio_ops	openslide-vendor-aperio.c	/^static const struct _openslide_ops aperio_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+aperio_ops_data	openslide-vendor-aperio.c	/^struct aperio_ops_data {$/;"	s	file:
+aperture	openslide-vendor-leica.c	/^  char *aperture;$/;"	m	struct:image	file:
+area	openslide-vendor-leica.c	/^  struct area *area;$/;"	m	struct:read_tile_args	typeref:struct:read_tile_args::area	file:
+area	openslide-vendor-leica.c	/^struct area {$/;"	s	file:
+area	openslide-vendor-ventana.c	/^struct area {$/;"	s	file:
+area_prepared	openslide-decode-gdkpixbuf.c	/^static void area_prepared(GdkPixbufLoader *loader, void *data) {$/;"	f	file:
+areas	openslide-vendor-leica.c	/^  GPtrArray *areas;$/;"	m	struct:level	file:
+areas	openslide-vendor-ventana.c	/^  struct area **areas;$/;"	m	struct:slide_info	typeref:struct:slide_info::area	file:
+associated_image	openslide-decode-jpeg.c	/^struct associated_image {$/;"	s	file:
+associated_image	openslide-decode-tiff.c	/^struct associated_image {$/;"	s	file:
+associated_image	openslide-vendor-sakura.c	/^struct associated_image {$/;"	s	file:
+associated_image_names	openslide-private.h	/^  const char **associated_image_names; \/\/ filled in automatically from hashtable$/;"	m	struct:_openslide
+associated_images	openslide-private.h	/^  GHashTable *associated_images;  \/\/ created automatically$/;"	m	struct:_openslide
+barcode	openslide-vendor-leica.c	/^  char *barcode;$/;"	m	struct:collection	file:
+base	openslide-decode-jpeg.c	/^  struct _openslide_associated_image base;$/;"	m	struct:associated_image	typeref:struct:associated_image::_openslide_associated_image	file:
+base	openslide-decode-jpeg.c	/^  struct jpeg_error_mgr base;$/;"	m	struct:openslide_jpeg_error_mgr	typeref:struct:openslide_jpeg_error_mgr::jpeg_error_mgr	file:
+base	openslide-decode-tiff.c	/^  struct _openslide_associated_image base;$/;"	m	struct:associated_image	typeref:struct:associated_image::_openslide_associated_image	file:
+base	openslide-grid.c	/^  struct _openslide_grid base;$/;"	m	struct:range_grid	typeref:struct:range_grid::_openslide_grid	file:
+base	openslide-grid.c	/^  struct _openslide_grid base;$/;"	m	struct:simple_grid	typeref:struct:simple_grid::_openslide_grid	file:
+base	openslide-grid.c	/^  struct _openslide_grid base;$/;"	m	struct:tilemap_grid	typeref:struct:tilemap_grid::_openslide_grid	file:
+base	openslide-vendor-aperio.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-generic-tiff.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-hamamatsu.c	/^  struct _openslide_level base;$/;"	m	struct:jpeg_level	typeref:struct:jpeg_level::_openslide_level	file:
+base	openslide-vendor-hamamatsu.c	/^  struct _openslide_level base;$/;"	m	struct:ngr_level	typeref:struct:ngr_level::_openslide_level	file:
+base	openslide-vendor-leica.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-mirax.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-philips.c	/^  struct _openslide_associated_image base;$/;"	m	struct:xml_associated_image	typeref:struct:xml_associated_image::_openslide_associated_image	file:
+base	openslide-vendor-philips.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-sakura.c	/^  struct _openslide_associated_image base;$/;"	m	struct:associated_image	typeref:struct:associated_image::_openslide_associated_image	file:
+base	openslide-vendor-sakura.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-trestle.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+base	openslide-vendor-ventana.c	/^  struct _openslide_level base;$/;"	m	struct:level	typeref:struct:level::_openslide_level	file:
+big_endian	openslide-decode-tifflike.c	/^  bool big_endian;$/;"	m	struct:_openslide_tifflike	file:
+bin_height	openslide-grid.c	/^  int bin_height;$/;"	m	struct:range_grid	file:
+bin_width	openslide-grid.c	/^  int bin_width;$/;"	m	struct:range_grid	file:
+bins_init	openslide-grid.c	/^  GHashTable *bins_init;  \/\/ address -> GPtrArray<tile>$/;"	m	struct:range_grid	file:
+bins_runtime	openslide-grid.c	/^  GHashTable *bins_runtime;  \/\/ address -> [tile]$/;"	m	struct:range_grid	file:
+bool	openslide-features.h	29;"	d
+bottom	openslide-grid.c	/^  double bottom;$/;"	m	struct:range_grid	file:
+bottom	openslide-grid.c	/^  double bottom;$/;"	m	struct:tilemap_grid	file:
+bounds	openslide-grid.c	/^struct bounds {$/;"	s	file:
+buffer	openslide-decode-tifflike.c	/^  void *buffer;$/;"	m	struct:tiff_item	file:
+buffer	openslide-jdatasrc.c	/^  JOCTET * buffer;		\/* start of buffer *\/$/;"	m	struct:__anon1	file:
+cache	openslide-cache.c	/^  struct _openslide_cache *cache; \/\/ sadly, for total_bytes and the list$/;"	m	struct:_openslide_cache_value	typeref:struct:_openslide_cache_value::_openslide_cache	file:
+cache	openslide-decode-tiff.c	/^  GQueue *cache;$/;"	m	struct:_openslide_tiffcache	file:
+cache	openslide-private.h	/^  struct _openslide_cache *cache;$/;"	m	struct:_openslide	typeref:struct:_openslide::_openslide_cache
+capacity	openslide-cache.c	/^  int capacity;$/;"	m	struct:_openslide_cache	file:
+checksum	openslide-hash.c	/^  GChecksum *checksum;$/;"	m	struct:_openslide_hash	file:
+clear_tileids	openslide-vendor-sakura.c	/^static void clear_tileids(GQueue *tileids) {$/;"	f	file:
+cmpstring	openslide.c	/^static int cmpstring(const void *p1, const void *p2) {$/;"	f	file:
+col	openslide-grid.c	/^  int64_t col;$/;"	m	struct:range_bin_address	file:
+col	openslide-grid.c	/^  int64_t col;$/;"	m	struct:tilemap_tile	file:
+collection	openslide-vendor-leica.c	/^struct collection {$/;"	s	file:
+collection_free	openslide-vendor-leica.c	/^static void collection_free(struct collection *collection) {$/;"	f	file:
+color_index	openslide-vendor-sakura.c	/^enum color_index {$/;"	g	file:
+column	openslide-vendor-sakura.c	/^  const char *column;$/;"	m	struct:property	file:
+column_width	openslide-vendor-hamamatsu.c	/^  int32_t column_width;$/;"	m	struct:ngr_level	file:
+compare_downsamples	openslide-vendor-sakura.c	/^static gint compare_downsamples(const void *a, const void *b) {$/;"	f	file:
+compare_tileids	openslide-vendor-sakura.c	/^static gint compare_tileids(const void *a, const void *b,$/;"	f	file:
+compression	openslide-vendor-aperio.c	/^  uint16_t compression;$/;"	m	struct:level	file:
+compute_mcu_start	openslide-vendor-hamamatsu.c	/^static bool compute_mcu_start(openslide_t *osr,$/;"	f	file:
+compute_mcu_start_volatile	openslide-vendor-hamamatsu.c	/^static bool compute_mcu_start_volatile(openslide_t *osr,$/;"	f	file:
+compute_quickhash1	openslide-vendor-sakura.c	/^static void compute_quickhash1(struct _openslide_hash *quickhash1,$/;"	f	file:
+compute_region	openslide-grid.c	/^static void compute_region(struct _openslide_grid *grid,$/;"	f	file:
+concat_exponent	openslide-vendor-mirax.c	/^  int concat_exponent;$/;"	m	struct:slide_zoom_level_section	file:
+confidence	openslide-vendor-ventana.c	/^  int64_t confidence;$/;"	m	struct:joint	file:
+count	openslide-decode-tifflike.c	/^  int64_t count;$/;"	m	struct:tiff_item	file:
+create_grid	openslide-vendor-ventana.c	/^static struct _openslide_grid *create_grid(openslide_t *osr,$/;"	f	file:
+create_jpeg_level	openslide-vendor-hamamatsu.c	/^static struct jpeg_level *create_jpeg_level(openslide_t *osr,$/;"	f	file:
+create_levels_from_collection	openslide-vendor-leica.c	/^static bool create_levels_from_collection(openslide_t *osr,$/;"	f	file:
+create_osr	openslide.c	/^static openslide_t *create_osr(void) {$/;"	f	file:
+create_scaled_jpeg_levels	openslide-vendor-hamamatsu.c	/^static void create_scaled_jpeg_levels(openslide_t *osr,$/;"	f	file:
+creation_date	openslide-vendor-leica.c	/^  char *creation_date;$/;"	m	struct:image	file:
+data	openslide-cache.c	/^  void *data;$/;"	m	struct:_openslide_cache_entry	file:
+data	openslide-decode-jp2k.c	/^  void *data;$/;"	m	struct:read_callback_params	file:
+data	openslide-grid.c	/^  void *data;$/;"	m	struct:range_tile	file:
+data	openslide-grid.c	/^  void *data;$/;"	m	struct:tilemap_tile	file:
+data	openslide-private.h	/^  void *data;$/;"	m	struct:_openslide
+data_sql	openslide-vendor-sakura.c	/^  char *data_sql;$/;"	m	struct:associated_image	file:
+data_sql	openslide-vendor-sakura.c	/^  char *data_sql;$/;"	m	struct:sakura_ops_data	file:
+datafile_paths	openslide-vendor-mirax.c	/^  gchar **datafile_paths;$/;"	m	struct:mirax_ops_data	file:
+datalen	openslide-decode-jp2k.c	/^  int32_t datalen;$/;"	m	struct:read_callback_params	file:
+debug_flags	openslide-util.c	/^static uint32_t debug_flags;$/;"	v	file:
+debug_option	openslide-util.c	/^static const struct debug_option {$/;"	s	file:
+debug_options	openslide-util.c	/^} debug_options[] = {$/;"	v	typeref:struct:debug_option	file:
+decode_tile	openslide-vendor-aperio.c	/^static bool decode_tile(struct level *l,$/;"	f	file:
+desc	openslide-util.c	/^  const char *desc;$/;"	m	struct:debug_option	file:
+destroy	openslide-grid.c	/^  void (*destroy)(struct _openslide_grid *grid);$/;"	m	struct:grid_ops	file:
+destroy	openslide-private.h	/^  void (*destroy)(openslide_t *osr);$/;"	m	struct:_openslide_ops
+destroy	openslide-private.h	/^  void (*destroy)(struct _openslide_associated_image *img);$/;"	m	struct:_openslide_associated_image_ops
+destroy	openslide-vendor-aperio.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-generic-tiff.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-leica.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-mirax.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-philips.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-sakura.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-trestle.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy	openslide-vendor-ventana.c	/^static void destroy(openslide_t *osr) {$/;"	f	file:
+destroy_associated_image	openslide-decode-jpeg.c	/^static void destroy_associated_image(struct _openslide_associated_image *_img) {$/;"	f	file:
+destroy_associated_image	openslide-decode-tiff.c	/^static void destroy_associated_image(struct _openslide_associated_image *_img) {$/;"	f	file:
+destroy_associated_image	openslide-vendor-sakura.c	/^static void destroy_associated_image(struct _openslide_associated_image *_img) {$/;"	f	file:
+destroy_associated_image	openslide.c	/^static void destroy_associated_image(gpointer data) {$/;"	f	file:
+destroy_data	openslide-vendor-aperio.c	/^static void destroy_data(struct aperio_ops_data *data,$/;"	f	file:
+destroy_data	openslide-vendor-trestle.c	/^static void destroy_data(struct trestle_ops_data *data,$/;"	f	file:
+destroy_level	openslide-vendor-leica.c	/^static void destroy_level(struct level *l) {$/;"	f	file:
+destroy_level	openslide-vendor-sakura.c	/^static void destroy_level(struct level *l) {$/;"	f	file:
+destroy_tile	openslide-grid.c	/^  GDestroyNotify destroy_tile;$/;"	m	struct:range_grid	file:
+destroy_tile	openslide-grid.c	/^  GDestroyNotify destroy_tile;$/;"	m	struct:tilemap_grid	file:
+destroy_xml_associated_image	openslide-vendor-philips.c	/^static void destroy_xml_associated_image(struct _openslide_associated_image *_img) {$/;"	f	file:
+detect	openslide-private.h	/^  bool (*detect)(const char *filename, struct _openslide_tifflike *tl,$/;"	m	struct:_openslide_format
+detect_format	openslide.c	/^static const struct _openslide_format *detect_format(const char *filename,$/;"	f	file:
+device_model	openslide-vendor-leica.c	/^  char *device_model;$/;"	m	struct:image	file:
+device_version	openslide-vendor-leica.c	/^  char *device_version;$/;"	m	struct:image	file:
+dimension	openslide-vendor-leica.c	/^struct dimension {$/;"	s	file:
+dimension_compare	openslide-vendor-leica.c	/^static int dimension_compare(const void *a, const void *b) {$/;"	f	file:
+dimensions	openslide-vendor-leica.c	/^  GPtrArray *dimensions;$/;"	m	struct:image	file:
+dir	openslide-decode-tiff.h	/^  tdir_t dir;$/;"	m	struct:_openslide_tiff_level
+dir	openslide-vendor-leica.c	/^  int64_t dir;$/;"	m	struct:dimension	file:
+directories	openslide-decode-tifflike.c	/^  GPtrArray *directories;$/;"	m	struct:_openslide_tifflike	file:
+directory	openslide-decode-tiff.c	/^  tdir_t directory;$/;"	m	struct:associated_image	file:
+do_open	openslide-decode-sqlite.c	/^static sqlite3 *do_open(const char *filename, int flags, GError **err) {$/;"	f	file:
+downsample	openslide-private.h	/^  double downsample;  \/\/ zero value is filled in automatically from dimensions$/;"	m	struct:_openslide_level
+enabled	openslide-hash.c	/^  bool enabled;$/;"	m	struct:_openslide_hash	file:
+end_in_file	openslide-vendor-hamamatsu.c	/^  int64_t end_in_file;$/;"	m	struct:jpeg	file:
+end_tile_x	openslide-grid.c	/^  int64_t end_tile_x;$/;"	m	struct:region	file:
+end_tile_y	openslide-grid.c	/^  int64_t end_tile_y;$/;"	m	struct:region	file:
+ensure_nonnegative_dimensions	openslide.c	/^static bool ensure_nonnegative_dimensions(openslide_t *osr, int64_t w, int64_t h) {$/;"	f	file:
+entry	openslide-cache.c	/^  struct _openslide_cache_entry *entry;  \/\/ may outlive the value$/;"	m	struct:_openslide_cache_value	typeref:struct:_openslide_cache_value::_openslide_cache_entry	file:
+env	openslide-decode-jpeg.c	/^  jmp_buf *env;$/;"	m	struct:openslide_jpeg_error_mgr	file:
+env	openslide-decode-png.c	/^  jmp_buf env;$/;"	m	struct:png_error_ctx	file:
+err	openslide-decode-gdkpixbuf.c	/^  GError *err;$/;"	m	struct:load_state	file:
+err	openslide-decode-jpeg.c	/^  GError *err;$/;"	m	struct:openslide_jpeg_error_mgr	file:
+err	openslide-decode-png.c	/^  GError *err;$/;"	m	struct:png_error_ctx	file:
+error	openslide-private.h	/^  gpointer error; \/\/ must use g_atomic_pointer!$/;"	m	struct:_openslide
+error_callback	openslide-decode-jp2k.c	/^static void error_callback(const char *msg, void *data) {$/;"	f	file:
+error_callback	openslide-decode-png.c	/^static void error_callback(png_struct *png, const char *message) {$/;"	f	file:
+extra_tiles_bottom	openslide-grid.c	/^  int32_t extra_tiles_bottom;$/;"	m	struct:tilemap_grid	file:
+extra_tiles_left	openslide-grid.c	/^  int32_t extra_tiles_left;$/;"	m	struct:tilemap_grid	file:
+extra_tiles_right	openslide-grid.c	/^  int32_t extra_tiles_right;$/;"	m	struct:tilemap_grid	file:
+extra_tiles_top	openslide-grid.c	/^  int32_t extra_tiles_top;$/;"	m	struct:tilemap_grid	file:
+extract_one_optimisation	openslide-vendor-hamamatsu.c	/^static int64_t *extract_one_optimisation(FILE *opt_f,$/;"	f	file:
+fail	make-tables.c	/^static void fail(const char *fmt, ...) {$/;"	f	file:
+false	openslide-features.h	35;"	d
+filename	openslide-decode-jpeg.c	/^  char *filename;$/;"	m	struct:associated_image	file:
+filename	openslide-decode-tiff.c	/^  char *filename;$/;"	m	struct:_openslide_tiffcache	file:
+filename	openslide-decode-tifflike.c	/^  char *filename;$/;"	m	struct:_openslide_tifflike	file:
+filename	openslide-vendor-hamamatsu.c	/^  char *filename;$/;"	m	struct:jpeg	file:
+filename	openslide-vendor-hamamatsu.c	/^  char *filename;$/;"	m	struct:ngr_level	file:
+filename	openslide-vendor-sakura.c	/^  char *filename;$/;"	m	struct:associated_image	file:
+filename	openslide-vendor-sakura.c	/^  char *filename;$/;"	m	struct:sakura_ops_data	file:
+fileno	openslide-vendor-mirax.c	/^  int32_t fileno;$/;"	m	struct:image	file:
+fill_input_buffer	openslide-jdatasrc.c	/^static boolean fill_input_buffer (j_decompress_ptr cinfo)$/;"	f	file:
+fill_mem_input_buffer	openslide-jdatasrc.c	/^static boolean fill_mem_input_buffer (j_decompress_ptr cinfo)$/;"	f	file:
+fill_rgb	openslide-vendor-mirax.c	/^  uint32_t fill_rgb;$/;"	m	struct:slide_zoom_level_section	file:
+find_bitstream_start	openslide-vendor-hamamatsu.c	/^static bool find_bitstream_start(FILE *f,$/;"	f	file:
+find_next_ff_marker	openslide-vendor-hamamatsu.c	/^static bool find_next_ff_marker(FILE *f,$/;"	f	file:
+fix_byte_order	openslide-decode-tifflike.c	/^static void fix_byte_order(void *data, int32_t size, int64_t count,$/;"	f	file:
+fix_level_dimensions	openslide-vendor-philips.c	/^static bool fix_level_dimensions(struct level **levels,$/;"	f	file:
+fix_offset_ndpi	openslide-decode-tifflike.c	/^static uint64_t fix_offset_ndpi(uint64_t diroff, uint64_t offset) {$/;"	f	file:
+flag	openslide-util.c	/^  enum _openslide_debug_flag flag;$/;"	m	struct:debug_option	typeref:enum:debug_option::_openslide_debug_flag	file:
+floats	openslide-decode-tifflike.c	/^  double *floats;$/;"	m	struct:tiff_item	file:
+fopen	openslide-private.h	350;"	d
+fopen	openslide-util.c	156;"	d	file:
+fopen	openslide-util.c	193;"	d	file:
+formats	openslide.c	/^static const struct _openslide_format *formats[] = {$/;"	v	typeref:struct:_openslide_format	file:
+fseek	openslide-private.h	351;"	d
+g_ascii_strtod	openslide-private.h	353;"	d
+g_ascii_strtod	openslide-util.c	195;"	d	file:
+g_ascii_strtod	openslide-util.c	214;"	d	file:
+generic_tiff_detect	openslide-vendor-generic-tiff.c	/^static bool generic_tiff_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+generic_tiff_open	openslide-vendor-generic-tiff.c	/^static bool generic_tiff_open(openslide_t *osr,$/;"	f	file:
+generic_tiff_ops	openslide-vendor-generic-tiff.c	/^static const struct _openslide_ops generic_tiff_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+generic_tiff_ops_data	openslide-vendor-generic-tiff.c	/^struct generic_tiff_ops_data {$/;"	s	file:
+get_and_check_item	openslide-decode-tifflike.c	/^static struct tiff_item *get_and_check_item(struct _openslide_tifflike *tl,$/;"	f	file:
+get_argb_data	openslide-private.h	/^  bool (*get_argb_data)(struct _openslide_associated_image *img,$/;"	m	struct:_openslide_associated_image_ops
+get_associated_image_data	openslide-decode-jpeg.c	/^static bool get_associated_image_data(struct _openslide_associated_image *_img,$/;"	f	file:
+get_associated_image_data	openslide-decode-tiff.c	/^static bool get_associated_image_data(struct _openslide_associated_image *_img,$/;"	f	file:
+get_associated_image_data	openslide-vendor-sakura.c	/^static bool get_associated_image_data(struct _openslide_associated_image *_img,$/;"	f	file:
+get_associated_image_nonhier_offset	openslide-vendor-mirax.c	/^static int get_associated_image_nonhier_offset(GKeyFile *keyfile,$/;"	f	file:
+get_associated_path	openslide-vendor-trestle.c	/^static char *get_associated_path(TIFF *tiff, const char *extension) {$/;"	f	file:
+get_bounds	openslide-grid.c	/^  void (*get_bounds)(struct _openslide_grid *grid,$/;"	m	struct:grid_ops	file:
+get_compressed_xml_associated_image_data	openslide-vendor-philips.c	/^static bool get_compressed_xml_associated_image_data(xmlDoc *doc,$/;"	f	file:
+get_item	openslide-decode-tifflike.c	/^static struct tiff_item *get_item(struct _openslide_tifflike *tl,$/;"	f	file:
+get_nonhier_name_offset	openslide-vendor-mirax.c	/^static int get_nonhier_name_offset(GKeyFile *keyfile,$/;"	f	file:
+get_nonhier_name_offset_helper	openslide-vendor-mirax.c	/^static int get_nonhier_name_offset_helper(GKeyFile *keyfile,$/;"	f	file:
+get_nonhier_val_offset	openslide-vendor-mirax.c	/^static int get_nonhier_val_offset(GKeyFile *keyfile,$/;"	f	file:
+get_quoted_unique_table_name	openslide-vendor-sakura.c	/^static char *get_quoted_unique_table_name(sqlite3 *db, GError **err) {$/;"	f	file:
+get_tile_coordinates	openslide-vendor-ventana.c	/^static bool get_tile_coordinates(const struct area *area,$/;"	f	file:
+get_tile_position	openslide-vendor-mirax.c	/^static bool get_tile_position(int32_t *slide_positions,$/;"	f	file:
+get_value_size	openslide-decode-tifflike.c	/^static uint32_t get_value_size(uint16_t type, uint64_t *count) {$/;"	f	file:
+get_xml_associated_image_data	openslide-vendor-philips.c	/^static bool get_xml_associated_image_data(struct _openslide_associated_image *_img,$/;"	f	file:
+grid	openslide-grid.c	/^  struct tilemap_grid *grid;$/;"	m	struct:tilemap_tile	typeref:struct:tilemap_tile::tilemap_grid	file:
+grid	openslide-vendor-aperio.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-generic-tiff.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-hamamatsu.c	/^  struct _openslide_grid *grid;$/;"	m	struct:jpeg_level	typeref:struct:jpeg_level::_openslide_grid	file:
+grid	openslide-vendor-hamamatsu.c	/^  struct _openslide_grid *grid;$/;"	m	struct:ngr_level	typeref:struct:ngr_level::_openslide_grid	file:
+grid	openslide-vendor-leica.c	/^  struct _openslide_grid *grid;$/;"	m	struct:area	typeref:struct:area::_openslide_grid	file:
+grid	openslide-vendor-mirax.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-philips.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-sakura.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-trestle.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid	openslide-vendor-ventana.c	/^  struct _openslide_grid *grid;$/;"	m	struct:level	typeref:struct:level::_openslide_grid	file:
+grid_ops	openslide-grid.c	/^struct grid_ops {$/;"	s	file:
+h	openslide-decode-gdkpixbuf.c	/^  int32_t h;$/;"	m	struct:load_state	file:
+h	openslide-grid.c	/^  double h;$/;"	m	struct:bounds	file:
+h	openslide-grid.c	/^  double h;$/;"	m	struct:range_tile	file:
+h	openslide-grid.c	/^  double h;$/;"	m	struct:tilemap_tile	file:
+h	openslide-grid.c	/^  int32_t h;$/;"	m	struct:region	file:
+h	openslide-private.h	/^  int64_t h;$/;"	m	struct:_openslide_associated_image
+h	openslide-private.h	/^  int64_t h;$/;"	m	struct:_openslide_level
+hamamatsu_jpeg_ops	openslide-vendor-hamamatsu.c	/^static const struct _openslide_ops hamamatsu_jpeg_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+hamamatsu_jpeg_ops_data	openslide-vendor-hamamatsu.c	/^struct hamamatsu_jpeg_ops_data {$/;"	s	file:
+hamamatsu_ndpi_detect	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_ndpi_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+hamamatsu_ndpi_open	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_ndpi_open(openslide_t *osr, const char *filename,$/;"	f	file:
+hamamatsu_vms_part2	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_vms_part2(openslide_t *osr,$/;"	f	file:
+hamamatsu_vms_vmu_detect	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_vms_vmu_detect(const char *filename,$/;"	f	file:
+hamamatsu_vms_vmu_open	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_vms_vmu_open(openslide_t *osr, const char *filename,$/;"	f	file:
+hamamatsu_vmu_part2	openslide-vendor-hamamatsu.c	/^static bool hamamatsu_vmu_part2(openslide_t *osr,$/;"	f	file:
+hash_columns	openslide-vendor-sakura.c	/^static bool hash_columns(struct _openslide_hash *quickhash1,$/;"	f	file:
+hash_destroy_key	openslide-cache.c	/^static void hash_destroy_key(gpointer data) {$/;"	f	file:
+hash_destroy_value	openslide-cache.c	/^static void hash_destroy_value(gpointer data) {$/;"	f	file:
+hash_func	openslide-cache.c	/^static guint hash_func(gconstpointer key) {$/;"	f	file:
+hash_tiff_level	openslide-decode-tifflike.c	/^static bool hash_tiff_level(struct _openslide_hash *hash,$/;"	f	file:
+hash_tiles	openslide-vendor-sakura.c	/^static bool hash_tiles(struct _openslide_hash *quickhash1,$/;"	f	file:
+hashtable	openslide-cache.c	/^  GHashTable *hashtable;$/;"	m	struct:_openslide_cache	file:
+header_stop_position	openslide-vendor-hamamatsu.c	/^  int64_t header_stop_position;$/;"	m	struct:jpeg	file:
+height	openslide-vendor-hamamatsu.c	/^  int32_t height;$/;"	m	struct:jpeg	file:
+height	openslide-vendor-leica.c	/^  int64_t height;$/;"	m	struct:dimension	file:
+i	openslide.c	/^  int i;$/;"	m	struct:add_key_to_strv_data	file:
+id	openslide-grid.c	/^  int64_t id;$/;"	m	struct:range_tile	file:
+illumination_source	openslide-vendor-leica.c	/^  char *illumination_source;$/;"	m	struct:image	file:
+image	openslide-vendor-leica.c	/^struct image {$/;"	s	file:
+image	openslide-vendor-mirax.c	/^  struct image *image;$/;"	m	struct:tile	typeref:struct:tile::image	file:
+image	openslide-vendor-mirax.c	/^struct image {$/;"	s	file:
+image_concat	openslide-vendor-mirax.c	/^  int image_concat;$/;"	m	struct:slide_zoom_level_params	file:
+image_format	openslide-vendor-mirax.c	/^  enum image_format image_format;$/;"	m	struct:level	typeref:enum:level::image_format	file:
+image_format	openslide-vendor-mirax.c	/^  enum image_format image_format;$/;"	m	struct:slide_zoom_level_section	typeref:enum:slide_zoom_level_section::image_format	file:
+image_format	openslide-vendor-mirax.c	/^enum image_format {$/;"	g	file:
+image_h	openslide-decode-tiff.h	/^  int64_t image_h;$/;"	m	struct:_openslide_tiff_level
+image_h	openslide-vendor-mirax.c	/^  int image_h;$/;"	m	struct:slide_zoom_level_section	file:
+image_height	openslide-vendor-mirax.c	/^  int32_t image_height;$/;"	m	struct:level	file:
+image_unref	openslide-vendor-mirax.c	/^static void image_unref(struct image *image) {$/;"	f	file:
+image_w	openslide-decode-tiff.h	/^  int64_t image_w;$/;"	m	struct:_openslide_tiff_level
+image_w	openslide-vendor-mirax.c	/^  int image_w;$/;"	m	struct:slide_zoom_level_section	file:
+image_width	openslide-vendor-mirax.c	/^  int32_t image_width;$/;"	m	struct:level	file:
+imageno	openslide-vendor-mirax.c	/^  int32_t imageno;   \/\/ used only for cache lookup$/;"	m	struct:image	file:
+images	openslide-vendor-leica.c	/^  GPtrArray *images;$/;"	m	struct:collection	file:
+infile	openslide-jdatasrc.c	/^  FILE * infile;		\/* source stream *\/$/;"	m	struct:__anon1	file:
+inflate_buffer	openslide-vendor-mirax.c	/^static void *inflate_buffer(const void *src,$/;"	f	file:
+init_jpeg_ops	openslide-vendor-hamamatsu.c	/^static bool init_jpeg_ops(openslide_t *osr,$/;"	f	file:
+init_mem_source	openslide-jdatasrc.c	/^static void init_mem_source (j_decompress_ptr cinfo G_GNUC_UNUSED)$/;"	f	file:
+init_source	openslide-jdatasrc.c	/^static void init_source (j_decompress_ptr cinfo)$/;"	f	file:
+insert_tile	openslide-vendor-mirax.c	/^static void insert_tile(struct level *l,$/;"	f	file:
+is_macro	openslide-vendor-leica.c	/^  bool is_macro;$/;"	m	struct:image	file:
+items	openslide-decode-tifflike.c	/^  GHashTable *items;$/;"	m	struct:tiff_directory	file:
+joint	openslide-vendor-ventana.c	/^struct joint {$/;"	s	file:
+jpeg	openslide-vendor-hamamatsu.c	/^struct jpeg {$/;"	s	file:
+jpeg_associated_ops	openslide-decode-jpeg.c	/^static const struct _openslide_associated_image_ops jpeg_associated_ops = {$/;"	v	typeref:struct:_openslide_associated_image_ops	file:
+jpeg_count	openslide-vendor-hamamatsu.c	/^  int32_t jpeg_count;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+jpeg_decode	openslide-decode-jpeg.c	/^static bool jpeg_decode(FILE *f,  \/\/ or:$/;"	f	file:
+jpeg_destroy_data	openslide-vendor-hamamatsu.c	/^static void jpeg_destroy_data(int32_t num_jpegs, struct jpeg **jpegs,$/;"	f	file:
+jpeg_do_destroy	openslide-vendor-hamamatsu.c	/^static void jpeg_do_destroy(openslide_t *osr) {$/;"	f	file:
+jpeg_get_dimensions	openslide-decode-jpeg.c	/^static bool jpeg_get_dimensions(FILE *f,  \/\/ or:$/;"	f	file:
+jpeg_level	openslide-vendor-hamamatsu.c	/^struct jpeg_level {$/;"	s	file:
+jpeg_level_free	openslide-vendor-hamamatsu.c	/^static void jpeg_level_free(gpointer data) {$/;"	f	file:
+jpeg_paint_region	openslide-vendor-hamamatsu.c	/^static bool jpeg_paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+jpeg_random_access_src	openslide-vendor-hamamatsu.c	/^static bool jpeg_random_access_src(j_decompress_ptr cinfo,$/;"	f	file:
+jpegs	openslide-vendor-hamamatsu.c	/^  struct jpeg **jpegs;  \/\/ doesn't own the JPEGs$/;"	m	struct:jpeg_level	typeref:struct:jpeg_level::jpeg	file:
+jpegs_across	openslide-vendor-hamamatsu.c	/^  int32_t jpegs_across;$/;"	m	struct:jpeg_level	file:
+jpegs_down	openslide-vendor-hamamatsu.c	/^  int32_t jpegs_down;$/;"	m	struct:jpeg_level	file:
+key	openslide-cache.c	/^  struct _openslide_cache_key *key; \/\/ for removing keys when aged out$/;"	m	struct:_openslide_cache_value	typeref:struct:_openslide_cache_value::_openslide_cache_key	file:
+key_equal_func	openslide-cache.c	/^static gboolean key_equal_func(gconstpointer a,$/;"	f	file:
+kw	openslide-util.c	/^  const char *kw;$/;"	m	struct:debug_option	file:
+label_tile	openslide-grid.c	/^static void label_tile(cairo_t *cr,$/;"	f	file:
+left	openslide-grid.c	/^  double left;$/;"	m	struct:range_grid	file:
+left	openslide-grid.c	/^  double left;$/;"	m	struct:tilemap_grid	file:
+left	openslide-vendor-ventana.c	/^  struct joint left;$/;"	m	struct:tile	typeref:struct:tile::joint	file:
+leica_detect	openslide-vendor-leica.c	/^static bool leica_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+leica_open	openslide-vendor-leica.c	/^static bool leica_open(openslide_t *osr, const char *filename,$/;"	f	file:
+leica_ops	openslide-vendor-leica.c	/^static const struct _openslide_ops leica_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+leica_ops_data	openslide-vendor-leica.c	/^struct leica_ops_data {$/;"	s	file:
+length	openslide-vendor-mirax.c	/^  int32_t length;$/;"	m	struct:image	file:
+level	openslide-vendor-aperio.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-generic-tiff.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-leica.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-mirax.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-philips.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-sakura.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-trestle.c	/^struct level {$/;"	s	file:
+level	openslide-vendor-ventana.c	/^struct level {$/;"	s	file:
+level_count	openslide-private.h	/^  int32_t level_count;$/;"	m	struct:_openslide
+level_in_range	openslide.c	/^static bool level_in_range(openslide_t *osr, int32_t level) {$/;"	f	file:
+levels	openslide-private.h	/^  struct _openslide_level **levels;$/;"	m	struct:_openslide	typeref:struct:_openslide::_openslide_level
+link	openslide-cache.c	/^  GList *link;            \/\/ direct pointer to the node in the list$/;"	m	struct:_openslide_cache_value	file:
+list	openslide-cache.c	/^  GQueue *list;$/;"	m	struct:_openslide_cache	file:
+load_state	openslide-decode-gdkpixbuf.c	/^struct load_state {$/;"	s	file:
+lock	openslide-decode-tiff.c	/^  GMutex *lock;$/;"	m	struct:_openslide_tiffcache	file:
+main	make-tables.c	/^int main(int argc, char **argv) {$/;"	f
+make_tileid	openslide-vendor-sakura.c	/^static char *make_tileid(int64_t x, int64_t y,$/;"	f	file:
+make_ycbcr_tables	make-tables.c	/^static void make_ycbcr_tables(FILE *f) {$/;"	f	file:
+maybe_add_xml_associated_image	openslide-vendor-philips.c	/^static bool maybe_add_xml_associated_image(openslide_t *osr,$/;"	f	file:
+mcu_starts	openslide-vendor-hamamatsu.c	/^  int64_t *mcu_starts;$/;"	m	struct:jpeg	file:
+mirax_detect	openslide-vendor-mirax.c	/^static bool mirax_detect(const char *filename, struct _openslide_tifflike *tl,$/;"	f	file:
+mirax_open	openslide-vendor-mirax.c	/^static bool mirax_open(openslide_t *osr, const char *filename,$/;"	f	file:
+mirax_ops	openslide-vendor-mirax.c	/^static const struct _openslide_ops mirax_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+mirax_ops_data	openslide-vendor-mirax.c	/^struct mirax_ops_data {$/;"	s	file:
+missing_tiles	openslide-vendor-aperio.c	/^  GHashTable *missing_tiles;$/;"	m	struct:level	file:
+mpp_x	openslide-vendor-mirax.c	/^  double mpp_x;$/;"	m	struct:slide_zoom_level_section	file:
+mpp_y	openslide-vendor-mirax.c	/^  double mpp_y;$/;"	m	struct:slide_zoom_level_section	file:
+mutex	openslide-cache.c	/^  GMutex *mutex;$/;"	m	struct:_openslide_cache	file:
+my_emit_message	openslide-decode-jpeg.c	/^static void my_emit_message(j_common_ptr cinfo, int msg_level) {$/;"	f	file:
+my_error_exit	openslide-decode-jpeg.c	/^static void my_error_exit(j_common_ptr cinfo) {$/;"	f	file:
+my_output_message	openslide-decode-jpeg.c	/^static void my_output_message(j_common_ptr cinfo) {$/;"	f	file:
+my_source_mgr	openslide-jdatasrc.c	/^} my_source_mgr;$/;"	t	typeref:struct:__anon1	file:
+my_src_ptr	openslide-jdatasrc.c	/^typedef my_source_mgr * my_src_ptr;$/;"	t	file:
+name	openslide-private.h	/^  const char *name;$/;"	m	struct:_openslide_format
+ndpi	openslide-decode-tifflike.c	/^  bool ndpi;$/;"	m	struct:_openslide_tifflike	file:
+ndpi_set_float_prop	openslide-vendor-hamamatsu.c	/^static void ndpi_set_float_prop(openslide_t *osr,$/;"	f	file:
+ndpi_set_props	openslide-vendor-hamamatsu.c	/^static void ndpi_set_props(openslide_t *osr,$/;"	f	file:
+ndpi_set_resolution_prop	openslide-vendor-hamamatsu.c	/^static void ndpi_set_resolution_prop(openslide_t *osr,$/;"	f	file:
+ndpi_set_sint_prop	openslide-vendor-hamamatsu.c	/^static void ndpi_set_sint_prop(openslide_t *osr,$/;"	f	file:
+ndpi_set_string_prop	openslide-vendor-hamamatsu.c	/^static void ndpi_set_string_prop(openslide_t *osr,$/;"	f	file:
+ngr_destroy	openslide-vendor-hamamatsu.c	/^static void ngr_destroy(openslide_t *osr) {$/;"	f	file:
+ngr_level	openslide-vendor-hamamatsu.c	/^struct ngr_level {$/;"	s	file:
+ngr_ops	openslide-vendor-hamamatsu.c	/^static const struct _openslide_ops ngr_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+ngr_paint_region	openslide-vendor-hamamatsu.c	/^static bool ngr_paint_region(openslide_t *osr G_GNUC_UNUSED, cairo_t *cr,$/;"	f	file:
+ngr_read_tile	openslide-vendor-hamamatsu.c	/^static bool ngr_read_tile(openslide_t *osr,$/;"	f	file:
+nm_across	openslide-vendor-leica.c	/^  int64_t nm_across;$/;"	m	struct:collection	file:
+nm_across	openslide-vendor-leica.c	/^  int64_t nm_across;$/;"	m	struct:image	file:
+nm_down	openslide-vendor-leica.c	/^  int64_t nm_down;$/;"	m	struct:collection	file:
+nm_down	openslide-vendor-leica.c	/^  int64_t nm_down;$/;"	m	struct:image	file:
+nm_offset_x	openslide-vendor-leica.c	/^  int64_t nm_offset_x;$/;"	m	struct:image	file:
+nm_offset_y	openslide-vendor-leica.c	/^  int64_t nm_offset_y;$/;"	m	struct:image	file:
+nm_per_pixel	openslide-vendor-leica.c	/^  double nm_per_pixel;$/;"	m	struct:dimension	file:
+nm_per_pixel	openslide-vendor-leica.c	/^  double nm_per_pixel;$/;"	m	struct:level	file:
+num_areas	openslide-vendor-ventana.c	/^  int32_t num_areas;$/;"	m	struct:slide_info	file:
+objective	openslide-vendor-leica.c	/^  char *objective;$/;"	m	struct:image	file:
+offset	openslide-decode-jpeg.c	/^  int64_t offset;$/;"	m	struct:associated_image	file:
+offset	openslide-decode-tiff.c	/^  int64_t offset;$/;"	m	struct:tiff_file_handle	file:
+offset	openslide-decode-tifflike.c	/^  uint64_t offset;  \/\/ only for NDPI fixups$/;"	m	struct:tiff_directory	file:
+offset	openslide-decode-tifflike.c	/^  uint64_t offset;$/;"	m	struct:tiff_item	file:
+offset_x	openslide-grid.c	/^  double offset_x;$/;"	m	struct:region	file:
+offset_x	openslide-grid.c	/^  double offset_x;$/;"	m	struct:tilemap_tile	file:
+offset_x	openslide-vendor-leica.c	/^  int64_t offset_x;$/;"	m	struct:area	file:
+offset_x	openslide-vendor-ventana.c	/^  double offset_x;$/;"	m	struct:joint	file:
+offset_y	openslide-grid.c	/^  double offset_y;$/;"	m	struct:region	file:
+offset_y	openslide-grid.c	/^  double offset_y;$/;"	m	struct:tilemap_tile	file:
+offset_y	openslide-vendor-leica.c	/^  int64_t offset_y;$/;"	m	struct:area	file:
+offset_y	openslide-vendor-ventana.c	/^  double offset_y;$/;"	m	struct:joint	file:
+open	openslide-private.h	/^  bool (*open)(openslide_t *osr, const char *filename,$/;"	m	struct:_openslide_format
+open_backend	openslide.c	/^static bool open_backend(openslide_t *osr,$/;"	f	file:
+openslide_cairo_read_region	openslide.c	/^void openslide_cairo_read_region(openslide_t *osr,$/;"	f
+openslide_can_open	openslide.c	/^bool openslide_can_open(const char *filename) {$/;"	f
+openslide_cancel_prefetch_hint	openslide-private.h	343;"	d
+openslide_cancel_prefetch_hint	openslide.c	/^void openslide_cancel_prefetch_hint(openslide_t *osr G_GNUC_UNUSED,$/;"	f
+openslide_cancel_prefetch_hint	openslide.h	569;"	d
+openslide_close	openslide.c	/^void openslide_close(openslide_t *osr) {$/;"	f
+openslide_detect_vendor	openslide.c	/^const char *openslide_detect_vendor(const char *filename) {$/;"	f
+openslide_get_associated_image_dimensions	openslide.c	/^void openslide_get_associated_image_dimensions(openslide_t *osr, const char *name,$/;"	f
+openslide_get_associated_image_names	openslide.c	/^const char * const *openslide_get_associated_image_names(openslide_t *osr) {$/;"	f
+openslide_get_best_layer_for_downsample	openslide.c	/^int32_t openslide_get_best_layer_for_downsample(openslide_t *osr,$/;"	f
+openslide_get_best_level_for_downsample	openslide.c	/^int32_t openslide_get_best_level_for_downsample(openslide_t *osr,$/;"	f
+openslide_get_comment	openslide.c	/^const char *openslide_get_comment(openslide_t *osr) {$/;"	f
+openslide_get_error	openslide-error.c	/^const char *openslide_get_error(openslide_t *osr) {$/;"	f
+openslide_get_layer0_dimensions	openslide.c	/^void openslide_get_layer0_dimensions(openslide_t *osr,$/;"	f
+openslide_get_layer_count	openslide.c	/^int32_t openslide_get_layer_count(openslide_t *osr) {$/;"	f
+openslide_get_layer_dimensions	openslide.c	/^void openslide_get_layer_dimensions(openslide_t *osr, int32_t level,$/;"	f
+openslide_get_layer_downsample	openslide.c	/^double openslide_get_layer_downsample(openslide_t *osr, int32_t level) {$/;"	f
+openslide_get_level0_dimensions	openslide.c	/^void openslide_get_level0_dimensions(openslide_t *osr,$/;"	f
+openslide_get_level_count	openslide.c	/^int32_t openslide_get_level_count(openslide_t *osr) {$/;"	f
+openslide_get_level_dimensions	openslide.c	/^void openslide_get_level_dimensions(openslide_t *osr, int32_t level,$/;"	f
+openslide_get_level_downsample	openslide.c	/^double openslide_get_level_downsample(openslide_t *osr, int32_t level) {$/;"	f
+openslide_get_property_names	openslide.c	/^const char * const *openslide_get_property_names(openslide_t *osr) {$/;"	f
+openslide_get_property_value	openslide.c	/^const char *openslide_get_property_value(openslide_t *osr, const char *name) {$/;"	f
+openslide_get_version	openslide.c	/^const char *openslide_get_version(void) {$/;"	f
+openslide_give_prefetch_hint	openslide-private.h	337;"	d
+openslide_give_prefetch_hint	openslide.c	/^int openslide_give_prefetch_hint(openslide_t *osr G_GNUC_UNUSED,$/;"	f
+openslide_give_prefetch_hint	openslide.h	567;"	d
+openslide_jpeg_error_mgr	openslide-decode-jpeg.c	/^struct openslide_jpeg_error_mgr {$/;"	s	file:
+openslide_open	openslide.c	/^openslide_t *openslide_open(const char *filename) {$/;"	f
+openslide_read_associated_image	openslide.c	/^void openslide_read_associated_image(openslide_t *osr,$/;"	f
+openslide_read_region	openslide.c	/^void openslide_read_region(openslide_t *osr,$/;"	f
+openslide_t	openslide.h	/^typedef struct _openslide openslide_t;$/;"	t	typeref:struct:_openslide
+openslide_was_dynamically_loaded	openslide.c	/^static bool openslide_was_dynamically_loaded;$/;"	v	file:
+ops	openslide-grid.c	/^  const struct grid_ops *ops;$/;"	m	struct:_openslide_grid	typeref:struct:_openslide_grid::grid_ops	file:
+ops	openslide-private.h	/^  const struct _openslide_associated_image_ops *ops;$/;"	m	struct:_openslide_associated_image	typeref:struct:_openslide_associated_image::_openslide_associated_image_ops
+ops	openslide-private.h	/^  const struct _openslide_ops *ops;$/;"	m	struct:_openslide	typeref:struct:_openslide::_openslide_ops
+osr	openslide-grid.c	/^  openslide_t *osr;$/;"	m	struct:_openslide_grid	file:
+outstanding	openslide-decode-tiff.c	/^  int outstanding;$/;"	m	struct:_openslide_tiffcache	file:
+overlap_x	openslide-vendor-mirax.c	/^  double overlap_x;$/;"	m	struct:slide_zoom_level_section	file:
+overlap_y	openslide-vendor-mirax.c	/^  double overlap_y;$/;"	m	struct:slide_zoom_level_section	file:
+paint_region	openslide-grid.c	/^  bool (*paint_region)(struct _openslide_grid *grid,$/;"	m	struct:grid_ops	file:
+paint_region	openslide-private.h	/^  bool (*paint_region)(openslide_t *osr, cairo_t *cr,$/;"	m	struct:_openslide_ops
+paint_region	openslide-vendor-aperio.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-generic-tiff.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-leica.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-mirax.c	/^static bool paint_region(openslide_t *osr G_GNUC_UNUSED, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-philips.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-sakura.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-trestle.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+paint_region	openslide-vendor-ventana.c	/^static bool paint_region(openslide_t *osr, cairo_t *cr,$/;"	f	file:
+parse_image_format	openslide-vendor-mirax.c	/^static enum image_format parse_image_format(const char *name, GError **err) {$/;"	f	file:
+parse_level0_xml	openslide-vendor-ventana.c	/^static struct slide_info *parse_level0_xml(openslide_t *osr,$/;"	f	file:
+parse_level_info	openslide-vendor-ventana.c	/^static bool parse_level_info(const char *desc,$/;"	f	file:
+parse_pixel_spacing	openslide-vendor-philips.c	/^static bool parse_pixel_spacing(const char *spacing,$/;"	f	file:
+parse_tileid	openslide-vendor-sakura.c	/^static bool parse_tileid(const char *tileid,$/;"	f	file:
+parse_trestle_image_description	openslide-vendor-trestle.c	/^static void parse_trestle_image_description(openslide_t *osr,$/;"	f	file:
+parse_xml	openslide-vendor-philips.c	/^static xmlDoc *parse_xml(TIFF *tiff, GError **err) {$/;"	f	file:
+parse_xml_description	openslide-vendor-leica.c	/^static struct collection *parse_xml_description(const char *xml,$/;"	f	file:
+philips_detect	openslide-vendor-philips.c	/^static bool philips_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+philips_open	openslide-vendor-philips.c	/^static bool philips_open(openslide_t *osr,$/;"	f	file:
+philips_ops	openslide-vendor-philips.c	/^static const struct _openslide_ops philips_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+philips_ops_data	openslide-vendor-philips.c	/^struct philips_ops_data {$/;"	s	file:
+philips_xml_associated_ops	openslide-vendor-philips.c	/^static const struct _openslide_associated_image_ops philips_xml_associated_ops = {$/;"	v	typeref:struct:_openslide_associated_image_ops	file:
+pixbuf	openslide-decode-gdkpixbuf.c	/^  GdkPixbuf *pixbuf;  \/\/ NULL until validated, then a borrowed ref$/;"	m	struct:load_state	file:
+plane	openslide-cache.c	/^  void *plane;  \/\/ cookie for coordinate plane (level, grid, etc.)$/;"	m	struct:_openslide_cache_key	file:
+png_error_ctx	openslide-decode-png.c	/^struct png_error_ctx {$/;"	s	file:
+populate_item	openslide-decode-tifflike.c	/^static bool populate_item(struct _openslide_tifflike *tl,$/;"	f	file:
+positions_per_tile	openslide-vendor-mirax.c	/^  int positions_per_tile;$/;"	m	struct:slide_zoom_level_params	file:
+possibly_evict	openslide-cache.c	/^static void possibly_evict(struct _openslide_cache *cache, int incoming_size) {$/;"	f	file:
+prev	openslide-vendor-aperio.c	/^  struct level *prev;$/;"	m	struct:level	typeref:struct:level::level	file:
+print_directory	openslide-decode-tifflike.c	/^static void print_directory(struct _openslide_tifflike *tl,$/;"	f	file:
+print_tag	openslide-decode-tifflike.c	/^static void print_tag(struct _openslide_tifflike *tl,$/;"	f	file:
+process_hier_data_pages_from_indexfile	openslide-vendor-mirax.c	/^static bool process_hier_data_pages_from_indexfile(FILE *f,$/;"	f	file:
+process_indexfile	openslide-vendor-mirax.c	/^static bool process_indexfile(openslide_t *osr,$/;"	f	file:
+process_iscan_metadata	openslide-vendor-ventana.c	/^static bool process_iscan_metadata(openslide_t *osr, xmlXPathContext *ctx,$/;"	f	file:
+profile_callback	openslide-decode-sqlite.c	/^static void profile_callback(void *arg G_GNUC_UNUSED, const char *sql,$/;"	f	file:
+propagate_missing_tile	openslide-vendor-aperio.c	/^static void propagate_missing_tile(void *key, void *value G_GNUC_UNUSED,$/;"	f	file:
+properties	openslide-private.h	/^  GHashTable *properties; \/\/ created automatically$/;"	m	struct:_openslide
+property	openslide-vendor-sakura.c	/^static const struct property {$/;"	s	file:
+property_names	openslide-private.h	/^  const char **property_names; \/\/ filled in automatically from hashtable$/;"	m	struct:_openslide
+property_table	openslide-vendor-sakura.c	/^} property_table[] = {$/;"	v	typeref:struct:property	file:
+ptr_int	openslide-cache.c	29;"	d	file:
+ptr_int	openslide-cache.c	33;"	d	file:
+pub	openslide-jdatasrc.c	/^  struct jpeg_source_mgr pub;	\/* public fields *\/$/;"	m	struct:__anon1	typeref:struct:__anon1::jpeg_source_mgr	file:
+range_bin_address	openslide-grid.c	/^struct range_bin_address {$/;"	s	file:
+range_bin_address_free	openslide-grid.c	/^static void range_bin_address_free(void *data) {$/;"	f	file:
+range_bin_address_hash_func	openslide-grid.c	/^static guint range_bin_address_hash_func(gconstpointer key) {$/;"	f	file:
+range_bin_address_hash_key_equal	openslide-grid.c	/^static gboolean range_bin_address_hash_key_equal(gconstpointer a,$/;"	f	file:
+range_compare_tiles	openslide-grid.c	/^static int range_compare_tiles(gconstpointer a, gconstpointer b) {$/;"	f	file:
+range_destroy	openslide-grid.c	/^static void range_destroy(struct _openslide_grid *_grid) {$/;"	f	file:
+range_get_bounds	openslide-grid.c	/^static void range_get_bounds(struct _openslide_grid *_grid,$/;"	f	file:
+range_grid	openslide-grid.c	/^struct range_grid {$/;"	s	file:
+range_grid_ops	openslide-grid.c	/^const struct grid_ops range_grid_ops = {$/;"	v	typeref:struct:grid_ops
+range_paint_region	openslide-grid.c	/^static bool range_paint_region(struct _openslide_grid *_grid,$/;"	f	file:
+range_postprocess_bin	openslide-grid.c	/^static void range_postprocess_bin(void *key, void *value, void *data) {$/;"	f	file:
+range_ptr_array_free	openslide-grid.c	/^static void range_ptr_array_free(void *data) {$/;"	f	file:
+range_tile	openslide-grid.c	/^struct range_tile {$/;"	s	file:
+read_callback	openslide-decode-jp2k.c	/^static OPJ_SIZE_T read_callback(void *buf, OPJ_SIZE_T count, void *data) {$/;"	f	file:
+read_callback	openslide-decode-png.c	/^static void read_callback(png_struct *png, png_byte *buf, png_size_t len) {$/;"	f	file:
+read_callback_params	openslide-decode-jp2k.c	/^struct read_callback_params {$/;"	s	file:
+read_channel	openslide-vendor-sakura.c	/^static bool read_channel(uint8_t *channeldata,$/;"	f	file:
+read_directory	openslide-decode-tifflike.c	/^static struct tiff_directory *read_directory(FILE *f, int64_t *diroff,$/;"	f	file:
+read_from_jpeg	openslide-vendor-hamamatsu.c	/^static bool read_from_jpeg(openslide_t *osr,$/;"	f	file:
+read_header	openslide-vendor-sakura.c	/^static bool read_header(sqlite3 *db, const char *unique_table_name,$/;"	f	file:
+read_image	openslide-vendor-mirax.c	/^static uint32_t *read_image(openslide_t *osr,$/;"	f	file:
+read_image	openslide-vendor-sakura.c	/^static bool read_image(uint32_t *tiledata,$/;"	f	file:
+read_jpeg_tile	openslide-vendor-hamamatsu.c	/^static bool read_jpeg_tile(openslide_t *osr,$/;"	f	file:
+read_le_int32_from_file	openslide-vendor-hamamatsu.c	/^static int32_t read_le_int32_from_file(FILE *f) {$/;"	f	file:
+read_le_int32_from_file	openslide-vendor-mirax.c	/^static int32_t read_le_int32_from_file(FILE *f) {$/;"	f	file:
+read_le_int32_from_file_with_result	openslide-vendor-mirax.c	/^static bool read_le_int32_from_file_with_result(FILE *f, int32_t *OUT) {$/;"	f	file:
+read_nonhier_record	openslide-vendor-mirax.c	/^static bool read_nonhier_record(FILE *f,$/;"	f	file:
+read_record_data	openslide-vendor-mirax.c	/^static void *read_record_data(const char *path,$/;"	f	file:
+read_region	openslide.c	/^static bool read_region(openslide_t *osr,$/;"	f	file:
+read_slide_position_buffer	openslide-vendor-mirax.c	/^static int32_t *read_slide_position_buffer(const void *buffer,$/;"	f	file:
+read_string_from_file	openslide-vendor-mirax.c	/^static char *read_string_from_file(FILE *f, int len) {$/;"	f	file:
+read_subtile	openslide-vendor-ventana.c	/^static bool read_subtile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-grid.c	/^  _openslide_grid_range_read_fn read_tile;$/;"	m	struct:range_grid	file:
+read_tile	openslide-grid.c	/^  _openslide_grid_simple_read_fn read_tile;$/;"	m	struct:simple_grid	file:
+read_tile	openslide-grid.c	/^  _openslide_grid_tilemap_read_fn read_tile;$/;"	m	struct:tilemap_grid	file:
+read_tile	openslide-vendor-aperio.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-generic-tiff.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-leica.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-mirax.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-philips.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-sakura.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile	openslide-vendor-trestle.c	/^static bool read_tile(openslide_t *osr,$/;"	f	file:
+read_tile_args	openslide-vendor-leica.c	/^struct read_tile_args {$/;"	s	file:
+read_tiles	openslide-grid.c	/^static bool read_tiles(cairo_t *cr,$/;"	f	file:
+read_tiles_callback_fn	openslide-grid.c	/^typedef bool (*read_tiles_callback_fn)(struct _openslide_grid *grid,$/;"	t	file:
+read_uint	openslide-decode-tifflike.c	/^static uint64_t read_uint(FILE *f, int32_t size, bool big_endian, bool *ok) {$/;"	f	file:
+refcount	openslide-cache.c	/^  gint refcount;  \/\/ atomic ops only$/;"	m	struct:_openslide_cache_entry	file:
+refcount	openslide-vendor-mirax.c	/^  int refcount;$/;"	m	struct:image	file:
+region	openslide-grid.c	/^struct region {$/;"	s	file:
+render_missing_tile	openslide-vendor-aperio.c	/^static bool render_missing_tile(struct level *l,$/;"	f	file:
+restart_marker_cond	openslide-vendor-hamamatsu.c	/^  GCond *restart_marker_cond;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_cond_mutex	openslide-vendor-hamamatsu.c	/^  GMutex *restart_marker_cond_mutex;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_mutex	openslide-vendor-hamamatsu.c	/^  GMutex *restart_marker_mutex;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_thread	openslide-vendor-hamamatsu.c	/^  GThread *restart_marker_thread;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_thread_error	openslide-vendor-hamamatsu.c	/^  GError *restart_marker_thread_error;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_thread_func	openslide-vendor-hamamatsu.c	/^static gpointer restart_marker_thread_func(gpointer d) {$/;"	f	file:
+restart_marker_thread_stop	openslide-vendor-hamamatsu.c	/^  bool restart_marker_thread_stop;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_thread_throttle	openslide-vendor-hamamatsu.c	/^  bool restart_marker_thread_throttle;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_timer	openslide-vendor-hamamatsu.c	/^  GTimer *restart_marker_timer;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+restart_marker_users	openslide-vendor-hamamatsu.c	/^  uint32_t restart_marker_users;$/;"	m	struct:hamamatsu_jpeg_ops_data	file:
+right	openslide-grid.c	/^  double right;$/;"	m	struct:range_grid	file:
+right	openslide-grid.c	/^  double right;$/;"	m	struct:tilemap_grid	file:
+row	openslide-grid.c	/^  int64_t row;$/;"	m	struct:range_bin_address	file:
+row	openslide-grid.c	/^  int64_t row;$/;"	m	struct:tilemap_tile	file:
+sakura_associated_ops	openslide-vendor-sakura.c	/^static const struct _openslide_associated_image_ops sakura_associated_ops = {$/;"	v	typeref:struct:_openslide_associated_image_ops	file:
+sakura_detect	openslide-vendor-sakura.c	/^static bool sakura_detect(const char *filename,$/;"	f	file:
+sakura_open	openslide-vendor-sakura.c	/^static bool sakura_open(openslide_t *osr, const char *filename,$/;"	f	file:
+sakura_ops	openslide-vendor-sakura.c	/^static const struct _openslide_ops sakura_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+sakura_ops_data	openslide-vendor-sakura.c	/^struct sakura_ops_data {$/;"	s	file:
+scale_denom	openslide-vendor-hamamatsu.c	/^  int32_t scale_denom;$/;"	m	struct:jpeg_level	file:
+set_item_values	openslide-decode-tifflike.c	/^static bool set_item_values(struct tiff_item *item,$/;"	f	file:
+set_prop	openslide-vendor-leica.c	/^static void set_prop(openslide_t *osr, const char *name, const char *value) {$/;"	f	file:
+set_region_bounds_props	openslide-vendor-leica.c	/^static void set_region_bounds_props(openslide_t *osr,$/;"	f	file:
+set_region_props	openslide-vendor-ventana.c	/^static void set_region_props(openslide_t *osr, struct slide_info *slide,$/;"	f	file:
+set_resolution_prop	openslide-vendor-leica.c	/^static void set_resolution_prop(openslide_t *osr, TIFF *tiff,$/;"	f	file:
+should_use_legacy_quickhash	openslide-vendor-leica.c	/^static bool should_use_legacy_quickhash(const struct collection *collection) {$/;"	f	file:
+simple_destroy	openslide-grid.c	/^static void simple_destroy(struct _openslide_grid *_grid) {$/;"	f	file:
+simple_get_bounds	openslide-grid.c	/^static void simple_get_bounds(struct _openslide_grid *_grid,$/;"	f	file:
+simple_grid	openslide-grid.c	/^struct simple_grid {$/;"	s	file:
+simple_grid_ops	openslide-grid.c	/^const struct grid_ops simple_grid_ops = {$/;"	v	typeref:struct:grid_ops
+simple_paint_region	openslide-grid.c	/^static bool simple_paint_region(struct _openslide_grid *_grid,$/;"	f	file:
+simple_read_tile	openslide-grid.c	/^static bool simple_read_tile(struct _openslide_grid *_grid,$/;"	f	file:
+sints	openslide-decode-tifflike.c	/^  int64_t *sints;$/;"	m	struct:tiff_item	file:
+size	openslide-cache.c	/^  int size;$/;"	m	struct:_openslide_cache_entry	file:
+size	openslide-decode-tiff.c	/^  int64_t size;$/;"	m	struct:tiff_file_handle	file:
+skip_input_data	openslide-jdatasrc.c	/^static void skip_input_data (j_decompress_ptr cinfo, long num_bytes)$/;"	f	file:
+slide_info	openslide-vendor-ventana.c	/^struct slide_info {$/;"	s	file:
+slide_info_free	openslide-vendor-ventana.c	/^static void slide_info_free(struct slide_info *slide) {$/;"	f	file:
+slide_zoom_level_params	openslide-vendor-mirax.c	/^struct slide_zoom_level_params {$/;"	s	file:
+slide_zoom_level_section	openslide-vendor-mirax.c	/^struct slide_zoom_level_section {$/;"	s	file:
+sof_position	openslide-vendor-hamamatsu.c	/^  int64_t sof_position;$/;"	m	struct:jpeg	file:
+sqlite3_close	openslide-decode-sqlite.c	126;"	d	file:
+sqlite3_close	openslide-decode-sqlite.c	134;"	d	file:
+sqlite3_close	openslide-private.h	356;"	d
+sqlite3_open	openslide-private.h	354;"	d
+sqlite3_open_v2	openslide-decode-sqlite.c	43;"	d	file:
+sqlite3_open_v2	openslide-decode-sqlite.c	75;"	d	file:
+sqlite3_open_v2	openslide-private.h	355;"	d
+src_x	openslide-vendor-mirax.c	/^  double src_x;$/;"	m	struct:tile	file:
+src_y	openslide-vendor-mirax.c	/^  double src_y;$/;"	m	struct:tile	file:
+start_col	openslide-vendor-ventana.c	/^  int64_t start_col;$/;"	m	struct:area	file:
+start_in_file	openslide-vendor-hamamatsu.c	/^  int64_t start_in_file;$/;"	m	struct:jpeg	file:
+start_in_file	openslide-vendor-hamamatsu.c	/^  int64_t start_in_file;$/;"	m	struct:ngr_level	file:
+start_in_file	openslide-vendor-mirax.c	/^  int32_t start_in_file;$/;"	m	struct:image	file:
+start_of_file	openslide-jdatasrc.c	/^  boolean start_of_file;	\/* have we gotten any data yet? *\/$/;"	m	struct:__anon1	file:
+start_row	openslide-vendor-ventana.c	/^  int64_t start_row;$/;"	m	struct:area	file:
+start_tile_x	openslide-grid.c	/^  int64_t start_tile_x;$/;"	m	struct:region	file:
+start_tile_y	openslide-grid.c	/^  int64_t start_tile_y;$/;"	m	struct:region	file:
+store_and_hash_properties	openslide-decode-tifflike.c	/^static void store_and_hash_properties(struct _openslide_tifflike *tl,$/;"	f	file:
+store_and_hash_string_property	openslide-decode-tifflike.c	/^static void store_and_hash_string_property(struct _openslide_tifflike *tl,$/;"	f	file:
+store_float_property	openslide-decode-tifflike.c	/^static void store_float_property(struct _openslide_tifflike *tl,$/;"	f	file:
+store_string_property	openslide-decode-tifflike.c	/^static const char *store_string_property(struct _openslide_tifflike *tl,$/;"	f	file:
+strtod	openslide-private.h	352;"	d
+strv	openslide.c	/^  const char **strv;$/;"	m	struct:add_key_to_strv_data	file:
+strv_from_hashtable_keys	openslide.c	/^static const char **strv_from_hashtable_keys(GHashTable *h) {$/;"	f	file:
+table	openslide-vendor-sakura.c	/^  const char *table;$/;"	m	struct:property	file:
+tag_compare	openslide-decode-tifflike.c	/^static int tag_compare(gconstpointer a, gconstpointer b) {$/;"	f	file:
+tc	openslide-decode-tiff.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:associated_image	typeref:struct:associated_image::_openslide_tiffcache	file:
+tc	openslide-decode-tiff.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:tiff_file_handle	typeref:struct:tiff_file_handle::_openslide_tiffcache	file:
+tc	openslide-vendor-aperio.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:aperio_ops_data	typeref:struct:aperio_ops_data::_openslide_tiffcache	file:
+tc	openslide-vendor-generic-tiff.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:generic_tiff_ops_data	typeref:struct:generic_tiff_ops_data::_openslide_tiffcache	file:
+tc	openslide-vendor-leica.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:leica_ops_data	typeref:struct:leica_ops_data::_openslide_tiffcache	file:
+tc	openslide-vendor-philips.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:philips_ops_data	typeref:struct:philips_ops_data::_openslide_tiffcache	file:
+tc	openslide-vendor-philips.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:xml_associated_image	typeref:struct:xml_associated_image::_openslide_tiffcache	file:
+tc	openslide-vendor-trestle.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:trestle_ops_data	typeref:struct:trestle_ops_data::_openslide_tiffcache	file:
+tc	openslide-vendor-ventana.c	/^  struct _openslide_tiffcache *tc;$/;"	m	struct:ventana_ops_data	typeref:struct:ventana_ops_data::_openslide_tiffcache	file:
+term_source	openslide-jdatasrc.c	/^static void term_source (j_decompress_ptr cinfo G_GNUC_UNUSED)$/;"	f	file:
+test_tile_decoding	openslide-vendor-aperio.c	/^static bool test_tile_decoding(struct level *l,$/;"	f	file:
+tiff	openslide-vendor-leica.c	/^  TIFF *tiff;$/;"	m	struct:read_tile_args	file:
+tiff_associated_ops	openslide-decode-tiff.c	/^static const struct _openslide_associated_image_ops tiff_associated_ops = {$/;"	v	typeref:struct:_openslide_associated_image_ops	file:
+tiff_directory	openslide-decode-tifflike.c	/^struct tiff_directory {$/;"	s	file:
+tiff_directory_destroy	openslide-decode-tifflike.c	/^static void tiff_directory_destroy(struct tiff_directory *d) {$/;"	f	file:
+tiff_do_close	openslide-decode-tiff.c	/^static int tiff_do_close(thandle_t th) {$/;"	f	file:
+tiff_do_read	openslide-decode-tiff.c	/^static tsize_t tiff_do_read(thandle_t th, tdata_t buf, tsize_t size) {$/;"	f	file:
+tiff_do_seek	openslide-decode-tiff.c	/^static toff_t tiff_do_seek(thandle_t th, toff_t offset, int whence) {$/;"	f	file:
+tiff_do_size	openslide-decode-tiff.c	/^static toff_t tiff_do_size(thandle_t th) {$/;"	f	file:
+tiff_do_write	openslide-decode-tiff.c	/^static tsize_t tiff_do_write(thandle_t th G_GNUC_UNUSED,$/;"	f	file:
+tiff_file_handle	openslide-decode-tiff.c	/^struct tiff_file_handle {$/;"	s	file:
+tiff_item	openslide-decode-tifflike.c	/^struct tiff_item {$/;"	s	file:
+tiff_item_destroy	openslide-decode-tifflike.c	/^static void tiff_item_destroy(gpointer data) {$/;"	f	file:
+tiff_open	openslide-decode-tiff.c	/^static TIFF *tiff_open(struct _openslide_tiffcache *tc, GError **err) {$/;"	f	file:
+tiff_read_region	openslide-decode-tiff.c	/^static bool tiff_read_region(TIFF *tiff,$/;"	f	file:
+tiffl	openslide-vendor-aperio.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:level	typeref:struct:level::_openslide_tiff_level	file:
+tiffl	openslide-vendor-generic-tiff.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:level	typeref:struct:level::_openslide_tiff_level	file:
+tiffl	openslide-vendor-leica.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:area	typeref:struct:area::_openslide_tiff_level	file:
+tiffl	openslide-vendor-philips.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:level	typeref:struct:level::_openslide_tiff_level	file:
+tiffl	openslide-vendor-trestle.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:level	typeref:struct:level::_openslide_tiff_level	file:
+tiffl	openslide-vendor-ventana.c	/^  struct _openslide_tiff_level tiffl;$/;"	m	struct:level	typeref:struct:level::_openslide_tiff_level	file:
+tile	openslide-vendor-mirax.c	/^struct tile {$/;"	s	file:
+tile	openslide-vendor-ventana.c	/^struct tile {$/;"	s	file:
+tile_advance_x	openslide-grid.c	/^  double tile_advance_x;$/;"	m	struct:_openslide_grid	file:
+tile_advance_x	openslide-vendor-mirax.c	/^  double tile_advance_x;$/;"	m	struct:slide_zoom_level_params	file:
+tile_advance_x	openslide-vendor-ventana.c	/^  double tile_advance_x;$/;"	m	struct:slide_info	file:
+tile_advance_y	openslide-grid.c	/^  double tile_advance_y;$/;"	m	struct:_openslide_grid	file:
+tile_advance_y	openslide-vendor-mirax.c	/^  double tile_advance_y;$/;"	m	struct:slide_zoom_level_params	file:
+tile_advance_y	openslide-vendor-ventana.c	/^  double tile_advance_y;$/;"	m	struct:slide_info	file:
+tile_count	openslide-vendor-hamamatsu.c	/^  int32_t tile_count;$/;"	m	struct:jpeg	file:
+tile_count	openslide-vendor-ventana.c	/^  int64_t tile_count;$/;"	m	struct:area	file:
+tile_count_divisor	openslide-vendor-mirax.c	/^  int tile_count_divisor;$/;"	m	struct:slide_zoom_level_params	file:
+tile_free	openslide-vendor-mirax.c	/^static void tile_free(gpointer data) {$/;"	f	file:
+tile_h	openslide-decode-tiff.h	/^  int64_t tile_h;$/;"	m	struct:_openslide_tiff_level
+tile_h	openslide-private.h	/^  int64_t tile_h;$/;"	m	struct:_openslide_level
+tile_h	openslide-vendor-mirax.c	/^  double tile_h;$/;"	m	struct:level	file:
+tile_height	openslide-vendor-hamamatsu.c	/^  int32_t tile_height;$/;"	m	struct:jpeg	file:
+tile_height	openslide-vendor-hamamatsu.c	/^  int32_t tile_height;$/;"	m	struct:jpeg_level	file:
+tile_size	openslide-vendor-sakura.c	/^  int32_t tile_size;$/;"	m	struct:sakura_ops_data	file:
+tile_w	openslide-decode-tiff.h	/^  int64_t tile_w;$/;"	m	struct:_openslide_tiff_level
+tile_w	openslide-private.h	/^  int64_t tile_w;$/;"	m	struct:_openslide_level
+tile_w	openslide-vendor-mirax.c	/^  double tile_w;$/;"	m	struct:level	file:
+tile_width	openslide-vendor-hamamatsu.c	/^  int32_t tile_width;$/;"	m	struct:jpeg	file:
+tile_width	openslide-vendor-hamamatsu.c	/^  int32_t tile_width;$/;"	m	struct:jpeg_level	file:
+tilemap_destroy	openslide-grid.c	/^static void tilemap_destroy(struct _openslide_grid *_grid) {$/;"	f	file:
+tilemap_get_bounds	openslide-grid.c	/^static void tilemap_get_bounds(struct _openslide_grid *_grid,$/;"	f	file:
+tilemap_grid	openslide-grid.c	/^struct tilemap_grid {$/;"	s	file:
+tilemap_grid_ops	openslide-grid.c	/^const struct grid_ops tilemap_grid_ops = {$/;"	v	typeref:struct:grid_ops
+tilemap_paint_region	openslide-grid.c	/^static bool tilemap_paint_region(struct _openslide_grid *_grid,$/;"	f	file:
+tilemap_read_tile	openslide-grid.c	/^static bool tilemap_read_tile(struct _openslide_grid *_grid,$/;"	f	file:
+tilemap_tile	openslide-grid.c	/^struct tilemap_tile {$/;"	s	file:
+tilemap_tile_hash_destroy_value	openslide-grid.c	/^static void tilemap_tile_hash_destroy_value(gpointer data) {$/;"	f	file:
+tilemap_tile_hash_func	openslide-grid.c	/^static guint tilemap_tile_hash_func(gconstpointer key) {$/;"	f	file:
+tilemap_tile_hash_key_equal	openslide-grid.c	/^static gboolean tilemap_tile_hash_key_equal(gconstpointer a, gconstpointer b) {$/;"	f	file:
+tiles	openslide-grid.c	/^  GHashTable *tiles;$/;"	m	struct:tilemap_grid	file:
+tiles	openslide-grid.c	/^  GPtrArray *tiles;$/;"	m	struct:range_grid	file:
+tiles	openslide-vendor-ventana.c	/^  struct tile **tiles;$/;"	m	struct:area	typeref:struct:area::tile	file:
+tiles_across	openslide-decode-tiff.h	/^  int64_t tiles_across;$/;"	m	struct:_openslide_tiff_level
+tiles_across	openslide-grid.c	/^  int64_t tiles_across;$/;"	m	struct:simple_grid	file:
+tiles_across	openslide-vendor-hamamatsu.c	/^  int32_t tiles_across;$/;"	m	struct:jpeg	file:
+tiles_across	openslide-vendor-hamamatsu.c	/^  int32_t tiles_across;$/;"	m	struct:jpeg_level	file:
+tiles_across	openslide-vendor-ventana.c	/^  int64_t tiles_across;$/;"	m	struct:area	file:
+tiles_down	openslide-decode-tiff.h	/^  int64_t tiles_down;$/;"	m	struct:_openslide_tiff_level
+tiles_down	openslide-grid.c	/^  int64_t tiles_down;$/;"	m	struct:simple_grid	file:
+tiles_down	openslide-vendor-hamamatsu.c	/^  int32_t tiles_down;$/;"	m	struct:jpeg	file:
+tiles_down	openslide-vendor-hamamatsu.c	/^  int32_t tiles_down;$/;"	m	struct:jpeg_level	file:
+tiles_down	openslide-vendor-ventana.c	/^  int64_t tiles_down;$/;"	m	struct:area	file:
+tiles_per_image	openslide-vendor-mirax.c	/^  int tiles_per_image;$/;"	m	struct:slide_zoom_level_params	file:
+top	openslide-grid.c	/^  double top;$/;"	m	struct:range_grid	file:
+top	openslide-grid.c	/^  double top;$/;"	m	struct:tilemap_grid	file:
+top	openslide-vendor-ventana.c	/^  struct joint top;$/;"	m	struct:tile	typeref:struct:tile::joint	file:
+total_size	openslide-cache.c	/^  int total_size;$/;"	m	struct:_openslide_cache	file:
+trestle_detect	openslide-vendor-trestle.c	/^static bool trestle_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+trestle_open	openslide-vendor-trestle.c	/^static bool trestle_open(openslide_t *osr, const char *filename,$/;"	f	file:
+trestle_ops	openslide-vendor-trestle.c	/^static const struct _openslide_ops trestle_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+trestle_ops_data	openslide-vendor-trestle.c	/^struct trestle_ops_data {$/;"	s	file:
+true	openslide-features.h	32;"	d
+type	openslide-decode-tifflike.c	/^  uint16_t type;$/;"	m	struct:tiff_item	file:
+type	openslide-vendor-sakura.c	/^  int type;$/;"	m	struct:property	file:
+uints	openslide-decode-tifflike.c	/^  uint64_t *uints;$/;"	m	struct:tiff_item	file:
+unpack_argb	openslide-decode-jp2k.c	/^static void unpack_argb(enum _openslide_jp2k_colorspace space,$/;"	f	file:
+unreliable_mcu_starts	openslide-vendor-hamamatsu.c	/^  int64_t *unreliable_mcu_starts;$/;"	m	struct:jpeg	file:
+validate_jpeg_header	openslide-vendor-hamamatsu.c	/^static bool validate_jpeg_header(FILE *f, bool use_jpeg_dimensions,$/;"	f	file:
+value_lock	openslide-decode-tifflike.c	/^  GMutex *value_lock;$/;"	m	struct:_openslide_tifflike	file:
+vendor	openslide-private.h	/^  const char *vendor;$/;"	m	struct:_openslide_format
+ventana_detect	openslide-vendor-ventana.c	/^static bool ventana_detect(const char *filename G_GNUC_UNUSED,$/;"	f	file:
+ventana_open	openslide-vendor-ventana.c	/^static bool ventana_open(openslide_t *osr, const char *filename,$/;"	f	file:
+ventana_ops	openslide-vendor-ventana.c	/^static const struct _openslide_ops ventana_ops = {$/;"	v	typeref:struct:_openslide_ops	file:
+ventana_ops_data	openslide-vendor-ventana.c	/^struct ventana_ops_data {$/;"	s	file:
+verify_main_image_count	openslide-vendor-philips.c	/^static bool verify_main_image_count(xmlDoc *doc, GError **err) {$/;"	f	file:
+verify_mcu_starts	openslide-vendor-hamamatsu.c	/^static bool verify_mcu_starts(int32_t num_jpegs, struct jpeg **jpegs,$/;"	f	file:
+w	openslide-decode-gdkpixbuf.c	/^  int32_t w;$/;"	m	struct:load_state	file:
+w	openslide-grid.c	/^  double w;$/;"	m	struct:bounds	file:
+w	openslide-grid.c	/^  double w;$/;"	m	struct:range_tile	file:
+w	openslide-grid.c	/^  double w;$/;"	m	struct:tilemap_tile	file:
+w	openslide-grid.c	/^  int32_t w;$/;"	m	struct:region	file:
+w	openslide-private.h	/^  int64_t w;$/;"	m	struct:_openslide_associated_image
+w	openslide-private.h	/^  int64_t w;$/;"	m	struct:_openslide_level
+warning_callback	openslide-decode-jp2k.c	/^static void warning_callback(const char *msg G_GNUC_UNUSED,$/;"	f	file:
+warning_callback	openslide-decode-png.c	/^static void warning_callback(png_struct *png G_GNUC_UNUSED,$/;"	f	file:
+width	openslide-vendor-hamamatsu.c	/^  int32_t width;$/;"	m	struct:jpeg	file:
+width	openslide-vendor-leica.c	/^  int64_t width;$/;"	m	struct:dimension	file:
+width_compare	openslide-vendor-generic-tiff.c	/^static int width_compare(gconstpointer a, gconstpointer b) {$/;"	f	file:
+width_compare	openslide-vendor-hamamatsu.c	/^static gint width_compare(gconstpointer a, gconstpointer b) {$/;"	f	file:
+width_compare	openslide-vendor-ventana.c	/^static int width_compare(gconstpointer a, gconstpointer b) {$/;"	f	file:
+write_pixel_rgb	openslide-decode-jp2k.c	/^static void write_pixel_rgb(uint32_t *dest,$/;"	f	file:
+write_pixel_ycbcr	openslide-decode-jp2k.c	/^static void write_pixel_ycbcr(uint32_t *dest,$/;"	f	file:
+x	openslide-cache.c	/^  int64_t x;$/;"	m	struct:_openslide_cache_key	file:
+x	openslide-grid.c	/^  double x;$/;"	m	struct:bounds	file:
+x	openslide-grid.c	/^  double x;$/;"	m	struct:range_tile	file:
+x	openslide-grid.c	/^  double x;$/;"	m	struct:region	file:
+xml_associated_image	openslide-vendor-philips.c	/^struct xml_associated_image {$/;"	s	file:
+xpath	openslide-vendor-philips.c	/^  const char *xpath;  \/\/ static string; do not free$/;"	m	struct:xml_associated_image	file:
+y	openslide-cache.c	/^  int64_t y;$/;"	m	struct:_openslide_cache_key	file:
+y	openslide-grid.c	/^  double y;$/;"	m	struct:bounds	file:
+y	openslide-grid.c	/^  double y;$/;"	m	struct:range_tile	file:
+y	openslide-grid.c	/^  double y;$/;"	m	struct:region	file:
