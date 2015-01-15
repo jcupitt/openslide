@@ -207,8 +207,8 @@ struct add_key_to_strv_data {
 };
 
 static void add_key_to_strv(gpointer key,
-			    gpointer value G_GNUC_UNUSED,
-			    gpointer user_data) {
+          gpointer value G_GNUC_UNUSED,
+          gpointer user_data) {
   struct add_key_to_strv_data *d = user_data;
 
   d->strv[d->i++] = key;
@@ -280,7 +280,7 @@ openslide_t *openslide_open(const char *filename) {
 
     if (osr->levels[i]->downsample < osr->levels[i - 1]->downsample) {
       g_warning("Downsampled images not correctly ordered: %g < %g",
-		osr->levels[i]->downsample, osr->levels[i - 1]->downsample);
+    osr->levels[i]->downsample, osr->levels[i - 1]->downsample);
       openslide_close(osr);
       _openslide_hash_destroy(quickhash1);
       return NULL;
@@ -301,21 +301,21 @@ openslide_t *openslide_open(const char *filename) {
                       g_strdup(OPENSLIDE_PROPERTY_NAME_VENDOR),
                       g_strdup(format->vendor));
   g_hash_table_insert(osr->properties,
-		      g_strdup(_OPENSLIDE_PROPERTY_NAME_LEVEL_COUNT),
-		      g_strdup_printf("%d", osr->level_count));
+          g_strdup(_OPENSLIDE_PROPERTY_NAME_LEVEL_COUNT),
+          g_strdup_printf("%d", osr->level_count));
   bool should_have_geometry = false;  // initialize for gcc 4.4
   for (int32_t i = 0; i < osr->level_count; i++) {
     struct _openslide_level *l = osr->levels[i];
 
     g_hash_table_insert(osr->properties,
-			g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_WIDTH, i),
-			g_strdup_printf("%"PRId64, l->w));
+      g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_WIDTH, i),
+      g_strdup_printf("%"PRId64, l->w));
     g_hash_table_insert(osr->properties,
-			g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_HEIGHT, i),
-			g_strdup_printf("%"PRId64, l->h));
+      g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_HEIGHT, i),
+      g_strdup_printf("%"PRId64, l->h));
     g_hash_table_insert(osr->properties,
-			g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_DOWNSAMPLE, i),
-			_openslide_format_double(l->downsample));
+      g_strdup_printf(_OPENSLIDE_PROPERTY_NAME_TEMPLATE_LEVEL_DOWNSAMPLE, i),
+      _openslide_format_double(l->downsample));
 
     // tile geometry
     bool have_geometry = (l->tile_w > 0 && l->tile_h > 0);
@@ -374,7 +374,7 @@ void openslide_get_level0_dimensions(openslide_t *osr,
 }
 
 void openslide_get_level_dimensions(openslide_t *osr, int32_t level,
-				    int64_t *w, int64_t *h) {
+            int64_t *w, int64_t *h) {
   *w = -1;
   *h = -1;
 
@@ -420,7 +420,7 @@ int32_t openslide_get_layer_count(openslide_t *osr) {
 
 
 int32_t openslide_get_best_level_for_downsample(openslide_t *osr,
-						double downsample) {
+            double downsample) {
   if (openslide_get_error(osr)) {
     return -1;
   }
@@ -442,7 +442,7 @@ int32_t openslide_get_best_level_for_downsample(openslide_t *osr,
 }
 
 int32_t openslide_get_best_layer_for_downsample(openslide_t *osr,
-						double downsample) {
+            double downsample) {
   return openslide_get_best_level_for_downsample(osr, downsample);
 }
 
@@ -461,26 +461,26 @@ double openslide_get_layer_downsample(openslide_t *osr, int32_t level) {
 
 
 int openslide_give_prefetch_hint(openslide_t *osr G_GNUC_UNUSED,
-				 int64_t x G_GNUC_UNUSED,
-				 int64_t y G_GNUC_UNUSED,
-				 int32_t level G_GNUC_UNUSED,
-				 int64_t w G_GNUC_UNUSED,
-				 int64_t h G_GNUC_UNUSED) {
+         int64_t x G_GNUC_UNUSED,
+         int64_t y G_GNUC_UNUSED,
+         int32_t level G_GNUC_UNUSED,
+         int64_t w G_GNUC_UNUSED,
+         int64_t h G_GNUC_UNUSED) {
   g_warning("openslide_give_prefetch_hint has never been implemented and should not be called");
   return 0;
 }
 
 void openslide_cancel_prefetch_hint(openslide_t *osr G_GNUC_UNUSED,
-				    int prefetch_id G_GNUC_UNUSED) {
+            int prefetch_id G_GNUC_UNUSED) {
   g_warning("openslide_cancel_prefetch_hint has never been implemented and should not be called");
 }
 
 static bool read_region(openslide_t *osr,
-			cairo_t *cr,
-			int64_t x, int64_t y,
-			int32_t level,
-			int64_t w, int64_t h,
-			GError **err) {
+      cairo_t *cr,
+      int64_t x, int64_t y,
+      int32_t level,
+      int64_t w, int64_t h,
+      GError **err) {
   bool success = true;
 
   // save the old pattern, it's the only thing push/pop won't restore
@@ -537,6 +537,29 @@ static bool read_region(openslide_t *osr,
   return success;
 }
 
+static bool read_region_vips(openslide_t *osr,
+      VipsImage *image,
+      int x, int y,
+      int level,
+      int w, int h,
+      GError **err) {
+  bool success = true;
+
+  if (level_in_range(osr, level)) {
+    struct _openslide_level *l = osr->levels[level];
+
+    // insert negative cod handling here 
+
+    if (w > 0 && h > 0) {
+      if (osr->ops->paint_region_vips) {
+        success = osr->ops->paint_region_vips(osr, image, x, y, l, w, h, err);
+      }
+    }
+  }
+
+  return success;
+}
+
 static bool ensure_nonnegative_dimensions(openslide_t *osr, int64_t w, int64_t h) {
   if (w < 0 || h < 0) {
     GError *tmp_err = g_error_new(OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
@@ -550,10 +573,10 @@ static bool ensure_nonnegative_dimensions(openslide_t *osr, int64_t w, int64_t h
 }
 
 void openslide_read_region(openslide_t *osr,
-			   uint32_t *dest,
-			   int64_t x, int64_t y,
-			   int32_t level,
-			   int64_t w, int64_t h) {
+         uint32_t *dest,
+         int64_t x, int64_t y,
+         int32_t level,
+         int64_t w, int64_t h) {
   GError *tmp_err = NULL;
 
   if (!ensure_nonnegative_dimensions(osr, w, h)) {
@@ -628,12 +651,75 @@ OUT:
   }
 }
 
+// hard-wire 8-bit RGB for now
+int openslide_get_channel_count(openslide_t *osr) {
+  return 3;
+}
+
+int openslide_get_channel_format(openslide_t *osr) {
+  // ? why not
+  return (int) VIPS_FORMAT_UCHAR;
+}
+
+size_t openslide_get_channel_sizeof(openslide_t *osr) {
+  return 1;
+}
+
+void openslide_read_region_pixels(openslide_t *osr,
+         uint8_t *dest,
+         int x, int y,
+         int level,
+         int w, int h) {
+  GError *tmp_err = NULL;
+  size_t dest_size = w * h * 
+    openslide_get_channel_sizeof(osr) * openslide_get_channel_count(osr);
+
+  if (!ensure_nonnegative_dimensions(osr, w, h)) {
+    return;
+  }
+
+  // clear the dest
+  if (dest) {
+    memset(dest, 0, w * h * dest_size);
+  }
+
+  // now that it's cleared, return if an error occurred
+  if (openslide_get_error(osr)) {
+    return;
+  }
+
+  // wrap a VipsImage around the memory buffer
+  VipsImage *image = NULL;
+
+  if (dest) {
+    image = vips_image_new_from_memory( dest, dest_size, 
+        w, h, 
+        openslide_get_channel_count(osr), 
+        openslide_get_channel_format(osr)); 
+  } 
+
+  read_region_vips(osr, image, sx, sy, level, sw, sh, &tmp_err);
+
+  if (image) {
+    g_object_unref (image);
+  }
+
+OUT:
+  if (tmp_err) {
+    _openslide_propagate_error(osr, tmp_err);
+    if (dest) {
+      // ensure we don't return a partial result
+      memset(dest, 0, w * h * 4);
+    }
+  }
+}
+
 
 void openslide_cairo_read_region(openslide_t *osr,
-				 cairo_t *cr,
-				 int64_t x, int64_t y,
-				 int32_t level,
-				 int64_t w, int64_t h) {
+         cairo_t *cr,
+         int64_t x, int64_t y,
+         int32_t level,
+         int64_t w, int64_t h) {
   GError *tmp_err = NULL;
 
   if (!ensure_nonnegative_dimensions(osr, w, h)) {
@@ -679,7 +765,7 @@ const char * const *openslide_get_associated_image_names(openslide_t *osr) {
 }
 
 void openslide_get_associated_image_dimensions(openslide_t *osr, const char *name,
-					       int64_t *w, int64_t *h) {
+                 int64_t *w, int64_t *h) {
   *w = -1;
   *h = -1;
 
@@ -688,7 +774,7 @@ void openslide_get_associated_image_dimensions(openslide_t *osr, const char *nam
   }
 
   struct _openslide_associated_image *img = g_hash_table_lookup(osr->associated_images,
-								name);
+                name);
   if (img) {
     *w = img->w;
     *h = img->h;
@@ -696,8 +782,8 @@ void openslide_get_associated_image_dimensions(openslide_t *osr, const char *nam
 }
 
 void openslide_read_associated_image(openslide_t *osr,
-				     const char *name,
-				     uint32_t *dest) {
+             const char *name,
+             uint32_t *dest) {
   GError *tmp_err = NULL;
 
   if (openslide_get_error(osr)) {
@@ -705,7 +791,7 @@ void openslide_read_associated_image(openslide_t *osr,
   }
 
   struct _openslide_associated_image *img = g_hash_table_lookup(osr->associated_images,
-								name);
+                name);
   if (img) {
     // this function is documented to do nothing on failure, so we need an
     // extra memcpy

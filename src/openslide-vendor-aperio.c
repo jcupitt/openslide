@@ -271,9 +271,33 @@ static bool paint_region(openslide_t *osr, cairo_t *cr,
   return success;
 }
 
+static bool paint_region_vips(openslide_t *osr, VipsImage *image,
+			 int x, int y,
+			 struct _openslide_level *level,
+			 int w, int h,
+			 GError **err) {
+  struct aperio_ops_data *data = osr->data;
+  struct level *l = (struct level *) level;
+
+  TIFF *tiff = _openslide_tiffcache_get(data->tc, err);
+  if (tiff == NULL) {
+    return false;
+  }
+
+  bool success = _openslide_grid_paint_region_vips(l->grid, image, tiff,
+                                              x / l->base.downsample,
+                                              y / l->base.downsample,
+                                              level, w, h,
+                                              err);
+  _openslide_tiffcache_put(data->tc, tiff);
+
+  return success;
+}
+
 static const struct _openslide_ops aperio_ops = {
   .paint_region = paint_region,
   .destroy = destroy,
+  .paint_region_vips = paint_region_vips,
 };
 
 static bool aperio_detect(const char *filename G_GNUC_UNUSED,

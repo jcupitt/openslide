@@ -178,6 +178,39 @@ void openslide_read_region(openslide_t *osr,
 			   int32_t level,
 			   int64_t w, int64_t h);
 
+OPENSLIDE_PUBLIC()
+int openslide_get_channel_count(openslide_t *osr);
+
+OPENSLIDE_PUBLIC()
+int openslide_get_channel_format(openslide_t *osr);
+
+OPENSLIDE_PUBLIC()
+size_t openslide_get_channel_sizeof(openslide_t *osr);
+
+/**
+ * Copy pixel data from a whole slide image.
+ *
+ * This function reads and decompresses a region of a whole slide
+ * image into the specified memory location. @p dest must be a valid
+ * pointer to enough memory to hold the region, at least (@p w * @p h *
+ * channel_copunt() * byte-depth)
+ * bytes in length. If an error occurs or has occurred, then the memory
+ * pointed to by @p dest will be cleared.
+ *
+ * @param osr The OpenSlide object.
+ * @param dest The destination buffer for the pixel data.
+ * @param x The top left x-coordinate, in the level 0 reference frame.
+ * @param y The top left y-coordinate, in the level 0 reference frame.
+ * @param level The desired level.
+ * @param w The width of the region. Must be non-negative.
+ * @param h The height of the region. Must be non-negative.
+ */
+OPENSLIDE_PUBLIC()
+void openslide_read_region_pixels(openslide_t *osr,
+			   uint8_t *dest,
+			   int x, int y,
+			   int level,
+			   int w, int h);
 
 /**
  * Close an OpenSlide object.

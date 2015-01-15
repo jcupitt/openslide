@@ -12,7 +12,8 @@ ACLOCAL_AMFLAGS=-I m4
 
 lib_LTLIBRARIES = src/libopenslide.la
 
-src_libopenslide_la_LIBADD = $(GLIB2_LIBS) $(CAIRO_LIBS) $(SQLITE3_LIBS) \
+src_libopenslide_la_LIBADD = $(GLIB2_LIBS) $(CAIRO_LIBS) $(VIPS_LIBS) \
+	$(SQLITE3_LIBS) \
 	$(LIBXML2_LIBS) $(OPENJPEG_LIBS) $(LIBTIFF_LIBS) $(LIBPNG_LIBS) \
 	$(GDKPIXBUF_LIBS) $(ZLIB_LIBS)
 
@@ -61,7 +62,7 @@ endif
 	$(AM_V_GEN)$(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --tag=RC --mode=compile $(RC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) -i "$<" -o "$@"
 
 src_libopenslide_la_CPPFLAGS = -pedantic -D_OPENSLIDE_BUILDING_DLL \
-	$(GLIB2_CFLAGS) $(CAIRO_CFLAGS) $(SQLITE3_CFLAGS) $(LIBXML2_CFLAGS) \
+	$(GLIB2_CFLAGS) $(CAIRO_CFLAGS) $(VIPS_CFLAGS) $(SQLITE3_CFLAGS) $(LIBXML2_CFLAGS) \
 	$(OPENJPEG_CFLAGS) $(LIBTIFF_CFLAGS) $(LIBPNG_CFLAGS) \
 	$(GDKPIXBUF_CFLAGS) $(ZLIB_CFLAGS) -DG_LOG_DOMAIN=\"Openslide\" \
 	-I$(top_srcdir)/src
@@ -97,9 +98,9 @@ noinst_SCRIPTS = test/driver
 CLEANFILES += test/driver
 EXTRA_DIST += test/driver.in
 
-test_test_CPPFLAGS = $(GLIB2_CFLAGS) $(CAIRO_CFLAGS) $(VALGRIND_CFLAGS) -I$(top_srcdir)/src
+test_test_CPPFLAGS = $(GLIB2_CFLAGS) $(CAIRO_CFLAGS) $(VIPS_CFLAGS) $(VALGRIND_CFLAGS) -I$(top_srcdir)/src
 # VALGRIND_LIBS not needed
-test_test_LDADD = src/libopenslide.la $(GLIB2_LIBS) $(CAIRO_LIBS)
+test_test_LDADD = src/libopenslide.la $(GLIB2_LIBS) $(CAIRO_LIBS) $(VIPS_LIBS)
 
 test_try_open_SOURCES = test/test-common.c test/try_open.c
 test_try_open_CPPFLAGS = $(GLIB2_CFLAGS) -I$(top_srcdir)/src
@@ -115,8 +116,8 @@ test_extended_SOURCES = test/test-common.c test/extended.c
 test_extended_CPPFLAGS = $(GLIB2_CFLAGS) -I$(top_srcdir)/src
 test_extended_LDADD = src/libopenslide.la $(GLIB2_LIBS)
 
-test_mosaic_CPPFLAGS = $(GLIB2_CFLAGS) $(CAIRO_CFLAGS) -I$(top_srcdir)/src
-test_mosaic_LDADD = src/libopenslide.la $(GLIB2_LIBS) $(CAIRO_LIBS)
+test_mosaic_CPPFLAGS = $(GLIB2_CFLAGS) $(CAIRO_CFLAGS) $(VIPS_CFLAGS) -I$(top_srcdir)/src
+test_mosaic_LDADD = src/libopenslide.la $(GLIB2_LIBS) $(CAIRO_LIBS) $(VIPS_LIBS)
 
 if CYGWIN_CROSS_TEST
 noinst_PROGRAMS += test/symlink

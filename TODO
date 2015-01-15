@@ -1,3 +1,8 @@
+working on simple_paint_region_vips() in openslide-grid.c
+
+
+
+
 make aperio use vips instead of cairo 
 
 	openslide-vendor-aperio.c
@@ -32,7 +37,16 @@ maybe remove other vendor readers to make build simpler
 
 add a new path for vips, or change the exisiting cairo path?
 
+
+
+
+
 lets's add a new path, it'll mean we can build sooner
+
+to avoid a circular dependency between openslide and vips, move the
+openslideload class into openslide ... add during openslide init, call
+openslide init from vips, things using openslide will then get openslideload 
+added to their vips
 
 where does the path go? openslide2vips() calls:
 
@@ -62,15 +76,21 @@ where does the path go? openslide2vips() calls:
 
 		reads ARGB to buf ... always reads entire image
 
-we need two new calls:
+we need one new call:
 
-	openslide_read_region_vips( openslide_t *osr, uint8_t *buf,
+	openslide_read_region_pixels( openslide_t *osr, uint8_t *buf,
 		int left, int top, int level, int width, int height );
-	openslide_read_associated_image_vips( openslide_t *osr, 
-		const char *name, uint8_t *buf );
 
 		add stuff to support any number of bands and variable bit
 		depth later ... fix the names as well
+
+		need openslide_get_channel_count(),
+		openslide_get_channel_format() ... add later
+
+		add openslide_read_associated_image_pixels() later
+
+Current structure
+-----------------
 
 openslide_read_region(), src/openslide.c, calls:
 

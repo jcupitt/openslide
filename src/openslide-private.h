@@ -93,6 +93,11 @@ struct _openslide_ops {
 		       int32_t w, int32_t h,
 		       GError **err);
   void (*destroy)(openslide_t *osr);
+  bool (*paint_region_vips)(openslide_t *osr, VipsImage *image,
+		       int x, int y,
+		       struct _openslide_level *level,
+		       int w, int h,
+		       GError **err);
 };
 
 struct _openslide_tifflike;
@@ -239,6 +244,14 @@ bool _openslide_grid_paint_region(struct _openslide_grid *grid,
                                   double x, double y,
                                   struct _openslide_level *level,
                                   int32_t w, int32_t h,
+                                  GError **err);
+
+bool _openslide_grid_paint_region_vips(struct _openslide_grid *grid,
+                                  VipsImage *image, 
+                                  void *arg,
+                                  double x, double y,
+                                  struct _openslide_level *level,
+                                  int w, int h,
                                   GError **err);
 
 void _openslide_grid_draw_tile_info(cairo_t *cr, const char *fmt, ...) G_GNUC_PRINTF(2, 3);

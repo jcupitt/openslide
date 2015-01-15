@@ -62,6 +62,12 @@ struct grid_ops {
                        int32_t w, int32_t h,
                        GError **err);
   void (*destroy)(struct _openslide_grid *grid);
+  bool (*paint_region_vips)(struct _openslide_grid *grid,
+                       VipsImage *image, void *arg,
+                       double x, double y,
+                       struct _openslide_level *level,
+                       int w, int h,
+                       GError **err);
 };
 
 typedef bool (*read_tiles_callback_fn)(struct _openslide_grid *grid,
@@ -337,6 +343,53 @@ static bool simple_paint_region(struct _openslide_grid *_grid,
   return result;
 }
 
+static bool simple_paint_region_vips(struct _openslide_grid *_grid,
+                                VipsImage *image,
+                                void *arg,
+                                double x, double y,
+                                struct _openslide_level *level,
+                                int w, int h,
+                                GError **err) {
+  struct simple_grid *grid = (struct simple_grid *) _grid;
+  struct region region;
+
+  compute_region(_grid, x, y, w, h, &region);
+
+  // check if completely outside grid
+  if (region.end_tile_x <= 0 ||
+      region.end_tile_y <= 0 ||
+      region.start_tile_x > grid->tiles_across - 1 ||
+      region.start_tile_y > grid->tiles_down - 1) {
+    return true;
+  }
+
+  // save
+  cairo_matrix_t matrix;
+  cairo_get_matrix(cr, &matrix);
+
+  // bound on left/top
+  int64_t skipped_tiles_x = -MIN(region.start_tile_x, 0);
+  int64_t skipped_tiles_y = -MIN(region.start_tile_y, 0);
+  cairo_translate(cr,
+                  skipped_tiles_x * grid->base.tile_advance_x,
+                  skipped_tiles_y * grid->base.tile_advance_y);
+  region.start_tile_x += skipped_tiles_x;
+  region.start_tile_y += skipped_tiles_y;
+
+  // bound on right/bottom
+  region.end_tile_x = MIN(region.end_tile_x, grid->tiles_across);
+  region.end_tile_y = MIN(region.end_tile_y, grid->tiles_down);
+
+  // read
+  bool result = read_tiles(cr, level, _grid, &region,
+                           simple_read_tile, arg, err);
+
+  // restore
+  cairo_set_matrix(cr, &matrix);
+
+  return result;
+}
+
 static void simple_destroy(struct _openslide_grid *_grid) {
   struct simple_grid *grid = (struct simple_grid *) _grid;
 
@@ -347,6 +400,7 @@ const struct grid_ops simple_grid_ops = {
   .get_bounds = simple_get_bounds,
   .paint_region = simple_paint_region,
   .destroy = simple_destroy,
+  .paint_region_vips = simple_paint_region_vips,
 };
 
 struct _openslide_grid *_openslide_grid_create_simple(openslide_t *osr,
@@ -887,6 +941,20 @@ bool _openslide_grid_paint_region(struct _openslide_grid *grid,
                                   int32_t w, int32_t h,
                                   GError **err) {
   return grid->ops->paint_region(grid, cr, arg, x, y, level, w, h, err);
+}
+
+bool _openslide_grid_paint_region_vips(struct _openslide_grid *grid,
+                                  VipsImage *image,
+                                  void *arg,
+                                  double x, double y,
+                                  struct _openslide_level *level,
+                                  int w, int h,
+                                  GError **err) {
+  if (grid->ops->paint_region_vips) {
+    return grid->ops->paint_region_vips(grid, image, arg, x, y, level, w, h, err);
+  } else {
+    return FALSE;
+  }
 }
 
 void _openslide_grid_destroy(struct _openslide_grid *grid) {
