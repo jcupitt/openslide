@@ -1,3 +1,78 @@
+- we could use VipsRegion, but we'd only be able to do translate and crop ...
+  it wouldn't be possible to do sub-pixel stuff, rotation, blending etc etc
+
+- really we need to be able to run a pipeline to render to a bit of an image
+
+options:
+
+- add a stride param to vips_image_new_from_memory()
+
+	we could make an image which, when written to, would paint into a
+	sub-area of the host memory block
+
+	but images don't really work like this :-( we can't create a certain
+	width/height and paint to it
+
+- put vips_prepare_threads() back
+
+	we used to have something which could paint to a region with a lot of
+	threads ... use it like this:
+
+		load tile from tiff into mem buffer
+
+		wrap image around it
+
+		use vips_affine() or whatever to scale and rotate, get a
+		partial out called @t2
+
+		wrap an image around the input buffer, called @in
+
+		extract the target area of the input image to @t1
+
+		blend @t1 and @t2 to make @t3
+
+		create a region on the target area of @in called @r1
+
+		vips_prepare_threads() @t3 into @r1
+
+	that looks rather inefficient ... the vips tiff reader will do this
+	zero-copy
+
+	we'll also spin up a threadgroup for each tile, which sounds very 
+	slow
+
+	I suppose we could spot the case when there's no rotation and just
+	paint the pixels in with no blending
+
+	how about
+
+		wrap an image around the input buffer, called @in 
+
+		track the coordinate of the top-left corner, of course
+
+		for each tile
+
+			if the tile position and size exactly match @in, read
+			directly into the image
+
+			otherwise, read to a temporary mem buffer, render into
+			the main image etc etc. 
+
+
+
+
+
+
+	kkk
+
+
+
+  we have to be able to set the scanline stride
+
+
+
+
+
 working on simple_paint_region_vips() in openslide-grid.c
 
 
