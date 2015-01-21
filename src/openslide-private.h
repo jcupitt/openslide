@@ -33,6 +33,7 @@
 #include <inttypes.h>
 
 #include <cairo.h>
+#include <vips/vips.h>
 
 /* the associated image structure */
 struct _openslide_associated_image {

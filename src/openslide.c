@@ -680,7 +680,7 @@ void openslide_read_region_pixels(openslide_t *osr,
 
   // clear the dest
   if (dest) {
-    memset(dest, 0, w * h * dest_size);
+    memset(dest, 0, dest_size);
   }
 
   // now that it's cleared, return if an error occurred
@@ -698,18 +698,17 @@ void openslide_read_region_pixels(openslide_t *osr,
         openslide_get_channel_format(osr)); 
   } 
 
-  read_region_vips(osr, image, sx, sy, level, sw, sh, &tmp_err);
+  read_region_vips(osr, image, x, y, level, w, h, &tmp_err);
 
   if (image) {
     g_object_unref (image);
   }
 
-OUT:
   if (tmp_err) {
     _openslide_propagate_error(osr, tmp_err);
     if (dest) {
       // ensure we don't return a partial result
-      memset(dest, 0, w * h * 4);
+      memset(dest, 0, dest_size);
     }
   }
 }
