@@ -269,16 +269,10 @@ static bool read_tiles_vips(VipsImage *image,
   }
 
   int64_t tile_y = region->end_tile_y - 1;
-
   while (tile_y >= region->start_tile_y) {
-    double translate_y = ((tile_y - region->start_tile_y) *
-                          grid->tile_advance_y) - region->offset_y;
     int64_t tile_x = region->end_tile_x - 1;
 
     while (tile_x >= region->start_tile_x) {
-      double translate_x = ((tile_x - region->start_tile_x) *
-                            grid->tile_advance_x) - region->offset_x;
-
       bool success = callback(grid, region, image,
                               level, tile_x, tile_y,
                               arg, err);
@@ -425,19 +419,19 @@ static bool simple_paint_region_vips(struct _openslide_grid *_grid,
   struct region region;
 
   // clip requested rect against image size
-  VipsRect image;
-  VipsRect request;
+  VipsRect image_rect;
+  VipsRect request_rect;
   VipsRect clip;
 
-  image.left = 0;
-  image.top = 0;
-  image.width = grid->tiles_across * grid->base.tile_advance_x;
-  image.height = grid->tiles_down * grid->base.tile_advance_y;
-  request.left = x;
-  request.top = y;
-  request.width = w;
-  request.height = h;
-  vips_rect_intersectrect( &image, &request, &clip );
+  image_rect.left = 0;
+  image_rect.top = 0;
+  image_rect.width = grid->tiles_across * grid->base.tile_advance_x;
+  image_rect.height = grid->tiles_down * grid->base.tile_advance_y;
+  request_rect.left = x;
+  request_rect.top = y;
+  request_rect.width = w;
+  request_rect.height = h;
+  vips_rect_intersectrect( &image_rect, &request_rect, &clip );
 
   compute_region(_grid, clip.left, clip.top, clip.width, clip.height, &region);
 

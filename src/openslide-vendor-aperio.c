@@ -248,6 +248,9 @@ static bool read_tile(openslide_t *osr,
   return true;
 }
 
+int vips__draw_image_direct( VipsImage *image, VipsImage *sub,
+	int sub_x, int sub_y, VipsCombineMode mode );
+
 static bool read_tile_vips(openslide_t *osr,
 		      VipsImage *image,
 		      struct _openslide_level *level,
@@ -292,7 +295,7 @@ static bool read_tile_vips(openslide_t *osr,
         tw, th,
         openslide_get_channel_count(osr), 
         openslide_get_channel_format(osr)); 
-  int result = vips_image_draw_direct(image, sub, 
+  int result = vips__draw_image_direct(image, sub, 
 	tile_col * tw, tile_row * th, VIPS_COMBINE_MODE_SET);
   g_object_unref(sub);
   if (result)

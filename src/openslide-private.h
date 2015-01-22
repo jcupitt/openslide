@@ -187,6 +187,13 @@ typedef bool (*_openslide_grid_simple_read_fn)(openslide_t *osr,
                                                void *arg,
                                                GError **err);
 
+typedef bool (*_openslide_grid_simple_read_vips_fn)(openslide_t *osr,
+                                               VipsImage *image,
+                                               struct _openslide_level *level,
+                                               int64_t tile_col, int64_t tile_row,
+                                               void *arg,
+                                               GError **err);
+
 typedef bool (*_openslide_grid_tilemap_read_fn)(openslide_t *osr,
                                                 cairo_t *cr,
                                                 struct _openslide_level *level,
