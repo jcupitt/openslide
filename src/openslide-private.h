@@ -210,6 +210,13 @@ struct _openslide_grid *_openslide_grid_create_simple(openslide_t *osr,
                                                       int32_t tile_h,
                                                       _openslide_grid_simple_read_fn read_tile);
 
+struct _openslide_grid *_openslide_grid_create_simple_vips(openslide_t *osr,
+                                                      int64_t tiles_across,
+                                                      int64_t tiles_down,
+                                                      int32_t tile_w,
+                                                      int32_t tile_h,
+                                                      _openslide_grid_simple_read_vips_fn read_tile_vips);
+
 struct _openslide_grid *_openslide_grid_create_tilemap(openslide_t *osr,
                                                        double tile_advance_x,
                                                        double tile_advance_y,

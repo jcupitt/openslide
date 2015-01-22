@@ -248,6 +248,62 @@ static bool read_tile(openslide_t *osr,
   return true;
 }
 
+static bool read_tile_vips(openslide_t *osr,
+		      VipsImage *image,
+		      struct _openslide_level *level,
+		      int64_t tile_col, int64_t tile_row,
+		      void *arg,
+		      GError **err) {
+  printf( "aperio: read_tile_vips: tile_col = %ld, tile_row = %ld\n",
+    tile_col, tile_row ); 
+
+  struct level *l = (struct level *) level;
+  struct _openslide_tiff_level *tiffl = &l->tiffl;
+  TIFF *tiff = arg;
+
+  // tile size
+  int64_t tw = tiffl->tile_w;
+  int64_t th = tiffl->tile_h;
+  size_t sizeof_tile = tw * th * VIPS_IMAGE_SIZEOF_PEL( image );
+
+  // cache
+  struct _openslide_cache_entry *cache_entry;
+  uint32_t *tiledata = _openslide_cache_get(osr->cache,
+                                            level, tile_col, tile_row,
+                                            &cache_entry);
+  if (!tiledata) {
+    tiledata = g_slice_alloc(sizeof_tile);
+    if (!decode_tile(l, tiff, tiledata, tile_col, tile_row, err)) {
+      g_slice_free1(sizeof_tile, tiledata);
+      return false;
+    }
+
+    // clip, if necessary? not sure about this, why not read and store the
+    // whole tile in cache, then clip when we paint to the output?
+
+    // put it in the cache
+    _openslide_cache_put(osr->cache, level, tile_col, tile_row,
+			 tiledata, sizeof_tile,
+			 &cache_entry);
+  }
+
+  // draw it
+  VipsImage *sub = vips_image_new_from_memory(tiledata, sizeof_tile, 
+        tw, th,
+        openslide_get_channel_count(osr), 
+        openslide_get_channel_format(osr)); 
+  int result = vips_image_draw_direct(image, sub, 
+	tile_col * tw, tile_row * th, VIPS_COMBINE_MODE_SET);
+  g_object_unref(sub);
+  if (result)
+	  return false;
+
+  // done with the cache entry, release it
+  _openslide_cache_entry_unref(cache_entry);
+
+  return true;
+}
+
 static bool paint_region(openslide_t *osr, cairo_t *cr,
 			 int64_t x, int64_t y,
 			 struct _openslide_level *level,
@@ -553,12 +609,12 @@ static bool aperio_open(openslide_t *osr,
         goto FAIL;
       }
 
-      l->grid = _openslide_grid_create_simple(osr,
+      l->grid = _openslide_grid_create_simple_vips(osr,
                                               tiffl->tiles_across,
                                               tiffl->tiles_down,
                                               tiffl->tile_w,
                                               tiffl->tile_h,
-                                              read_tile);
+                                              read_tile_vips);
 
       // get compression
       if (!TIFFGetField(tiff, TIFFTAG_COMPRESSION, &l->compression)) {

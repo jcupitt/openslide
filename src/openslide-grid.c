@@ -78,6 +78,14 @@ typedef bool (*read_tiles_callback_fn)(struct _openslide_grid *grid,
                                        void *arg,
                                        GError **err);
 
+typedef bool (*read_tiles_vips_callback_fn)(struct _openslide_grid *grid,
+                                       struct region *region,
+                                       VipsImage *image,
+                                       struct _openslide_level *level,
+                                       int64_t tile_col, int64_t tile_row,
+                                       void *arg,
+                                       GError **err);
+
 struct _openslide_grid {
   openslide_t *osr;
   const struct grid_ops *ops;
@@ -92,6 +100,7 @@ struct simple_grid {
   int64_t tiles_across;
   int64_t tiles_down;
   _openslide_grid_simple_read_fn read_tile;
+  _openslide_grid_simple_read_vips_fn read_tile_vips;
 };
 
 struct tilemap_grid {
@@ -240,6 +249,52 @@ static bool read_tiles(cairo_t *cr,
   return true;
 }
 
+static bool read_tiles_vips(VipsImage *image,
+                       struct _openslide_level *level,
+                       struct _openslide_grid *grid,
+                       struct region *region,
+                       read_tiles_vips_callback_fn callback,
+                       void *arg,
+                       GError **err) {
+  //g_debug("offset: %g %g, advance: %g %g", region->offset_x, region->offset_y, grid->tile_advance_x, grid->tile_advance_y);
+  if (fabs(region->offset_x) >= grid->tile_advance_x) {
+    g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
+                "internal error: fabs(offset_x) >= tile_advance_x");
+    return false;
+  }
+  if (fabs(region->offset_y) >= grid->tile_advance_y) {
+    g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
+                "internal error: fabs(offset_y) >= tile_advance_y");
+    return false;
+  }
+
+  int64_t tile_y = region->end_tile_y - 1;
+
+  while (tile_y >= region->start_tile_y) {
+    double translate_y = ((tile_y - region->start_tile_y) *
+                          grid->tile_advance_y) - region->offset_y;
+    int64_t tile_x = region->end_tile_x - 1;
+
+    while (tile_x >= region->start_tile_x) {
+      double translate_x = ((tile_x - region->start_tile_x) *
+                            grid->tile_advance_x) - region->offset_x;
+
+      bool success = callback(grid, region, image,
+                              level, tile_x, tile_y,
+                              arg, err);
+      if (!success) {
+        return false;
+      }
+
+      tile_x--;
+    }
+
+    tile_y--;
+  }
+
+  return true;
+}
+
 static void label_tile(cairo_t *cr,
                        double r, double g, double b, double a,
                        double w, double h,
@@ -292,6 +347,22 @@ static bool simple_read_tile(struct _openslide_grid *_grid,
                grid->base.tile_advance_x, grid->base.tile_advance_y,
                coordinates);
     g_free(coordinates);
+  }
+  return true;
+}
+
+static bool simple_read_tile_vips(struct _openslide_grid *_grid,
+                             struct region *region G_GNUC_UNUSED,
+                             VipsImage *image,
+                             struct _openslide_level *level,
+                             int64_t tile_col, int64_t tile_row,
+                             void *arg,
+                             GError **err) {
+  struct simple_grid *grid = (struct simple_grid *) _grid;
+
+  if (!grid->read_tile_vips(grid->base.osr, image, level,
+                       tile_col, tile_row, arg, err)) {
+    return false;
   }
   return true;
 }
@@ -353,7 +424,22 @@ static bool simple_paint_region_vips(struct _openslide_grid *_grid,
   struct simple_grid *grid = (struct simple_grid *) _grid;
   struct region region;
 
-  compute_region(_grid, x, y, w, h, &region);
+  // clip requested rect against image size
+  VipsRect image;
+  VipsRect request;
+  VipsRect clip;
+
+  image.left = 0;
+  image.top = 0;
+  image.width = grid->tiles_across * grid->base.tile_advance_x;
+  image.height = grid->tiles_down * grid->base.tile_advance_y;
+  request.left = x;
+  request.top = y;
+  request.width = w;
+  request.height = h;
+  vips_rect_intersectrect( &image, &request, &clip );
+
+  compute_region(_grid, clip.left, clip.top, clip.width, clip.height, &region);
 
   // check if completely outside grid
   if (region.end_tile_x <= 0 ||
@@ -363,29 +449,9 @@ static bool simple_paint_region_vips(struct _openslide_grid *_grid,
     return true;
   }
 
-  // save
-  cairo_matrix_t matrix;
-  cairo_get_matrix(cr, &matrix);
-
-  // bound on left/top
-  int64_t skipped_tiles_x = -MIN(region.start_tile_x, 0);
-  int64_t skipped_tiles_y = -MIN(region.start_tile_y, 0);
-  cairo_translate(cr,
-                  skipped_tiles_x * grid->base.tile_advance_x,
-                  skipped_tiles_y * grid->base.tile_advance_y);
-  region.start_tile_x += skipped_tiles_x;
-  region.start_tile_y += skipped_tiles_y;
-
-  // bound on right/bottom
-  region.end_tile_x = MIN(region.end_tile_x, grid->tiles_across);
-  region.end_tile_y = MIN(region.end_tile_y, grid->tiles_down);
-
   // read
-  bool result = read_tiles(cr, level, _grid, &region,
-                           simple_read_tile, arg, err);
-
-  // restore
-  cairo_set_matrix(cr, &matrix);
+  bool result = read_tiles_vips(image, level, _grid, &region,
+                           simple_read_tile_vips, arg, err);
 
   return result;
 }
@@ -417,6 +483,23 @@ struct _openslide_grid *_openslide_grid_create_simple(openslide_t *osr,
   grid->tiles_across = tiles_across;
   grid->tiles_down = tiles_down;
   grid->read_tile = read_tile;
+  return (struct _openslide_grid *) grid;
+}
+
+struct _openslide_grid *_openslide_grid_create_simple_vips(openslide_t *osr,
+                                                      int64_t tiles_across,
+                                                      int64_t tiles_down,
+                                                      int32_t tile_w,
+                                                      int32_t tile_h,
+                                                      _openslide_grid_simple_read_vips_fn read_tile_vips) {
+  struct simple_grid *grid = g_slice_new0(struct simple_grid);
+  grid->base.osr = osr;
+  grid->base.ops = &simple_grid_ops;
+  grid->base.tile_advance_x = tile_w;
+  grid->base.tile_advance_y = tile_h;
+  grid->tiles_across = tiles_across;
+  grid->tiles_down = tiles_down;
+  grid->read_tile_vips = read_tile_vips;
   return (struct _openslide_grid *) grid;
 }
 
