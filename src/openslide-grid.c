@@ -425,8 +425,8 @@ static bool simple_paint_region_vips(struct _openslide_grid *_grid,
 
   image_rect.left = 0;
   image_rect.top = 0;
-  image_rect.width = grid->tiles_across * grid->base.tile_advance_x;
-  image_rect.height = grid->tiles_down * grid->base.tile_advance_y;
+  image_rect.width = grid->base.osr->levels[0]->w;
+  image_rect.height = grid->base.osr->levels[0]->h;
   request_rect.left = x;
   request_rect.top = y;
   request_rect.width = w;

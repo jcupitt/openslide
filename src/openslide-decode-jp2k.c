@@ -133,6 +133,8 @@ bool _openslide_jp2k_decode_buffer(uint32_t *dest,
                                    void *data, int32_t datalen,
                                    enum _openslide_jp2k_colorspace space,
                                    GError **err) {
+  printf( "_openslide_jp2k_decode_buffer:\n" ); 
+
   opj_image_t *image = NULL;
   GError *tmp_err = NULL;
   bool success = false;

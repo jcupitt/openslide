@@ -207,7 +207,7 @@ size_t openslide_get_channel_sizeof(openslide_t *osr);
  * @param h The height of the region. Must be non-negative.
  */
 OPENSLIDE_PUBLIC()
-void openslide_read_region_pixels(openslide_t *osr,
+void openslide_read_region_vips(openslide_t *osr,
 			   uint8_t *dest,
 			   int x, int y,
 			   int level,
