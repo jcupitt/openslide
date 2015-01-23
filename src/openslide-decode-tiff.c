@@ -269,10 +269,13 @@ bool _openslide_tiff_read_tile(struct _openslide_tiff_level *tiffl,
                                uint32_t *dest,
                                int64_t tile_col, int64_t tile_row,
                                GError **err) {
+  printf( "_openslide_tiff_read_tile:\n" ); 
+
   // set directory
   SET_DIR_OR_FAIL(tiff, tiffl->dir);
 
   if (tiffl->tile_read_direct) {
+    printf( "_openslide_tiff_read_tile: fast path\n" ); 
     // Fast path: read raw data, decode through libjpeg
     // Reading through tiff_read_region() reformats pixel data in three
     // passes: libjpeg converts from planar to R G B, libtiff converts
@@ -309,6 +312,7 @@ bool _openslide_tiff_read_tile(struct _openslide_tiff_level *tiffl,
     return ret;
   } else {
     // Fallback: read tile through libtiff
+    printf( "_openslide_tiff_read_tile: read via libtiff\n" ); 
     return tiff_read_region(tiff, dest,
                             tile_col * tiffl->tile_w, tile_row * tiffl->tile_h,
                             tiffl->tile_w, tiffl->tile_h, err);
@@ -320,6 +324,8 @@ bool _openslide_tiff_read_tile_data(struct _openslide_tiff_level *tiffl,
                                     void **_buf, int32_t *_len,
                                     int64_t tile_col, int64_t tile_row,
                                     GError **err) {
+  printf( "_openslide_tiff_read_tile_data:\n" ); 
+
   // set directory
   SET_DIR_OR_FAIL(tiff, tiffl->dir);
 
