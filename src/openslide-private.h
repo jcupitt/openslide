@@ -189,6 +189,8 @@ typedef bool (*_openslide_grid_simple_read_fn)(openslide_t *osr,
 
 typedef bool (*_openslide_grid_simple_read_vips_fn)(openslide_t *osr,
                                                VipsImage *image,
+					       double image_x,
+					       double image_y,
                                                struct _openslide_level *level,
                                                int64_t tile_col, int64_t tile_row,
                                                void *arg,

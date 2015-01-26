@@ -326,7 +326,7 @@ bool _openslide_tiff_read_tile_data(struct _openslide_tiff_level *tiffl,
                                     void **_buf, int32_t *_len,
                                     int64_t tile_col, int64_t tile_row,
                                     GError **err) {
-  printf( "_openslide_tiff_read_tile_data:\n" ); 
+  printf( "_openslide_tiff_read_tile_data: %d x %d\n", tile_col, tile_row ); 
 
   // set directory
   SET_DIR_OR_FAIL(tiff, tiffl->dir);
@@ -350,6 +350,7 @@ bool _openslide_tiff_read_tile_data(struct _openslide_tiff_level *tiffl,
 
   // get raw tile
   tdata_t buf = g_malloc(tile_size);
+  printf( "_openslide_tiff_read_tile_data: reading tile %d\n", tile_no ); 
   tsize_t size = TIFFReadRawTile(tiff, tile_no, buf, tile_size);
   if (size == -1) {
     g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,

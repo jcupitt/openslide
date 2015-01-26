@@ -354,7 +354,8 @@ static bool simple_read_tile_vips(struct _openslide_grid *_grid,
                              GError **err) {
   struct simple_grid *grid = (struct simple_grid *) _grid;
 
-  if (!grid->read_tile_vips(grid->base.osr, image, level,
+  if (!grid->read_tile_vips(grid->base.osr, image, region->x, region->y,
+			  level,
                        tile_col, tile_row, arg, err)) {
     return false;
   }

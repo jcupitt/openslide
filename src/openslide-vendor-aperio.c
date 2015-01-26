@@ -253,6 +253,8 @@ int vips__draw_image_direct( VipsImage *image, VipsImage *sub,
 
 static bool read_tile_vips(openslide_t *osr,
 		      VipsImage *image,
+		      double image_x,
+		      double image_y,
 		      struct _openslide_level *level,
 		      int64_t tile_col, int64_t tile_row,
 		      void *arg,
@@ -277,6 +279,7 @@ static bool read_tile_vips(openslide_t *osr,
   if (!tiledata) {
     tiledata = g_slice_alloc(sizeof_tile);
     if (!decode_tile(l, tiff, tiledata, tile_col, tile_row, err)) {
+	    printf( "vips__draw_image_direct: decode failed!!\n" ); 
       g_slice_free1(sizeof_tile, tiledata);
       return false;
     }
@@ -290,13 +293,16 @@ static bool read_tile_vips(openslide_t *osr,
 			 &cache_entry);
   }
 
+  printf( "vips__draw_image_direct: about to paint to image\n" ); 
+
   // draw it
   VipsImage *sub = vips_image_new_from_memory(tiledata, sizeof_tile, 
         tw, th,
         openslide_get_channel_count(osr), 
         openslide_get_channel_format(osr)); 
   int result = vips__draw_image_direct(image, sub, 
-	tile_col * tw, tile_row * th, VIPS_COMBINE_MODE_SET);
+	tile_col * tw - image_x, tile_row * th - image_y, 
+	VIPS_COMBINE_MODE_SET);
   g_object_unref(sub);
   if (result)
 	  return false;
