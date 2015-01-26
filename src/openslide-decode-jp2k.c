@@ -1,7 +1,7 @@
 /*
  *  OpenSlide, a library for reading whole slide image files
  *
- *  Copyright (c) 2007-2014 Carnegie Mellon University
+ *  Copyright (c) 2007-2015 Carnegie Mellon University
  *  Copyright (c) 2011 Google, Inc.
  *  All rights reserved.
  *
@@ -33,11 +33,12 @@ struct read_callback_params {
   int32_t datalen;
 };
 
-static void write_pixel_ycbcr(uint32_t *dest,
-                              uint8_t c0, uint8_t c1, uint8_t c2) {
-  int16_t R = c0 + _openslide_R_Cr[c2];
-  int16_t G = c0 + _openslide_G_CbCr[c1][c2];
-  int16_t B = c0 + _openslide_B_Cb[c1];
+static inline void write_pixel_ycbcr(uint32_t *dest, uint8_t Y,
+                                     int16_t R_chroma, int16_t G_chroma,
+                                     int16_t B_chroma) {
+  int16_t R = Y + R_chroma;
+  int16_t G = Y + G_chroma;
+  int16_t B = Y + B_chroma;
 
   R = CLAMP(R, 0, 255);
   G = CLAMP(G, 0, 255);
@@ -46,17 +47,15 @@ static void write_pixel_ycbcr(uint32_t *dest,
   *dest = 0xff000000 | ((uint8_t) R << 16) | ((uint8_t) G << 8) | ((uint8_t) B);
 }
 
-static void write_pixel_rgb(uint32_t *dest,
-                            uint8_t c0, uint8_t c1, uint8_t c2) {
-  *dest = 0xff000000 | c0 << 16 | c1 << 8 | c2;
+static inline void write_pixel_rgb(uint32_t *dest,
+                                   uint8_t R, uint8_t G, uint8_t B) {
+  *dest = 0xff000000 | R << 16 | G << 8 | B;
 }
 
 static void unpack_argb(enum _openslide_jp2k_colorspace space,
                         opj_image_comp_t *comps,
                         uint32_t *dest,
                         int32_t w, int32_t h) {
-  // TODO: too slow, and with duplicated code!
-
   int c0_sub_x = w / comps[0].w;
   int c1_sub_x = w / comps[1].w;
   int c2_sub_x = w / comps[2].w;
@@ -64,35 +63,85 @@ static void unpack_argb(enum _openslide_jp2k_colorspace space,
   int c1_sub_y = h / comps[1].h;
   int c2_sub_y = h / comps[2].h;
 
-  int64_t i = 0;
+  //g_debug("color space %d, subsamples x %d-%d-%d y %d-%d-%d", space, c0_sub_x, c1_sub_x, c2_sub_x, c0_sub_y, c1_sub_y, c2_sub_y);
 
-  switch (space) {
-  case OPENSLIDE_JP2K_YCBCR:
+  if (space == OPENSLIDE_JP2K_YCBCR &&
+      c0_sub_x == 1 && c1_sub_x == 2 && c2_sub_x == 2 &&
+      c0_sub_y == 1 && c1_sub_y == 1 && c2_sub_y == 1) {
+    // Aperio 33003
     for (int32_t y = 0; y < h; y++) {
-      for (int32_t x = 0; x < w; x++) {
-        uint8_t c0 = comps[0].data[(y / c0_sub_y) * comps[0].w + (x / c0_sub_x)];
-        uint8_t c1 = comps[1].data[(y / c1_sub_y) * comps[1].w + (x / c1_sub_x)];
-        uint8_t c2 = comps[2].data[(y / c2_sub_y) * comps[2].w + (x / c2_sub_x)];
-
-        write_pixel_ycbcr(dest + i, c0, c1, c2);
-        i++;
+      int32_t c0_row_base = y * comps[0].w;
+      int32_t c1_row_base = y * comps[1].w;
+      int32_t c2_row_base = y * comps[2].w;
+      int32_t x;
+      for (x = 0; x < w - 1; x += 2) {
+        uint8_t c0 = comps[0].data[c0_row_base + x];
+        uint8_t c1 = comps[1].data[c1_row_base + (x / 2)];
+        uint8_t c2 = comps[2].data[c2_row_base + (x / 2)];
+        int16_t R_chroma = _openslide_R_Cr[c2];
+        int16_t G_chroma = (_openslide_G_Cb[c1] + _openslide_G_Cr[c2]) >> 16;
+        int16_t B_chroma = _openslide_B_Cb[c1];
+        write_pixel_ycbcr(dest++, c0, R_chroma, G_chroma, B_chroma);
+        c0 = comps[0].data[c0_row_base + x + 1];
+        write_pixel_ycbcr(dest++, c0, R_chroma, G_chroma, B_chroma);
+      }
+      if (x < w) {
+        uint8_t c0 = comps[0].data[c0_row_base + x];
+        uint8_t c1 = comps[1].data[c1_row_base + (x / 2)];
+        uint8_t c2 = comps[2].data[c2_row_base + (x / 2)];
+        int16_t R_chroma = _openslide_R_Cr[c2];
+        int16_t G_chroma = (_openslide_G_Cb[c1] + _openslide_G_Cr[c2]) >> 16;
+        int16_t B_chroma = _openslide_B_Cb[c1];
+        write_pixel_ycbcr(dest++, c0, R_chroma, G_chroma, B_chroma);
       }
     }
 
-    break;
-
-  case OPENSLIDE_JP2K_RGB:
+  } else if (space == OPENSLIDE_JP2K_YCBCR) {
+    // Slow fallback
     for (int32_t y = 0; y < h; y++) {
+      int32_t c0_row_base = (y / c0_sub_y) * comps[0].w;
+      int32_t c1_row_base = (y / c1_sub_y) * comps[1].w;
+      int32_t c2_row_base = (y / c2_sub_y) * comps[2].w;
       for (int32_t x = 0; x < w; x++) {
-        uint8_t c0 = comps[0].data[(y / c0_sub_y) * comps[0].w + (x / c0_sub_x)];
-        uint8_t c1 = comps[1].data[(y / c1_sub_y) * comps[1].w + (x / c1_sub_x)];
-        uint8_t c2 = comps[2].data[(y / c2_sub_y) * comps[2].w + (x / c2_sub_x)];
-
-        write_pixel_rgb(dest + i, c0, c1, c2);
-        i++;
+        uint8_t c0 = comps[0].data[c0_row_base + (x / c0_sub_x)];
+        uint8_t c1 = comps[1].data[c1_row_base + (x / c1_sub_x)];
+        uint8_t c2 = comps[2].data[c2_row_base + (x / c2_sub_x)];
+        int16_t R_chroma = _openslide_R_Cr[c2];
+        int16_t G_chroma = (_openslide_G_Cb[c1] + _openslide_G_Cr[c2]) >> 16;
+        int16_t B_chroma = _openslide_B_Cb[c1];
+        write_pixel_ycbcr(dest++, c0, R_chroma, G_chroma, B_chroma);
       }
     }
-    break;
+
+  } else if (space == OPENSLIDE_JP2K_RGB &&
+             c0_sub_x == 1 && c1_sub_x == 1 && c2_sub_x == 1 &&
+             c0_sub_y == 1 && c1_sub_y == 1 && c2_sub_y == 1) {
+    // Aperio 33005
+    for (int32_t y = 0; y < h; y++) {
+      int32_t c0_row_base = y * comps[0].w;
+      int32_t c1_row_base = y * comps[1].w;
+      int32_t c2_row_base = y * comps[2].w;
+      for (int32_t x = 0; x < w; x++) {
+        uint8_t c0 = comps[0].data[c0_row_base + x];
+        uint8_t c1 = comps[1].data[c1_row_base + x];
+        uint8_t c2 = comps[2].data[c2_row_base + x];
+        write_pixel_rgb(dest++, c0, c1, c2);
+      }
+    }
+
+  } else if (space == OPENSLIDE_JP2K_RGB) {
+    // Slow fallback
+    for (int32_t y = 0; y < h; y++) {
+      int32_t c0_row_base = (y / c0_sub_y) * comps[0].w;
+      int32_t c1_row_base = (y / c1_sub_y) * comps[1].w;
+      int32_t c2_row_base = (y / c2_sub_y) * comps[2].w;
+      for (int32_t x = 0; x < w; x++) {
+        uint8_t c0 = comps[0].data[c0_row_base + (x / c0_sub_x)];
+        uint8_t c1 = comps[1].data[c1_row_base + (x / c1_sub_x)];
+        uint8_t c2 = comps[2].data[c2_row_base + (x / c2_sub_x)];
+        write_pixel_rgb(dest++, c0, c1, c2);
+      }
+    }
   }
 }
 
