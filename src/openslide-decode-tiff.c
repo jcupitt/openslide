@@ -249,7 +249,9 @@ static bool decode_jpeg(const void *buf, uint32_t buflen,
     cinfo->jpeg_color_space = space;
 
     // decompress
+    printf( "decompressing ...\n" ); 
     if (!_openslide_jpeg_decompress_run(dc, dest, false, w, h, err)) {
+	    printf( "jpeg decompress error\n" ); 
       goto DONE;
     }
     result = true;
