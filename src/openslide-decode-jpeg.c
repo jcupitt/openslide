@@ -158,10 +158,7 @@ bool _openslide_jpeg_decompress_run(struct _openslide_jpeg_decompress *dc,
   bool alpha_extensions = GPOINTER_TO_INT(g_once(&jcs_alpha_extensions_detector,
                                                  detect_jcs_alpha_extensions,
                                                  NULL));
-  cinfo->out_color_space =
-    grayscale ? JCS_GRAYSCALE :
-    !alpha_extensions ? JCS_RGB :
-    G_BYTE_ORDER == G_LITTLE_ENDIAN ? JCS_EXT_BGRA : JCS_EXT_ARGB;
+  cinfo->out_color_space = grayscale ? JCS_GRAYSCALE : JCS_RGB;
 
   jpeg_start_decompress(cinfo);
 
@@ -179,11 +176,10 @@ bool _openslide_jpeg_decompress_run(struct _openslide_jpeg_decompress *dc,
   // verify we haven't run already
   g_assert(dc->rows[0] == NULL);
 
-  if (cinfo->out_color_space != JCS_RGB) {
     // decode directly to output
 
     uint8_t *dest = _dest;
-    int bytes_per_pixel = cinfo->output_components == 1 ? 1 : 4;
+    int bytes_per_pixel = cinfo->output_components == 1 ? 1 : 3;
     while (cinfo->output_scanline < cinfo->output_height) {
       // set row pointers
       for (int32_t i = 0; i < cinfo->rec_outbuf_height; i++) {
@@ -198,39 +194,6 @@ bool _openslide_jpeg_decompress_run(struct _openslide_jpeg_decompress *dc,
       dest += rows_read * cinfo->output_width * bytes_per_pixel;
     }
 
-  } else {
-    // decode into temporary buffer, then reformat
-
-    // allocate scanline buffers
-    dc->allocated_row_size = sizeof(JSAMPLE) * cinfo->output_width *
-                             cinfo->output_components;
-    for (int i = 0; i < cinfo->rec_outbuf_height; i++) {
-      dc->rows[i] = g_slice_alloc(dc->allocated_row_size);
-    }
-
-    // decompress
-    uint32_t *dest = _dest;
-    while (cinfo->output_scanline < cinfo->output_height) {
-      JDIMENSION rows_read = jpeg_read_scanlines(cinfo,
-                                                 dc->rows,
-                                                 cinfo->rec_outbuf_height);
-      int cur_row = 0;
-      while (rows_read > 0) {
-        // copy a row
-        for (int32_t i = 0; i < (int32_t) cinfo->output_width; i++) {
-          dest[i] = 0xFF000000 |                 // A
-            dc->rows[cur_row][i * 3 + 0] << 16 | // R
-            dc->rows[cur_row][i * 3 + 1] << 8 |  // G
-            dc->rows[cur_row][i * 3 + 2];        // B
-        }
-        dest += cinfo->output_width;
-
-        // advance 1 row
-        rows_read--;
-        cur_row++;
-      }
-    }
-  }
   return true;
 }
 

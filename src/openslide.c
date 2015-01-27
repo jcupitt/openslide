@@ -653,7 +653,7 @@ OUT:
 
 // hard-wire 8-bit RGB for now
 int openslide_get_channel_count(openslide_t *osr) {
-  return 4;
+  return 3;
 }
 
 int openslide_get_channel_format(openslide_t *osr) {

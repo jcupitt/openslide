@@ -196,9 +196,6 @@ static bool read_tile(openslide_t *osr,
 		      int64_t tile_col, int64_t tile_row,
 		      void *arg,
 		      GError **err) {
-  printf( "aperio: read_tile: tile_col = %ld, tile_row = %ld\n",
-    tile_col, tile_row ); 
-
   struct level *l = (struct level *) level;
   struct _openslide_tiff_level *tiffl = &l->tiffl;
   TIFF *tiff = arg;
@@ -259,9 +256,6 @@ static bool read_tile_vips(openslide_t *osr,
 		      int64_t tile_col, int64_t tile_row,
 		      void *arg,
 		      GError **err) {
-  printf( "aperio: read_tile_vips: tile_col = %ld, tile_row = %ld\n",
-    tile_col, tile_row ); 
-
   struct level *l = (struct level *) level;
   struct _openslide_tiff_level *tiffl = &l->tiffl;
   TIFF *tiff = arg;
@@ -292,8 +286,6 @@ static bool read_tile_vips(openslide_t *osr,
 			 tiledata, sizeof_tile,
 			 &cache_entry);
   }
-
-  printf( "vips__draw_image_direct: about to paint to image\n" ); 
 
   // draw it
   VipsImage *sub = vips_image_new_from_memory(tiledata, sizeof_tile, 
