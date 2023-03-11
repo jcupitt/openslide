@@ -292,68 +292,6 @@ static void destroy(openslide_t *osr) {
   g_free(osr->levels);
 }
 
-static bool decode_jpeg(openslide_t *osr,
-                        DcmFrame *frame,
-                        int32_t scale_denom,
-                        uint32_t *dest,
-                        int32_t w, int32_t h,
-                        GError **err) {
-  // open file
-  g_autoptr(_openslide_file) f = _openslide_fopen(jpeg->filename, err);
-  if (f == NULL) {
-    return false;
-  }
-
-  // begin decompress
-  struct jpeg_decompress_struct *cinfo;
-  g_auto(_openslide_jpeg_decompress) dc =
-    _openslide_jpeg_decompress_create(&cinfo);
-  jmp_buf env;
-
-  if (setjmp(env) == 0) {
-    // figure out where to start the data stream
-    int64_t start_position;
-    int64_t stop_position;
-    if (!compute_mcu_start(osr, jpeg, f, tileno,
-                           &start_position, &stop_position,
-                           err)) {
-      return false;
-    }
-
-    // start decompressing
-    _openslide_jpeg_decompress_init(dc, &env);
-
-    if (!jpeg_random_access_src(cinfo, f,
-                                jpeg->start_in_file,
-                                jpeg->sof_position,
-                                jpeg->header_stop_position,
-                                start_position,
-                                stop_position,
-                                err)) {
-      return false;
-    }
-
-    if (jpeg_read_header(cinfo, true) != JPEG_HEADER_OK) {
-      g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
-                  "Couldn't read JPEG header");
-      return false;
-    }
-    cinfo->scale_num = 1;
-    cinfo->scale_denom = scale_denom;
-    cinfo->image_width = jpeg->tile_width;  // cunning
-    cinfo->image_height = jpeg->tile_height;
-
-    //    g_debug("output_width: %d", cinfo->output_width);
-    //    g_debug("output_height: %d", cinfo->output_height);
-
-    return _openslide_jpeg_decompress_run(dc, dest, false, w, h, err);
-  } else {
-    // setjmp returns again
-    _openslide_jpeg_propagate_error(err, dc);
-    return false;
-  }
-}
-
 static bool read_tile(openslide_t *osr,
                       cairo_t *cr,
                       struct _openslide_level *level,
@@ -416,15 +354,14 @@ static bool read_tile(openslide_t *osr,
     printf("transfer syntax uid = %s\n",
            dcm_frame_get_transfer_syntax_uid(frame));
 
-    /*
-    if (!read_from_jpeg(osr,
-                        jp, tileno,
-                        l->scale_denom,
-                        box.p, tw, th,
-                        err)) {
+    if (!_openslide_jpeg_decode_buffer(frame_value,
+                                       frame_length,
+                                       box.p,
+                                       dcm_frame_get_columns(frame),
+                                       dcm_frame_get_rows(frame),
+                                       err)) {
       return false;
     }
-     */
 
     // clip, if necessary
     if (!_openslide_clip_tile(box.p,
