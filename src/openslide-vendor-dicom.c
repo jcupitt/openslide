@@ -65,6 +65,7 @@ struct dicom_ops_data {
 
 struct dicom_file {
   char *filename;
+
   DcmFilehandle *filehandle;
   DcmDataSet *metadata;
   DcmDataSet *file_metadata;
@@ -80,6 +81,9 @@ struct level {
   int image_height;
   int tile_w;
   int tile_h;
+  uint32_t num_frames;
+  int tiles_across;
+  int tiles_down;
 
   struct dicom_file *file;
 };
@@ -141,6 +145,30 @@ static void set_gerror_from_dcm_error(GError **err, DcmError **dcm_error)
   g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED, "%s", msg);
   g_free(msg);
   dcm_error_clear(dcm_error);
+}
+
+static void print_file(struct dicom_file *f) {
+  printf("file:\n" );
+  printf("  filename = %s\n", f->filename);
+  printf("  filehandle = %p\n", f->filehandle);
+  printf("  metadata = %p\n", f->metadata);
+  printf("  file_metadata = %p\n", f->file_metadata);
+  printf("  bot = %p\n", f->bot);
+}
+
+static void print_level(struct level *l) {
+  printf("level:\n" );
+  print_file(l->file);
+  printf("  base.downsample = %g\n", l->base.downsample);
+  printf("  grid = %p\n", l->grid);
+  printf("  format = %d\n", l->image_format);
+  printf("  image_width = %d\n", l->image_width);
+  printf("  image_height = %d\n", l->image_height);
+  printf("  tile_w = %d\n", l->tile_w);
+  printf("  tile_h = %d\n", l->tile_h);
+  printf("  num_frames = %d\n", l->num_frames);
+  printf("  tiles_across = %d\n", l->tiles_across);
+  printf("  tiles_down = %d\n", l->tiles_down);
 }
 
 static bool dicom_detect(const char *filename,
@@ -264,6 +292,68 @@ static void destroy(openslide_t *osr) {
   g_free(osr->levels);
 }
 
+static bool decode_jpeg(openslide_t *osr,
+                        DcmFrame *frame,
+                        int32_t scale_denom,
+                        uint32_t *dest,
+                        int32_t w, int32_t h,
+                        GError **err) {
+  // open file
+  g_autoptr(_openslide_file) f = _openslide_fopen(jpeg->filename, err);
+  if (f == NULL) {
+    return false;
+  }
+
+  // begin decompress
+  struct jpeg_decompress_struct *cinfo;
+  g_auto(_openslide_jpeg_decompress) dc =
+    _openslide_jpeg_decompress_create(&cinfo);
+  jmp_buf env;
+
+  if (setjmp(env) == 0) {
+    // figure out where to start the data stream
+    int64_t start_position;
+    int64_t stop_position;
+    if (!compute_mcu_start(osr, jpeg, f, tileno,
+                           &start_position, &stop_position,
+                           err)) {
+      return false;
+    }
+
+    // start decompressing
+    _openslide_jpeg_decompress_init(dc, &env);
+
+    if (!jpeg_random_access_src(cinfo, f,
+                                jpeg->start_in_file,
+                                jpeg->sof_position,
+                                jpeg->header_stop_position,
+                                start_position,
+                                stop_position,
+                                err)) {
+      return false;
+    }
+
+    if (jpeg_read_header(cinfo, true) != JPEG_HEADER_OK) {
+      g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
+                  "Couldn't read JPEG header");
+      return false;
+    }
+    cinfo->scale_num = 1;
+    cinfo->scale_denom = scale_denom;
+    cinfo->image_width = jpeg->tile_width;  // cunning
+    cinfo->image_height = jpeg->tile_height;
+
+    //    g_debug("output_width: %d", cinfo->output_width);
+    //    g_debug("output_height: %d", cinfo->output_height);
+
+    return _openslide_jpeg_decompress_run(dc, dest, false, w, h, err);
+  } else {
+    // setjmp returns again
+    _openslide_jpeg_propagate_error(err, dc);
+    return false;
+  }
+}
+
 static bool read_tile(openslide_t *osr,
                       cairo_t *cr,
                       struct _openslide_level *level,
@@ -274,6 +364,10 @@ static bool read_tile(openslide_t *osr,
   struct level *l = (struct level *) level;
   int32_t tile_size = data->tile_size;
 
+  printf("read_tile: tile_col = %d, tile_row = %d\n", tile_col, tile_row);
+  printf("read_tile level:\n");
+  print_level(l);
+
   // cache
   g_autoptr(_openslide_cache_entry) cache_entry = NULL;
   uint32_t *tiledata = _openslide_cache_get(osr->cache,
@@ -282,24 +376,53 @@ static bool read_tile(openslide_t *osr,
   if (!tiledata) {
     g_auto(_openslide_slice) box =
       _openslide_slice_alloc(tile_size * tile_size * 4);
+    int frame_number = 1 + tile_col + l->tiles_across * tile_row;
+    if (frame_number < 1 || frame_number > l->num_frames) {
+      g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
+                  "Frame number out of range");
+      return false;
+    }
 
-    // read tile
+    DcmError *dcm_error = NULL;
+    DcmFrame *frame = dcm_filehandle_read_frame(&dcm_error,
+                                                l->file->filehandle, 
+                                                l->file->metadata,
+                                                l->file->bot, 
+                                                frame_number);
+    if (frame == NULL) {
+      set_gerror_from_dcm_error(err, &dcm_error);
+      return false;
+    }
+
+    const char *frame_value = dcm_frame_get_value(frame);
+    uint32_t frame_length = dcm_frame_get_length(frame);
+
+    printf("frame number = %u\n", frame_number);
+    printf("value = %p\n", frame_value);
+    printf("length = %u bytes\n", frame_length);
+    printf("rows = %u\n", dcm_frame_get_rows(frame));
+    printf("columns = %u\n", dcm_frame_get_columns(frame));
+    printf("samples per pixel = %u\n",
+           dcm_frame_get_samples_per_pixel(frame));
+    printf("bits allocated = %u\n", dcm_frame_get_bits_allocated(frame));
+    printf("bits stored = %u\n", dcm_frame_get_bits_stored(frame));
+    printf("high bit = %u\n", dcm_frame_get_high_bit(frame));
+    printf("pixel representation = %u\n",
+           dcm_frame_get_pixel_representation(frame));
+    printf("planar configuration = %u\n",
+           dcm_frame_get_planar_configuration(frame));
+    printf("photometric interpretation = %s\n",
+           dcm_frame_get_photometric_interpretation(frame));
+    printf("transfer syntax uid = %s\n",
+           dcm_frame_get_transfer_syntax_uid(frame));
+
     /*
-    GError *tmp_err = NULL;
-    if (!read_image(box.p, tile_col, tile_row, l->base.downsample,
-                    data->focal_plane, tile_size, stmt, &tmp_err)) {
-      if (g_error_matches(tmp_err, OPENSLIDE_ERROR,
-                          OPENSLIDE_ERROR_NO_VALUE)) {
-        // no such tile
-        g_clear_error(&tmp_err);
-        return true;
-      } else {
-        g_propagate_error(err, tmp_err);
-        return false;
-      }
-
-      dcm_get_frame
-      then call _openslide_jpeg_decompress,
+    if (!read_from_jpeg(osr,
+                        jp, tileno,
+                        l->scale_denom,
+                        box.p, tw, th,
+                        err)) {
+      return false;
     }
      */
 
@@ -341,6 +464,10 @@ static bool paint_region(openslide_t *osr,
                          GError **err) {
   struct dicom_ops_data *data = osr->data;
   struct level *l = (struct level *) level;
+
+  printf("paint_region: x = %d, y = %d, w = %d h = %d\n", x, y, w, h);
+  printf("paint_region level:\n");
+  print_level(l);
 
   return _openslide_grid_paint_region(l->grid, 
                                       cr, 
@@ -492,10 +619,13 @@ static struct level *level_new(struct dicom_file *f) {
   // set this once we know we will succeed ... this passes ownership to the
   // level
   l->file = f;
+  l->num_frames = dcm_bot_get_num_frames(l->file->bot);
   l->base.w = l->image_width;
   l->base.h = l->image_height;
   l->base.tile_w = l->tile_w;
   l->base.tile_h = l->tile_h;
+  l->tiles_across = (l->base.w / l->tile_w) + !!(l->base.w % l->tile_w);
+  l->tiles_down = (l->base.h / l->tile_h) + !!(l->base.h % l->tile_h);
 
   return l;
 }
@@ -583,31 +713,18 @@ static int add_level_array(gpointer key, gpointer value, gpointer user_data) {
   return true;
 }
 
-static void print_file(gpointer key, gpointer value, gpointer user_data) {
+static void print_file_from_hash(gpointer key, gpointer value, gpointer user_data) {
   const char *filename = (const char *) key;
   struct dicom_file *f = (struct level *) value;
 
-  printf("file:\n" );
-  printf("  filename = %s\n", f->filename);
-  printf("  filehandle = %p\n", f->filehandle);
-  printf("  metadata = %p\n", f->metadata);
-  printf("  file_metadata = %p\n", f->file_metadata);
-  printf("  bot = %p\n", f->bot);
+  print_file(f);
 }
 
-static void print_level(gpointer key, gpointer value, gpointer user_data) {
+static void print_level_from_hash(gpointer key, gpointer value, gpointer user_data) {
   const char *filename = (const char *) key;
   struct level *l = (struct level *) value;
 
-  printf("level:\n" );
-  print_file(key, l->file, NULL);
-  printf("  base.downsample = %g\n", l->base.downsample);
-  printf("  grid = %p\n", l->grid);
-  printf("  format = %d\n", l->image_format);
-  printf("  image_width = %d\n", l->image_width);
-  printf("  image_height = %d\n", l->image_height);
-  printf("  tile_w = %d\n", l->tile_w);
-  printf("  tile_h = %d\n", l->tile_h);
+  print_level(l);
 }
 
 /*
@@ -630,14 +747,8 @@ static bool find_associated(gpointer key, gpointer value, gpointer user_data) {
 static gint compare_level_downsamples(const void *a, const void *b) {
   const struct level *aa = *((const struct level **) a);
   const struct level *bb = *((const struct level **) b);
-  gint diff = aa->base.downsample - bb->base.downsample;
 
-  printf("compare_level_downsamples:\n");
-  printf("  a.base.downsample = %g\n", aa->base.downsample);
-  printf("  b.base.downsample = %g\n", bb->base.downsample);
-  printf("  diff = %d\n", diff);
-
-  return diff;
+  return aa->base.downsample - bb->base.downsample;
 }
 
 static void make_grid(gpointer key, gpointer value, gpointer user_data) {
@@ -645,12 +756,9 @@ static void make_grid(gpointer key, gpointer value, gpointer user_data) {
   struct level *l = (struct level *) value;
   openslide_t *osr = (openslide_t *) user_data; 
 
-  int64_t tiles_across = (l->base.w / l->tile_w) + !!(l->base.w % l->tile_w);
-  int64_t tiles_down = (l->base.h / l->tile_h) + !!(l->base.h % l->tile_h);
-
   l->grid = _openslide_grid_create_simple(osr,
-                                          tiles_across, 
-                                          tiles_down,
+                                          l->tiles_across, 
+                                          l->tiles_down,
                                           l->tile_w, 
                                           l->tile_h,
                                           read_tile);
@@ -694,7 +802,7 @@ static bool dicom_open(openslide_t *osr,
   }
 
   printf("found WSI DICOM files:\n");
-  g_hash_table_foreach(dicom_file_hash, print_file, NULL);
+  g_hash_table_foreach(dicom_file_hash, print_file_from_hash, NULL);
 
   // pull out the subset of DICOM files that look like pyramid levels
   g_autoptr(GHashTable) level_hash =
@@ -706,7 +814,7 @@ static bool dicom_open(openslide_t *osr,
   g_hash_table_foreach_steal(dicom_file_hash, find_levels, level_hash);
 
   printf("found pyr levels DICOM files:\n");
-  g_hash_table_foreach(level_hash, print_level, NULL);
+  g_hash_table_foreach(level_hash, print_level_from_hash, NULL);
 
   // we can have several slides in one directory -- find the largest pyramid
   // layer and pick that as the slide image we are opening
@@ -737,7 +845,7 @@ static bool dicom_open(openslide_t *osr,
   g_hash_table_foreach(level_hash, make_grid, osr);
 
   printf("\nfinal pyr levels:\n");
-  g_hash_table_foreach(level_hash, print_level, NULL);
+  g_hash_table_foreach(level_hash, print_level_from_hash, NULL);
 
   // now sort levels by downsample to level array
   int32_t level_count = g_hash_table_size(level_hash);
