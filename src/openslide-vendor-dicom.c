@@ -49,6 +49,10 @@
     } \
 }
 
+/* The SOP we check for.
+ */
+#define VLWholeSlideMicroscopyImageStorage "1.2.840.10008.5.1.4.1.1.77.1.6"
+
 enum image_format {
   FORMAT_UNKNOWN,
   FORMAT_JPEG,
@@ -126,6 +130,18 @@ static const struct allowed_types associated_types = {
 };
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(DcmFilehandle, dcm_filehandle_destroy)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(DcmDataSet, dcm_dataset_destroy)
+
+static void set_gerror_from_dcm_error(GError **err, DcmError **dcm_error)
+{
+  char *msg = g_strdup_printf("libdicom %s: %s - %s",
+    dcm_error_code_str(dcm_error_code(*dcm_error)),
+    dcm_error_summary(*dcm_error),
+    dcm_error_message(*dcm_error));
+  g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED, "%s", msg);
+  g_free(msg);
+  dcm_error_clear(dcm_error);
+}
 
 static bool dicom_detect(const char *filename,
                          struct _openslide_tifflike *tl, 
@@ -150,11 +166,19 @@ static bool dicom_detect(const char *filename,
   }
 
   // should be able to open as a DICOM
+  DcmError *dcm_error = NULL;
   g_autoptr(DcmFilehandle) filehandle = 
-    dcm_filehandle_create_from_file(NULL, filename);
+    dcm_filehandle_create_from_file(&dcm_error, filename);
   if (filehandle == NULL) {
-    g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
-                "File is not a DICOM");
+    set_gerror_from_dcm_error(err, &dcm_error);
+    return false;
+  }
+
+  // should be able to open as a DICOM
+  g_autoptr(DcmDataSet) file_metadata = 
+    dcm_filehandle_read_file_metadata(&dcm_error, filehandle);
+  if (file_metadata == NULL) {
+    set_gerror_from_dcm_error(err, &dcm_error);
     return false;
   }
 
@@ -190,25 +214,32 @@ static bool get_tag_str(DcmDataSet *dataset,
   return dcm_element_get_value_string(NULL, element, index, result);
 }
 
-static struct dicom_file *dicom_file_new(char *filename) {
+static struct dicom_file *dicom_file_new(char *filename, GError **err) {
   struct dicom_file *f = g_slice_new0(struct dicom_file);
   f->filename = g_strdup(filename);
 
-  f->filehandle = dcm_filehandle_create_from_file(NULL, f->filename);
+  // should be able to open as a DICOM
+  DcmError *dcm_error = NULL;
+  f->filehandle = dcm_filehandle_create_from_file(&dcm_error, f->filename);
   if (!f->filehandle) {
+    set_gerror_from_dcm_error(err, &dcm_error);
     dicom_file_destroy(f);
     return NULL;
   }
 
-  f->file_metadata = dcm_filehandle_read_file_metadata(NULL, f->filehandle);
+  f->file_metadata = dcm_filehandle_read_file_metadata(&dcm_error, 
+                                                       f->filehandle);
   if (!f->file_metadata) {
+    set_gerror_from_dcm_error(err, &dcm_error);
     dicom_file_destroy(f);
     return NULL;
   }
 
   const char *sop;
   get_tag_str(f->file_metadata, "MediaStorageSOPClassUID", 0, &sop);
-  if (strcmp(sop, "VLWholeSlideMicroscopyImageStorage") != 0) {
+  if (strcmp(sop, VLWholeSlideMicroscopyImageStorage) != 0) {
+    g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
+                "Not a WSI DICOM");
     dicom_file_destroy(f);
     return NULL;
   }
@@ -417,12 +448,16 @@ static bool is_type(struct dicom_file *f, const struct allowed_types *types) {
 
 static struct level *level_new(struct dicom_file *f) {
   // try to read the rest of the dicom file as a pyr level
-  f->metadata = dcm_filehandle_read_metadata(NULL, f->filehandle);
+  if (!f->metadata) {
+    f->metadata = dcm_filehandle_read_metadata(NULL, f->filehandle);
+  }
   if (!f->metadata) {
     return NULL;
   }
 
-  f->bot = dcm_filehandle_read_bot(NULL, f->filehandle, f->metadata);
+  if (!f->bot) {
+    f->bot = dcm_filehandle_read_bot(NULL, f->filehandle, f->metadata);
+  }
   if (!f->bot) {
     /* Try to build the BOT instead.
      */
@@ -502,9 +537,9 @@ static int remove_bad_level(gpointer key, gpointer value, gpointer user_data) {
   struct dicom_file *f = l->file;
   const char *slide_id = (const char *) user_data;
 
+  // true to remove this file
   const char *this_slide_id;
-
-  return get_tag_str(f->metadata, "SeriesInstanceUID", 0, &this_slide_id) &&
+  return !get_tag_str(f->metadata, "SeriesInstanceUID", 0, &this_slide_id) ||
          strcmp(slide_id, this_slide_id) != 0;
 }
 
@@ -513,9 +548,18 @@ static int remove_bad_dicom(gpointer key, gpointer value, gpointer user_data) {
   struct dicom_file *f = (struct dicom_file *) value;
   const char *slide_id = (const char *) user_data;
 
-  const char *this_slide_id;
+  // we might not have read all the metadta for this dicom yet
+  if (!f->metadata) {
+    f->metadata = dcm_filehandle_read_metadata(NULL, f->filehandle);
+  }
+  if (!f->metadata) {
+    // a broken file, so true to remove it
+    return true;
+  }
 
-  return get_tag_str(f->metadata, "SeriesInstanceUID", 0, &this_slide_id) &&
+  // true to remove this file
+  const char *this_slide_id;
+  return !get_tag_str(f->metadata, "SeriesInstanceUID", 0, &this_slide_id) ||
          strcmp(slide_id, this_slide_id) != 0;
 }
 
@@ -539,6 +583,33 @@ static int add_level_array(gpointer key, gpointer value, gpointer user_data) {
   return true;
 }
 
+static void print_file(gpointer key, gpointer value, gpointer user_data) {
+  const char *filename = (const char *) key;
+  struct dicom_file *f = (struct level *) value;
+
+  printf("file:\n" );
+  printf("  filename = %s\n", f->filename);
+  printf("  filehandle = %p\n", f->filehandle);
+  printf("  metadata = %p\n", f->metadata);
+  printf("  file_metadata = %p\n", f->file_metadata);
+  printf("  bot = %p\n", f->bot);
+}
+
+static void print_level(gpointer key, gpointer value, gpointer user_data) {
+  const char *filename = (const char *) key;
+  struct level *l = (struct level *) value;
+
+  printf("level:\n" );
+  print_file(key, l->file, NULL);
+  printf("  base.downsample = %g\n", l->base.downsample);
+  printf("  grid = %p\n", l->grid);
+  printf("  format = %d\n", l->image_format);
+  printf("  image_width = %d\n", l->image_width);
+  printf("  image_height = %d\n", l->image_height);
+  printf("  tile_w = %d\n", l->tile_w);
+  printf("  tile_h = %d\n", l->tile_h);
+}
+
 /*
 static bool find_associated(gpointer key, gpointer value, gpointer user_data) {
   const char *filename = (const char *) key;
@@ -557,10 +628,16 @@ static bool find_associated(gpointer key, gpointer value, gpointer user_data) {
  */
 
 static gint compare_level_downsamples(const void *a, const void *b) {
-  const struct level *aa = (const struct level *) a;
-  const struct level *bb = (const struct level *) bb;
+  const struct level *aa = *((const struct level **) a);
+  const struct level *bb = *((const struct level **) b);
+  gint diff = aa->base.downsample - bb->base.downsample;
 
-  return aa->base.downsample - bb->base.downsample;
+  printf("compare_level_downsamples:\n");
+  printf("  a.base.downsample = %g\n", aa->base.downsample);
+  printf("  b.base.downsample = %g\n", bb->base.downsample);
+  printf("  diff = %d\n", diff);
+
+  return diff;
 }
 
 static void make_grid(gpointer key, gpointer value, gpointer user_data) {
@@ -603,14 +680,21 @@ static bool dicom_open(openslide_t *osr,
   while ((name = g_dir_read_name(dir))) {
     char *filename = g_build_path("/", dirname, name, NULL);
 
-    struct dicom_file *f = dicom_file_new(filename);
+    printf("trying to open: %s ...\n", filename);
+    GError *local_error = NULL;
+    struct dicom_file *f = dicom_file_new(filename, &local_error);
     if (!f) {
       g_free(filename);
+      printf( "open failed: %s\n", local_error->message);
+      g_error_free(local_error);
       continue;
     }
 
     g_hash_table_insert(dicom_file_hash, filename, f);
   }
+
+  printf("found WSI DICOM files:\n");
+  g_hash_table_foreach(dicom_file_hash, print_file, NULL);
 
   // pull out the subset of DICOM files that look like pyramid levels
   g_autoptr(GHashTable) level_hash =
@@ -620,6 +704,9 @@ static bool dicom_open(openslide_t *osr,
                           (GDestroyNotify) level_destroy);
 
   g_hash_table_foreach_steal(dicom_file_hash, find_levels, level_hash);
+
+  printf("found pyr levels DICOM files:\n");
+  g_hash_table_foreach(level_hash, print_level, NULL);
 
   // we can have several slides in one directory -- find the largest pyramid
   // layer and pick that as the slide image we are opening
@@ -648,6 +735,9 @@ static bool dicom_open(openslide_t *osr,
 
   // make the tile cache
   g_hash_table_foreach(level_hash, make_grid, osr);
+
+  printf("\nfinal pyr levels:\n");
+  g_hash_table_foreach(level_hash, print_level, NULL);
 
   // now sort levels by downsample to level array
   int32_t level_count = g_hash_table_size(level_hash);
@@ -695,6 +785,10 @@ static bool dicom_open(openslide_t *osr,
   data->tile_size = osr->levels[0]->tile_w;
   osr->data = data;
   osr->ops = &dicom_ops;
+
+  printf("sorted levels:\n");
+  for (gsize i = 0; i < count; i++)
+    printf("%d) downsample = %g\n", i, osr->levels[i]->downsample);
 
   return true;
 }
