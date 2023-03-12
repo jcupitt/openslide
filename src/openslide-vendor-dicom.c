@@ -66,6 +66,7 @@ struct dicom_ops_data {
 struct dicom_file {
   char *filename;
 
+  GMutex lock;
   DcmFilehandle *filehandle;
   DcmDataSet *metadata;
   DcmDataSet *file_metadata;
@@ -218,6 +219,7 @@ static void dicom_file_destroy(struct dicom_file *f) {
   FREEF(dcm_dataset_destroy, f->file_metadata);
   FREEF(dcm_dataset_destroy, f->metadata);
   FREEF(dcm_bot_destroy, f->bot);
+  g_mutex_clear(&f->lock);
   g_free(f->filename);
   g_slice_free(struct dicom_file, f);
 }
@@ -254,6 +256,7 @@ static struct dicom_file *dicom_file_new(char *filename, GError **err) {
     dicom_file_destroy(f);
     return NULL;
   }
+  g_mutex_init(&f->lock);
 
   f->file_metadata = dcm_filehandle_read_file_metadata(&dcm_error, 
                                                        f->filehandle);
@@ -321,12 +324,17 @@ static bool read_tile(openslide_t *osr,
       return false;
     }
 
+    g_mutex_lock(&l->file->lock);
+
     DcmError *dcm_error = NULL;
     DcmFrame *frame = dcm_filehandle_read_frame(&dcm_error,
                                                 l->file->filehandle, 
                                                 l->file->metadata,
                                                 l->file->bot, 
                                                 frame_number);
+
+    g_mutex_unlock(&l->file->lock);
+
     if (frame == NULL) {
       set_gerror_from_dcm_error(err, &dcm_error);
       return false;
