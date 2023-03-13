@@ -49,6 +49,10 @@
  */
 #define VLWholeSlideMicroscopyImageStorage "1.2.840.10008.5.1.4.1.1.77.1.6"
 
+/*
+#define DEBUG
+ */
+
 enum image_format {
   FORMAT_UNKNOWN,
   FORMAT_JPEG,
@@ -78,7 +82,7 @@ struct level {
   int image_height;
   int tile_w;
   int tile_h;
-  uint32_t num_frames;
+  guint32 num_frames;
   int tiles_across;
   int tiles_down;
 
@@ -88,11 +92,7 @@ struct level {
 struct associated {
   struct _openslide_associated_image base;
 
-  char *name;
-  int image_width;
-  int image_height;
-  enum image_format image_format;
-
+  const char *name;
   struct dicom_file *file;
 };
 
@@ -149,6 +149,7 @@ static void set_gerror_from_dcm_error(GError **err, DcmError **dcm_error)
   dcm_error_clear(dcm_error);
 }
 
+#ifdef DEBUG
 static void print_file(struct dicom_file *f) {
   printf("file:\n" );
   printf("  filename = %s\n", f->filename);
@@ -172,6 +173,27 @@ static void print_level(struct level *l) {
   printf("  tiles_across = %d\n", l->tiles_across);
   printf("  tiles_down = %d\n", l->tiles_down);
 }
+
+static void print_frame(DcmFrame *frame) {
+  printf("value = %p\n", dcm_frame_get_value(frame));
+  printf("length = %u bytes\n", dcm_frame_get_length(frame));
+  printf("rows = %u\n", dcm_frame_get_rows(frame));
+  printf("columns = %u\n", dcm_frame_get_columns(frame));
+  printf("samples per pixel = %u\n",
+         dcm_frame_get_samples_per_pixel(frame));
+  printf("bits allocated = %u\n", dcm_frame_get_bits_allocated(frame));
+  printf("bits stored = %u\n", dcm_frame_get_bits_stored(frame));
+  printf("high bit = %u\n", dcm_frame_get_high_bit(frame));
+  printf("pixel representation = %u\n",
+         dcm_frame_get_pixel_representation(frame));
+  printf("planar configuration = %u\n",
+         dcm_frame_get_planar_configuration(frame));
+  printf("photometric interpretation = %s\n",
+         dcm_frame_get_photometric_interpretation(frame));
+  printf("transfer syntax uid = %s\n",
+         dcm_frame_get_transfer_syntax_uid(frame));
+}
+#endif /*DEBUG*/
 
 static bool dicom_detect(const char *filename,
                          struct _openslide_tifflike *tl, 
@@ -300,25 +322,29 @@ static bool read_tile(openslide_t *osr,
                       cairo_t *cr,
                       struct _openslide_level *level,
                       int64_t tile_col, int64_t tile_row,
-                      void *arg,
+                      void *arg G_GNUC_UNUSED,
                       GError **err) {
   struct dicom_ops_data *data = osr->data;
   struct level *l = (struct level *) level;
   int32_t tile_size = data->tile_size;
 
-  printf("read_tile: tile_col = %d, tile_row = %d\n", tile_col, tile_row);
+#ifdef DEBUG
+  printf("read_tile: tile_col = %" PRIu64 ", tile_row = %" PRIu64 "\n", 
+         tile_col, 
+         tile_row);
   printf("read_tile level:\n");
   print_level(l);
+#endif /*DEBUG*/
 
   // cache
   g_autoptr(_openslide_cache_entry) cache_entry = NULL;
-  uint32_t *tiledata = _openslide_cache_get(osr->cache,
+  guint32 *tiledata = _openslide_cache_get(osr->cache,
                                             level, tile_col, tile_row,
                                             &cache_entry);
   if (!tiledata) {
     g_auto(_openslide_slice) box =
       _openslide_slice_alloc(tile_size * tile_size * 4);
-    int frame_number = 1 + tile_col + l->tiles_across * tile_row;
+    guint32 frame_number = 1 + tile_col + l->tiles_across * tile_row;
     if (frame_number < 1 || frame_number > l->num_frames) {
       g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
                   "Frame number out of range");
@@ -344,24 +370,9 @@ static bool read_tile(openslide_t *osr,
     const char *frame_value = dcm_frame_get_value(frame);
     uint32_t frame_length = dcm_frame_get_length(frame);
 
-    printf("frame number = %u\n", frame_number);
-    printf("value = %p\n", frame_value);
-    printf("length = %u bytes\n", frame_length);
-    printf("rows = %u\n", dcm_frame_get_rows(frame));
-    printf("columns = %u\n", dcm_frame_get_columns(frame));
-    printf("samples per pixel = %u\n",
-           dcm_frame_get_samples_per_pixel(frame));
-    printf("bits allocated = %u\n", dcm_frame_get_bits_allocated(frame));
-    printf("bits stored = %u\n", dcm_frame_get_bits_stored(frame));
-    printf("high bit = %u\n", dcm_frame_get_high_bit(frame));
-    printf("pixel representation = %u\n",
-           dcm_frame_get_pixel_representation(frame));
-    printf("planar configuration = %u\n",
-           dcm_frame_get_planar_configuration(frame));
-    printf("photometric interpretation = %s\n",
-           dcm_frame_get_photometric_interpretation(frame));
-    printf("transfer syntax uid = %s\n",
-           dcm_frame_get_transfer_syntax_uid(frame));
+#ifdef DEBUG
+    print_frame(frame);
+#endif /*DEBUG*/
 
     if (!_openslide_jpeg_decode_buffer(frame_value,
                                        frame_length,
@@ -411,9 +422,12 @@ static bool paint_region(openslide_t *osr,
   struct dicom_ops_data *data = osr->data;
   struct level *l = (struct level *) level;
 
-  printf("paint_region: x = %d, y = %d, w = %d h = %d\n", x, y, w, h);
+#ifdef DEBUG
+  printf("paint_region: x = %" PRId64 ", y = %" PRId64 ", w = %d, h = %d\n", 
+         x, y, w, h);
   printf("paint_region level:\n");
   print_level(l);
+#endif /*DEBUG*/
 
   return _openslide_grid_paint_region(l->grid, 
                                       cr, 
@@ -461,8 +475,6 @@ static bool is_type(struct dicom_file *f, const struct allowed_types *types) {
 static bool associated_get_argb_data(struct _openslide_associated_image *_img,
                                 uint32_t *dest,
                                 GError **err) {
-  printf("associated_get_argb_data:\n");
-
   struct associated *a = (struct associated *) _img;
 
   DcmError *dcm_error = NULL;
@@ -476,38 +488,21 @@ static bool associated_get_argb_data(struct _openslide_associated_image *_img,
     return false;
   }
 
-  const char *frame_value = dcm_frame_get_value(frame);
-  uint32_t frame_length = dcm_frame_get_length(frame);
+#ifdef DEBUG
+  print_frame(frame);
+#endif /*DEBUG*/
 
-  printf("value = %p\n", frame_value);
-  printf("length = %u bytes\n", frame_length);
-  printf("rows = %u\n", dcm_frame_get_rows(frame));
-  printf("columns = %u\n", dcm_frame_get_columns(frame));
-  printf("samples per pixel = %u\n",
-         dcm_frame_get_samples_per_pixel(frame));
-  printf("bits allocated = %u\n", dcm_frame_get_bits_allocated(frame));
-  printf("bits stored = %u\n", dcm_frame_get_bits_stored(frame));
-  printf("high bit = %u\n", dcm_frame_get_high_bit(frame));
-  printf("pixel representation = %u\n",
-         dcm_frame_get_pixel_representation(frame));
-  printf("planar configuration = %u\n",
-         dcm_frame_get_planar_configuration(frame));
-  printf("photometric interpretation = %s\n",
-         dcm_frame_get_photometric_interpretation(frame));
-  printf("transfer syntax uid = %s\n",
-         dcm_frame_get_transfer_syntax_uid(frame));
-
-  return _openslide_jpeg_decode_buffer(frame_value,
-                                       frame_length,
+  return _openslide_jpeg_decode_buffer(dcm_frame_get_value(frame),
+                                       dcm_frame_get_length(frame),
                                        dest,
-                                       dcm_frame_get_columns(frame),
-                                       dcm_frame_get_rows(frame),
+                                       a->base.w,
+                                       a->base.h,
                                        err);
 }
 
-static void associated_destroy(struct associated *a) {
+static void associated_destroy(struct _openslide_associated_image *_img) {
+  struct associated *a = (struct associated *) _img;
   FREEF(dicom_file_destroy, a->file);
-  a->name = NULL;
   g_slice_free(struct associated, a);
 }
 
@@ -556,23 +551,25 @@ static struct associated *associated_new(struct dicom_file *f) {
     return NULL;
   }
 
-  struct associated *a = g_slice_new0(struct associated);
-
-  if (!get_tag_int(f->metadata, "TotalPixelMatrixColumns", &a->image_width) ||
-    !get_tag_int(f->metadata, "TotalPixelMatrixRows", &a->image_height)) {
-    associated_destroy(a);
+  int image_width;
+  int image_height;
+  if (!get_tag_int(f->metadata, "TotalPixelMatrixColumns", &image_width) ||
+    !get_tag_int(f->metadata, "TotalPixelMatrixRows", &image_height)) {
     return NULL;
   }
 
   // set this once we know we will succeed ... this passes ownership to the
   // level
+  struct associated *a = g_slice_new0(struct associated);
   a->file = f;
   a->name = name;
   a->base.ops = &dicom_associated_ops;
-  a->base.w = a->image_width;
-  a->base.h = a->image_height;
+  a->base.w = image_width;
+  a->base.h = image_height;
 
+#ifdef DEBUG
   printf("associated_new: %s\n", a->name);
+#endif /*DEBUG*/
 
   return a;
 }
@@ -633,8 +630,9 @@ static int find_levels(gpointer key, gpointer value, gpointer user_data) {
   }
 }
 
-static void find_largest(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static void find_largest(gpointer key G_GNUC_UNUSED,
+                         gpointer value, 
+                         gpointer user_data) {
   struct level *l = (struct level *) value;
   struct level **largest = (struct level **) user_data;
   struct dicom_file *f = l->file;
@@ -649,8 +647,9 @@ static void find_largest(gpointer key, gpointer value, gpointer user_data) {
   }
 }
 
-static int remove_bad_level(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static int remove_bad_level(gpointer key G_GNUC_UNUSED, 
+                            gpointer value, 
+                            gpointer user_data) {
   struct level *l = (struct level *) value;
   struct dicom_file *f = l->file;
   const char *slide_id = (const char *) user_data;
@@ -661,8 +660,9 @@ static int remove_bad_level(gpointer key, gpointer value, gpointer user_data) {
          strcmp(slide_id, this_slide_id) != 0;
 }
 
-static int remove_bad_dicom(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static int remove_bad_dicom(gpointer key G_GNUC_UNUSED, 
+                            gpointer value, 
+                            gpointer user_data) {
   struct dicom_file *f = (struct dicom_file *) value;
   const char *slide_id = (const char *) user_data;
 
@@ -681,8 +681,9 @@ static int remove_bad_dicom(gpointer key, gpointer value, gpointer user_data) {
          strcmp(slide_id, this_slide_id) != 0;
 }
 
-static void set_downsample(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static void set_downsample(gpointer key G_GNUC_UNUSED, 
+                           gpointer value, 
+                           gpointer user_data) {
   struct level *l = (struct level *) value;
   const struct level *largest = (struct level *) user_data;
 
@@ -691,8 +692,9 @@ static void set_downsample(gpointer key, gpointer value, gpointer user_data) {
   l->base.downsample = downsample;
 }
 
-static int add_level_array(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static int add_level_array(gpointer key G_GNUC_UNUSED, 
+                           gpointer value, 
+                           gpointer user_data) {
   struct level *l = (struct level *) value;
   GPtrArray *level_array = (GPtrArray *) user_data;
 
@@ -701,24 +703,27 @@ static int add_level_array(gpointer key, gpointer value, gpointer user_data) {
   return true;
 }
 
-static void print_file_from_hash(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
-  struct dicom_file *f = (struct level *) value;
+#ifdef DEBUG
+static void print_file_from_hash(gpointer key G_GNUC_UNUSED, 
+                                 gpointer value, 
+                                 gpointer user_data G_GNUC_UNUSED) {
+  struct dicom_file *f = (struct dicom_file *) value;
 
   print_file(f);
 }
 
-static void print_level_from_hash(gpointer key, 
+static void print_level_from_hash(gpointer key G_GNUC_UNUSED, 
                                   gpointer value, 
-                                  gpointer user_data) {
-  const char *filename = (const char *) key;
+                                  gpointer user_data G_GNUC_UNUSED) {
   struct level *l = (struct level *) value;
 
   print_level(l);
 }
+#endif /*DEBUG*/
 
-static bool find_associated(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static int find_associated(gpointer key G_GNUC_UNUSED, 
+                            gpointer value, 
+                            gpointer user_data) {
   struct dicom_file *f = (struct dicom_file *) value;
   openslide_t *osr = (openslide_t *) user_data; 
 
@@ -740,8 +745,9 @@ static gint compare_level_downsamples(const void *a, const void *b) {
   return aa->base.downsample - bb->base.downsample;
 }
 
-static void make_grid(gpointer key, gpointer value, gpointer user_data) {
-  const char *filename = (const char *) key;
+static void make_grid(gpointer key G_GNUC_UNUSED, 
+                      gpointer value, 
+                      gpointer user_data) {
   struct level *l = (struct level *) value;
   openslide_t *osr = (openslide_t *) user_data; 
 
@@ -753,20 +759,29 @@ static void make_grid(gpointer key, gpointer value, gpointer user_data) {
                                           read_tile);
 }
 
-static void add_properties(openslide_t *osr, struct level *l)
-{
-  // at least mpp and libdicom version
-  /*
+static void add_properties(openslide_t *osr, const struct level *l) {
+  // why not
+  double mmpp = l->image_width;
   g_hash_table_insert(osr->properties,
                       g_strdup(OPENSLIDE_PROPERTY_NAME_MPP_X),
                       _openslide_format_double(mmpp * 1000));
   g_hash_table_insert(osr->properties,
                       g_strdup(OPENSLIDE_PROPERTY_NAME_MPP_Y),
                       _openslide_format_double(mmpp * 1000));
-  g_hash_table_insert(osr->properties,
-                      g_strdup("sakura.VersionBytes"),
-                      g_strdup(version));
-  */
+}
+
+static void file_hash(const struct dicom_file *f,
+                      struct _openslide_hash *quickhash1) {
+  uint32_t n = dcm_dataset_count(f->metadata);
+  for(uint32_t i = 0; i < n; i++) {
+      DcmElement *element = dcm_dataset_get(NULL, f->metadata, i);
+      if (element) {
+        uint32_t tag = dcm_element_get_tag(element);
+        _openslide_hash_data(quickhash1, &tag, sizeof(tag));
+        // need to get the vr class
+        //_openslide_hash_data(quickhash1, data, datalen);
+      }
+  }
 }
 
 static bool dicom_open(openslide_t *osr, 
@@ -793,21 +808,27 @@ static bool dicom_open(openslide_t *osr,
   while ((name = g_dir_read_name(dir))) {
     char *filename = g_build_path("/", dirname, name, NULL);
 
+#ifdef DEBUG
     printf("trying to open: %s ...\n", filename);
+#endif /*DEBUG*/
     GError *local_error = NULL;
     struct dicom_file *f = dicom_file_new(filename, &local_error);
     if (!f) {
       g_free(filename);
+#ifdef DEBUG
       printf( "open failed: %s\n", local_error->message);
       g_error_free(local_error);
+#endif /*DEBUG*/
       continue;
     }
 
     g_hash_table_insert(dicom_file_hash, filename, f);
   }
 
+#ifdef DEBUG
   printf("found WSI DICOM files:\n");
   g_hash_table_foreach(dicom_file_hash, print_file_from_hash, NULL);
+#endif /*DEBUG*/
 
   // pull out the subset of DICOM files that look like pyramid levels
   g_autoptr(GHashTable) level_hash =
@@ -817,8 +838,10 @@ static bool dicom_open(openslide_t *osr,
                           (GDestroyNotify) level_destroy);
   g_hash_table_foreach_steal(dicom_file_hash, find_levels, level_hash);
 
+#ifdef DEBUG
   printf("found pyr levels DICOM files:\n");
   g_hash_table_foreach(level_hash, print_level_from_hash, NULL);
+#endif /*DEBUG*/
 
   // we can have several slides in one directory -- find the largest pyramid
   // layer and pick that as the slide image we are opening
@@ -848,8 +871,10 @@ static bool dicom_open(openslide_t *osr,
   // make the tile cache
   g_hash_table_foreach(level_hash, make_grid, osr);
 
+#ifdef DEBUG
   printf("\nfinal pyr levels:\n");
   g_hash_table_foreach(level_hash, print_level_from_hash, NULL);
+#endif /*DEBUG*/
 
   // now sort levels by downsample to level array
   int32_t level_count = g_hash_table_size(level_hash);
@@ -870,6 +895,9 @@ static bool dicom_open(openslide_t *osr,
   // take props from the largest pyr layer
   add_properties(osr, largest);
 
+  // perhaps add all the top-level metadata we've loaded for the largest level
+  file_hash(largest->file, quickhash1);
+
   g_assert(osr->data == NULL);
   g_assert(osr->levels == NULL);
 
@@ -877,16 +905,32 @@ static bool dicom_open(openslide_t *osr,
   struct dicom_ops_data *data = g_slice_new0(struct dicom_ops_data);
   data->dirname = g_strdup(dirname);
   gsize count;
+
+  /* g_ptr_array_steal() is only available in recent glib ... hack around 
+   * this for older versions.
+   */
+#if GLIB_CHECK_VERSION(2, 64, 0)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   osr->levels = (struct _openslide_level **) g_ptr_array_steal(level_array, 
                                                                &count);
+#pragma GCC diagnostic pop
+#else
+  osr->levels = (struct _openslide_level **) level_array->pdata;
+  level_array->pdata = NULL;
+  level_array->len = 0;
+#endif
+
   osr->level_count = count;
   data->tile_size = osr->levels[0]->tile_w;
   osr->data = data;
   osr->ops = &dicom_ops;
 
+#ifdef DEBUG
   printf("sorted levels:\n");
   for (gsize i = 0; i < count; i++)
-    printf("%d) downsample = %g\n", i, osr->levels[i]->downsample);
+    printf("%zd: downsample = %g\n", i, osr->levels[i]->downsample);
+#endif /*DEBUG*/
 
   return true;
 }
