@@ -69,7 +69,7 @@ struct dicom_file {
   GMutex lock;
   DcmFilehandle *filehandle;
   DcmDataSet *metadata;
-  DcmDataSet *file_metadata;
+  DcmDataSet *meta;
   DcmBOT *bot;
 };
 
@@ -155,7 +155,7 @@ static void print_file(struct dicom_file *f) {
   printf("  filename = %s\n", f->filename);
   printf("  filehandle = %p\n", f->filehandle);
   printf("  metadata = %p\n", f->metadata);
-  printf("  file_metadata = %p\n", f->file_metadata);
+  printf("  meta = %p\n", f->meta);
   printf("  bot = %p\n", f->bot);
 }
 
@@ -227,9 +227,9 @@ static bool dicom_detect(const char *filename,
   }
 
   // should be able to open as a DICOM
-  g_autoptr(DcmDataSet) file_metadata = 
-    dcm_filehandle_read_file_metadata(&dcm_error, filehandle);
-  if (file_metadata == NULL) {
+  g_autoptr(DcmDataSet) meta = 
+    dcm_filehandle_read_file_meta(&dcm_error, filehandle);
+  if (!meta) {
     set_gerror_from_dcm_error(err, &dcm_error);
     return false;
   }
@@ -239,7 +239,7 @@ static bool dicom_detect(const char *filename,
 
 static void dicom_file_destroy(struct dicom_file *f) {
   FREEF(dcm_filehandle_destroy, f->filehandle);
-  FREEF(dcm_dataset_destroy, f->file_metadata);
+  FREEF(dcm_dataset_destroy, f->meta);
   FREEF(dcm_dataset_destroy, f->metadata);
   FREEF(dcm_bot_destroy, f->bot);
   g_mutex_clear(&f->lock);
@@ -281,16 +281,16 @@ static struct dicom_file *dicom_file_new(char *filename, GError **err) {
   }
   g_mutex_init(&f->lock);
 
-  f->file_metadata = dcm_filehandle_read_file_metadata(&dcm_error, 
-                                                       f->filehandle);
-  if (!f->file_metadata) {
+  f->meta = dcm_filehandle_read_file_meta(&dcm_error, 
+                                          f->filehandle);
+  if (!f->meta) {
     set_gerror_from_dcm_error(err, &dcm_error);
     dicom_file_destroy(f);
     return NULL;
   }
 
   const char *sop;
-  get_tag_str(f->file_metadata, "MediaStorageSOPClassUID", 0, &sop);
+  get_tag_str(f->meta, "MediaStorageSOPClassUID", 0, &sop);
   if (strcmp(sop, VLWholeSlideMicroscopyImageStorage) != 0) {
     g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
                 "Not a WSI DICOM");
