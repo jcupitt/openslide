@@ -138,7 +138,7 @@ jobs:
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
                 # libdicom requires a more recent meson than the one in 22.04
-                python3 -m pip install meson
+                python3 -m pip install meson --upgrade
                 ;;
             esac
         esac
