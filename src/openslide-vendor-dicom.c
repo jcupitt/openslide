@@ -753,6 +753,22 @@ static void make_grid(gpointer key, gpointer value, gpointer user_data) {
                                           read_tile);
 }
 
+static void add_properties(openslide_t *osr, struct level *l)
+{
+  // at least mpp and libdicom version
+  /*
+  g_hash_table_insert(osr->properties,
+                      g_strdup(OPENSLIDE_PROPERTY_NAME_MPP_X),
+                      _openslide_format_double(mmpp * 1000));
+  g_hash_table_insert(osr->properties,
+                      g_strdup(OPENSLIDE_PROPERTY_NAME_MPP_Y),
+                      _openslide_format_double(mmpp * 1000));
+  g_hash_table_insert(osr->properties,
+                      g_strdup("sakura.VersionBytes"),
+                      g_strdup(version));
+  */
+}
+
 static bool dicom_open(openslide_t *osr, 
                        const char *filename,
                        struct _openslide_tifflike *tl G_GNUC_UNUSED,
@@ -851,10 +867,8 @@ static bool dicom_open(openslide_t *osr,
   // steal any associated images from the remaining set
   g_hash_table_foreach_steal(dicom_file_hash, find_associated, osr);
 
-  /*
-  // add properties
-  add_properties(osr, db, unique_table_name);
-    */
+  // take props from the largest pyr layer
+  add_properties(osr, largest);
 
   g_assert(osr->data == NULL);
   g_assert(osr->levels == NULL);
