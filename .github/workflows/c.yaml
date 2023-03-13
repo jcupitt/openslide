@@ -140,7 +140,7 @@ jobs:
                 ;;
             esac
         esac
-        libdicom_url=https://github.com/ImagingDataCommons/libdicom.git
+        libdicom_url=https://github.com/jcupitt/libdicom.git
         libdicom_branch=check
         if ! git clone -b $libdicom_branch $libdicom_url; then
           exit 1
