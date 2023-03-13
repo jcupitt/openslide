@@ -45,7 +45,7 @@ jobs:
             done
             brew update
             brew install \
-                meson pkg-config \
+                pkg-config \
                 zlib \
                 libpng \
                 jpeg-turbo \
@@ -59,7 +59,8 @@ jobs:
                 xdelta \
                 doxygen
             python3 -m pip install --upgrade pip
-            python3 -m pip install requests PyYAML
+            # libdicom requires a more recent meson
+            python3 -m pip install requests PyYAML meson
             ;;
         ubuntu-*)
             case "${{ matrix.container }}" in
@@ -140,7 +141,7 @@ jobs:
             esac
         esac
         libdicom_url=https://github.com/ImagingDataCommons/libdicom.git
-        libdicom_branch=dev
+        libdicom_branch=check
         if ! git clone -b $libdicom_branch $libdicom_url; then
           exit 1
         fi
