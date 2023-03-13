@@ -139,6 +139,17 @@ jobs:
                 ;;
             esac
         esac
+        if ! git clone -b dev https://github.com/ImagingDataCommons/libdicom.git; then
+          exit 1
+        fi
+        cd libdicom
+        if ! meson setup builddir; then
+          cat builddir/meson-logs/meson-log.txt
+          exit 1
+        fi
+        ninja -C builddir
+        ninja -C builddir install
+        ninja -C builddir test
     - name: Check out repo
       uses: actions/checkout@v3
     - name: Check for uninitialized g_auto variables
