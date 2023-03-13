@@ -141,7 +141,7 @@ jobs:
             esac
         esac
         libdicom_url=https://github.com/jcupitt/libdicom.git
-        libdicom_branch=check
+        libdicom_branch=cleanup
         if ! git clone -b $libdicom_branch $libdicom_url; then
           exit 1
         fi
