@@ -139,7 +139,9 @@ jobs:
                 ;;
             esac
         esac
-        if ! git clone -b dev https://github.com/ImagingDataCommons/libdicom.git; then
+        libdicom_url=https://github.com/ImagingDataCommons/libdicom.git
+        libdicom_branch=dev
+        if ! git clone -b $libdicom_branch $libdicom_url; then
           exit 1
         fi
         cd libdicom
@@ -148,7 +150,7 @@ jobs:
           exit 1
         fi
         ninja -C builddir
-        ninja -C builddir install
+        $sudo ninja -C builddir install
         ninja -C builddir test
     - name: Check out repo
       uses: actions/checkout@v3
