@@ -22,11 +22,7 @@
  */
 
 /*
- * Sakura (svslide) support
- *
- * quickhash comes from a selection of metadata fields, the binary header
- * blob, and the lowest-resolution level
- *
+ * DICOM (.dcm) support
  */
 
 #include "openslide-private.h"
@@ -89,10 +85,15 @@ struct level {
   struct dicom_file *file;
 };
 
-struct associated_image {
+struct associated {
   struct _openslide_associated_image base;
-  char *filename;
-  DcmFilehandle *filehandle;
+
+  char *name;
+  int image_width;
+  int image_height;
+  enum image_format image_format;
+
+  struct dicom_file *file;
 };
 
 // a set of allowed image types for a class of image
@@ -430,67 +431,6 @@ static const struct _openslide_ops dicom_ops = {
   .destroy = destroy,
 };
 
-/*
-static bool get_associated_image_data(struct _openslide_associated_image *_img,
-                                      uint32_t *dest,
-                                      GError **err) {
-  struct associated_image *img = (struct associated_image *) _img;
-
-  // read data
-  const void *buf;
-  int buflen;
-  // read_image_from_dicom
-
-  // decode it
-  return _openslide_jpeg_decode_buffer(buf, buflen, dest,
-                                       img->base.w, img->base.h, err);
-}
-
-static void destroy_associated_image(struct _openslide_associated_image *_img) {
-  struct associated_image *img = (struct associated_image *) _img;
-
-  g_free(img->filename);
-  if(img->filehandle) {
-    dcm_filehandle_destroy(img->filehandle);
-    img->filehandle = NULL;
-  }
-
-  g_slice_free(struct associated_image, img);
-}
-
-static const struct _openslide_associated_image_ops dicom_associated_ops = {
-  .get_argb_data = get_associated_image_data,
-  .destroy = destroy_associated_image,
-};
-
-static bool add_associated_image(openslide_t *osr,
-                                 const char *filename,
-                                 const char *name,
-                                 GError **err) {
-  // read data
-  const void *buf;
-  int buflen;
-
-  // read dimensions from JPEG header
-  int32_t w, h;
-  if (!_openslide_jpeg_decode_buffer_dimensions(buf, buflen, &w, &h, err)) {
-    return false;
-  }
-
-  // create struct
-  struct associated_image *img = g_slice_new0(struct associated_image);
-  img->base.ops = &dicom_associated_ops;
-  img->base.w = w;
-  img->base.h = h;
-  img->filename = g_strdup(filename);
-
-  // add it
-  g_hash_table_insert(osr->associated_images, g_strdup(name), img);
-
-  return true;
-}
- */
-
 static bool is_type(struct dicom_file *f, const struct allowed_types *types) {
   // ImageType must be one of the combinations we accept
   int match = -1;
@@ -515,16 +455,74 @@ static bool is_type(struct dicom_file *f, const struct allowed_types *types) {
     }
   }
 
-  return match > 0;
+  return match >= 0;
 }
 
-static struct level *level_new(struct dicom_file *f) {
-  // try to read the rest of the dicom file as a pyr level
+static bool associated_get_argb_data(struct _openslide_associated_image *_img,
+                                uint32_t *dest,
+                                GError **err) {
+  printf("associated_get_argb_data:\n");
+
+  struct associated *a = (struct associated *) _img;
+
+  DcmError *dcm_error = NULL;
+  DcmFrame *frame = dcm_filehandle_read_frame(&dcm_error,
+                                              a->file->filehandle, 
+                                              a->file->metadata,
+                                              a->file->bot, 
+                                              1);
+  if (frame == NULL) {
+    set_gerror_from_dcm_error(err, &dcm_error);
+    return false;
+  }
+
+  const char *frame_value = dcm_frame_get_value(frame);
+  uint32_t frame_length = dcm_frame_get_length(frame);
+
+  printf("value = %p\n", frame_value);
+  printf("length = %u bytes\n", frame_length);
+  printf("rows = %u\n", dcm_frame_get_rows(frame));
+  printf("columns = %u\n", dcm_frame_get_columns(frame));
+  printf("samples per pixel = %u\n",
+         dcm_frame_get_samples_per_pixel(frame));
+  printf("bits allocated = %u\n", dcm_frame_get_bits_allocated(frame));
+  printf("bits stored = %u\n", dcm_frame_get_bits_stored(frame));
+  printf("high bit = %u\n", dcm_frame_get_high_bit(frame));
+  printf("pixel representation = %u\n",
+         dcm_frame_get_pixel_representation(frame));
+  printf("planar configuration = %u\n",
+         dcm_frame_get_planar_configuration(frame));
+  printf("photometric interpretation = %s\n",
+         dcm_frame_get_photometric_interpretation(frame));
+  printf("transfer syntax uid = %s\n",
+         dcm_frame_get_transfer_syntax_uid(frame));
+
+  return _openslide_jpeg_decode_buffer(frame_value,
+                                       frame_length,
+                                       dest,
+                                       dcm_frame_get_columns(frame),
+                                       dcm_frame_get_rows(frame),
+                                       err);
+}
+
+static void associated_destroy(struct associated *a) {
+  FREEF(dicom_file_destroy, a->file);
+  a->name = NULL;
+  g_slice_free(struct associated, a);
+}
+
+static const struct _openslide_associated_image_ops dicom_associated_ops = {
+  .get_argb_data = associated_get_argb_data,
+  .destroy = associated_destroy
+};
+
+static bool read_whole_file(struct dicom_file *f) {
+  // try to read the rest of the dicom file 
   if (!f->metadata) {
     f->metadata = dcm_filehandle_read_metadata(NULL, f->filehandle);
   }
   if (!f->metadata) {
-    return NULL;
+    return false;
   }
 
   if (!f->bot) {
@@ -536,6 +534,51 @@ static struct level *level_new(struct dicom_file *f) {
     f->bot = dcm_filehandle_build_bot(NULL, f->filehandle, f->metadata);
   }
   if (!f->bot) {
+    return false;
+  }
+
+  return true;
+}
+
+static struct associated *associated_new(struct dicom_file *f) {
+  // we use BOT to get the label and overview frames
+  if (!read_whole_file(f)) { 
+    return NULL;
+  }
+
+  // ImageType must be one of the combinations we accept
+  if (!is_type(f, &associated_types)) {
+    return NULL;
+  }
+
+  const char *name;
+  if (!get_tag_str(f->metadata, "ImageType", 2, &name)) {
+    return NULL;
+  }
+
+  struct associated *a = g_slice_new0(struct associated);
+
+  if (!get_tag_int(f->metadata, "TotalPixelMatrixColumns", &a->image_width) ||
+    !get_tag_int(f->metadata, "TotalPixelMatrixRows", &a->image_height)) {
+    associated_destroy(a);
+    return NULL;
+  }
+
+  // set this once we know we will succeed ... this passes ownership to the
+  // level
+  a->file = f;
+  a->name = name;
+  a->base.ops = &dicom_associated_ops;
+  a->base.w = a->image_width;
+  a->base.h = a->image_height;
+
+  printf("associated_new: %s\n", a->name);
+
+  return a;
+}
+
+static struct level *level_new(struct dicom_file *f) {
+  if (!read_whole_file(f)) { 
     return NULL;
   }
 
@@ -665,29 +708,30 @@ static void print_file_from_hash(gpointer key, gpointer value, gpointer user_dat
   print_file(f);
 }
 
-static void print_level_from_hash(gpointer key, gpointer value, gpointer user_data) {
+static void print_level_from_hash(gpointer key, 
+                                  gpointer value, 
+                                  gpointer user_data) {
   const char *filename = (const char *) key;
   struct level *l = (struct level *) value;
 
   print_level(l);
 }
 
-/*
 static bool find_associated(gpointer key, gpointer value, gpointer user_data) {
   const char *filename = (const char *) key;
   struct dicom_file *f = (struct dicom_file *) value;
-  GHashTable *associated_hash = (GHashTable *) user_data;
+  openslide_t *osr = (openslide_t *) user_data; 
 
-  struct associated_image *a = associated_new(f);
+  struct associated *a = associated_new(f);
   if (a) {
-    g_hash_table_insert(associated_hash, filename, a);
+    // FIXME ... this will use LABEL and OVERVIEW ... is this OK?
+    g_hash_table_insert(osr->associated_images, g_strdup(a->name), a);
     return true;
   }
   else {
     return false;
   }
 }
- */
 
 static gint compare_level_downsamples(const void *a, const void *b) {
   const struct level *aa = *((const struct level **) a);
@@ -755,7 +799,6 @@ static bool dicom_open(openslide_t *osr,
                           g_str_equal, 
                           g_free,
                           (GDestroyNotify) level_destroy);
-
   g_hash_table_foreach_steal(dicom_file_hash, find_levels, level_hash);
 
   printf("found pyr levels DICOM files:\n");
@@ -805,24 +848,12 @@ static bool dicom_open(openslide_t *osr,
   g_hash_table_foreach_steal(level_hash, add_level_array, level_array);
   g_ptr_array_sort(level_array, compare_level_downsamples); 
 
+  // steal any associated images from the remaining set
+  g_hash_table_foreach_steal(dicom_file_hash, find_associated, osr);
+
   /*
   // add properties
   add_properties(osr, db, unique_table_name);
-
-  // add associated images
-  // errors are non-fatal
-  add_associated_image(osr, db, filename, "label",
-                       "SELECT Image FROM SVScannedImageDataXPO JOIN "
-                       "SVSlideDataXPO ON SVSlideDataXPO.m_labelScan = "
-                       "SVScannedImageDataXPO.OID", NULL);
-  add_associated_image(osr, db, filename, "macro",
-                       "SELECT Image FROM SVScannedImageDataXPO JOIN "
-                       "SVSlideDataXPO ON SVSlideDataXPO.m_overviewScan = "
-                       "SVScannedImageDataXPO.OID", NULL);
-  add_associated_image(osr, db, filename, "thumbnail",
-                       "SELECT ThumbnailImage FROM SVHRScanDataXPO JOIN "
-                       "SVSlideDataXPO ON SVHRScanDataXPO.ParentSlide = "
-                       "SVSlideDataXPO.OID", NULL);
     */
 
   g_assert(osr->data == NULL);
