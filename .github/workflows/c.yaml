@@ -45,6 +45,7 @@ jobs:
             done
             brew update
             brew install \
+                meson \
                 pkg-config \
                 zlib \
                 libpng \
@@ -59,8 +60,7 @@ jobs:
                 xdelta \
                 doxygen
             python3 -m pip install --upgrade pip
-            # libdicom requires a more recent meson
-            python3 -m pip install requests PyYAML meson
+            python3 -m pip install requests PyYAML 
             ;;
         ubuntu-*)
             case "${{ matrix.container }}" in
@@ -111,6 +111,8 @@ jobs:
                 if [ -n "$pydotver" ]; then
                     alternatives --set python3 "/usr/bin/python${pydotver}"
                 fi
+                # libdicom requires a more recent meson than the one in 22.04
+                python3 -m pip install meson
                 ;;
             *debian*|"")
                 if [ -n "${{ matrix.container }}" ]; then
