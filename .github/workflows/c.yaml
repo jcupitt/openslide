@@ -111,8 +111,6 @@ jobs:
                 if [ -n "$pydotver" ]; then
                     alternatives --set python3 "/usr/bin/python${pydotver}"
                 fi
-                # libdicom requires a more recent meson than the one in 22.04
-                python3 -m pip install meson
                 ;;
             *debian*|"")
                 if [ -n "${{ matrix.container }}" ]; then
@@ -139,6 +137,8 @@ jobs:
                     libglib2.0-dev \
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
+                # libdicom requires a more recent meson than the one in 22.04
+                python3 -m pip install meson
                 ;;
             esac
         esac
