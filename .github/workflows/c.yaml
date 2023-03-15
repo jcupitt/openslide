@@ -123,7 +123,7 @@ jobs:
                 fi
                 $sudo apt-get update
                 $sudo apt-get -y install \
-                    gcc git pkg-config \
+                    gcc git ninja pkg-config \
                     python3-pip python3-requests python3-yaml \
                     zlib1g-dev \
                     libpng-dev \
