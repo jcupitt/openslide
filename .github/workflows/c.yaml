@@ -138,7 +138,9 @@ jobs:
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
                 # libdicom requires a more recent meson than the one in 22.04
-                python3 -m pip install meson --upgrade
+                # this needs to be installed as root, since we have to be able
+                # to run "meson install" as root
+                $sudo python3 -m pip install meson --upgrade
                 ;;
             esac
         esac
@@ -154,7 +156,7 @@ jobs:
         fi
         cd build
         meson compile
-        $sudo meson install --no-rebuild
+        $sudo meson install
     - name: Check out repo
       uses: actions/checkout@v3
     - name: Check for uninitialized g_auto variables
