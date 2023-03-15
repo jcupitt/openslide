@@ -123,7 +123,7 @@ jobs:
                 fi
                 $sudo apt-get update
                 $sudo apt-get -y install \
-                    gcc git meson pkg-config \
+                    gcc git pkg-config \
                     python3-requests python3-yaml \
                     zlib1g-dev \
                     libpng-dev \
@@ -137,10 +137,7 @@ jobs:
                     libglib2.0-dev \
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
-                # libdicom requires a more recent meson than the one in 22.04
-                # this needs to be installed as root, since we have to be able
-                # to run "meson install" as root
-                $sudo python3 -m pip install meson --upgrade
+                python3 -m pip install meson 
                 ;;
             esac
         esac
@@ -150,13 +147,12 @@ jobs:
           exit 1
         fi
         cd libdicom
-        if ! meson setup build; then
-          cat build/meson-logs/meson-log.txt
+        if ! meson setup builddir; then
+          cat builddir/meson-logs/meson-log.txt
           exit 1
         fi
-        cd build
-        meson compile
-        $sudo meson install
+        ninja -C builddir
+        $sudo ninja -C builddir install
     - name: Check out repo
       uses: actions/checkout@v3
     - name: Check for uninitialized g_auto variables
