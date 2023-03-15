@@ -148,13 +148,13 @@ jobs:
           exit 1
         fi
         cd libdicom
-        if ! meson setup builddir; then
-          cat builddir/meson-logs/meson-log.txt
+        if ! meson setup build; then
+          cat build/meson-logs/meson-log.txt
           exit 1
         fi
-        ninja -C builddir
-        $sudo ninja -C builddir install
-        ninja -C builddir test
+        cd build
+        meson compile
+        $sudo meson install --no-rebuild
     - name: Check out repo
       uses: actions/checkout@v3
     - name: Check for uninitialized g_auto variables
