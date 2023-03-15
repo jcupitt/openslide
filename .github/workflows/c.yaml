@@ -137,8 +137,8 @@ jobs:
                     libglib2.0-dev \
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
-                python3 -m pip install --upgrade pip
-                python3 -m pip install meson 
+                $sudo python3 -m pip install --upgrade pip
+                $sudo python3 -m pip install meson 
                 ;;
             esac
         esac
