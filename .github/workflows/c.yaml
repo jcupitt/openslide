@@ -124,7 +124,7 @@ jobs:
                 $sudo apt-get update
                 $sudo apt-get -y install \
                     gcc git pkg-config \
-                    python3-requests python3-yaml \
+                    python3-pip python3-requests python3-yaml \
                     zlib1g-dev \
                     libpng-dev \
                     $jpeg \
@@ -137,6 +137,7 @@ jobs:
                     libglib2.0-dev \
                     doxygen \
                     xdelta3 libjpeg-turbo-progs
+                python3 -m pip install --upgrade pip
                 python3 -m pip install meson 
                 ;;
             esac
