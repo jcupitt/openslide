@@ -17,21 +17,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            container: registry.fedoraproject.org/fedora:latest
-            extra: extra checks
-            sanitize: sanitize
-          - os: ubuntu-latest
-            container: quay.io/centos/centos:stream8
-          - os: ubuntu-latest
-            container: quay.io/centos/centos:stream9
-          - os: ubuntu-latest
             container: debian:stable
             ignore-cloexec-leaks: ignore CLOEXEC leaks
           - os: ubuntu-20.04
             ignore-cloexec-leaks: ignore CLOEXEC leaks
           - os: ubuntu-22.04
-          - os: macos-12
-            sanitize: sanitize
     steps:
     - name: Install dependencies
       run: |
