@@ -145,6 +145,14 @@ static void set_gerror_from_dcm_error(GError **err, DcmError **dcm_error)
   dcm_error_clear(dcm_error);
 }
 
+static void set_dcm_error_from_gerror(DcmError **dcm_error, GError **err)
+{
+  dcm_error_set(dcm_error, DCM_ERROR_CODE_INVALID,
+    g_quark_to_string((*err)->domain),
+    "%s", (*err)->message);
+  g_clear_error(err);
+}
+
 #ifdef DEBUG
 static void print_file(struct dicom_file *f) {
   printf("file:\n" );
@@ -191,6 +199,79 @@ static void print_frame(DcmFrame *frame) {
 }
 #endif /*DEBUG*/
 
+static void *dicom_openslide_vfs_open(DcmError **dcm_error, void *client) {
+  const char *filename = (const char *) client;
+
+  GError *err = NULL;
+  struct _openslide_file *file = _openslide_fopen(filename, &err);
+  if (!file) {
+    set_dcm_error_from_gerror(dcm_error, &err);
+    return NULL;
+  }
+
+  return file;
+}
+
+static int dicom_openslide_vfs_close(DcmError **dcm_error G_GNUC_UNUSED, 
+                                     void *data) {
+  struct _openslide_file *file = (struct _openslide_file *) data;
+  _openslide_fclose(file);
+  return 0;
+}
+
+static int64_t dicom_openslide_vfs_read(DcmError **dcm_error G_GNUC_UNUSED, 
+                                        void *data, 
+                                        char *buffer, 
+                                        int64_t length) {
+  struct _openslide_file *file = (struct _openslide_file *) data;
+  // openslide VFS has no error return for read()
+  return _openslide_fread(file, buffer, length);
+}
+
+static int64_t dicom_openslide_vfs_seek(DcmError **dcm_error, 
+                                        void *data, 
+                                        int64_t offset, 
+                                        int whence) {
+  struct _openslide_file *file = (struct _openslide_file *) data;
+
+  GError *err = NULL;
+  if (!_openslide_fseek(file, offset, whence, &err)) {
+    set_dcm_error_from_gerror(dcm_error, &err);
+    return -1;
+  }
+
+  // libdicom uses lseek(2) semantics, so it must always return the new file
+  // pointer
+  off_t new_position = _openslide_ftell(file, &err);
+  if (new_position < 0) {
+    set_dcm_error_from_gerror(dcm_error, &err);
+  }
+
+  return new_position;
+}
+
+static const DcmIO dicom_io_funcs = {
+  .open = dicom_openslide_vfs_open,
+  .close = dicom_openslide_vfs_close,
+  .read = dicom_openslide_vfs_read,
+  .seek = dicom_openslide_vfs_seek,
+};
+
+static DcmFilehandle *dicom_open_openslide_vfs(const char *filename, 
+                                               GError **err) {
+  DcmFilehandle *result;
+  DcmError *dcm_error = NULL;
+  result = dcm_filehandle_create(&dcm_error, 
+                                 &dicom_io_funcs, 
+                                 (void *) filename);
+  if (!result) {
+    set_gerror_from_dcm_error(err, &dcm_error);
+    return NULL;
+  }
+
+  return result;
+}
+
 static bool dicom_detect(const char *filename,
                          struct _openslide_tifflike *tl, 
                          GError **err) {
@@ -202,14 +283,12 @@ static bool dicom_detect(const char *filename,
   }
 
   // should be able to open as a DICOM
-  DcmError *dcm_error = NULL;
-  g_autoptr(DcmFilehandle) filehandle = 
-    dcm_filehandle_create_from_file(&dcm_error, filename);
-  if (filehandle == NULL) {
-    set_gerror_from_dcm_error(err, &dcm_error);
+  g_autoptr(DcmFilehandle) filehandle = dicom_open_openslide_vfs(filename, err);
+  if (!filehandle) {
     return false;
   }
 
+  DcmError *dcm_error = NULL;
   g_autoptr(DcmDataSet) meta = 
     dcm_filehandle_read_file_meta(&dcm_error, filehandle);
   if (!meta) {
@@ -251,16 +330,15 @@ static struct dicom_file *dicom_file_new(char *filename, GError **err) {
   struct dicom_file *f = g_slice_new0(struct dicom_file);
   f->filename = g_strdup(filename);
 
-  // should be able to open as a DICOM
-  DcmError *dcm_error = NULL;
-  f->filehandle = dcm_filehandle_create_from_file(&dcm_error, f->filename);
+  f->filehandle = dicom_open_openslide_vfs(filename, err);
   if (!f->filehandle) {
-    set_gerror_from_dcm_error(err, &dcm_error);
     dicom_file_destroy(f);
     return NULL;
   }
+
   g_mutex_init(&f->lock);
 
+  DcmError *dcm_error = NULL;
   f->meta = dcm_filehandle_read_file_meta(&dcm_error, 
                                           f->filehandle);
   if (!f->meta) {
