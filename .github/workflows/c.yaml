@@ -35,8 +35,7 @@ jobs:
             done
             brew update
             brew install \
-                meson \
-                pkg-config \
+                meson pkg-config \
                 zlib \
                 libpng \
                 jpeg-turbo \

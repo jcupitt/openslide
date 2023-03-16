@@ -1,7 +1,5 @@
 # Notable Changes in OpenSlide
 
-* New format: DICOM WSI
-
 
 ## Version 3.4.1, 2015-04-20
 
