@@ -821,7 +821,7 @@ static bool dicom_open(openslide_t *osr,
                        GError **err) {
   g_autofree char *dirname = g_path_get_dirname(filename);
 
-  g_autoptr(GDir) dir = g_dir_open(dirname, 0, err);
+  g_autoptr(_openslide_dir) dir = _openslide_dir_open(dirname, err);
   if (!dir) {
     return false;
   }
@@ -835,7 +835,7 @@ static bool dicom_open(openslide_t *osr,
   // open all DICOM files that look like parts of a slide image and 
   // get the file metadata
   const char *name;
-  while ((name = g_dir_read_name(dir))) {
+  while ((name = _openslide_dir_next(dir))) {
     g_autofree char *filename = g_build_path("/", dirname, name, NULL);
 
 #ifdef DEBUG
