@@ -50,7 +50,7 @@ struct dicom_ops_data {
   int64_t tile_size;
 };
 
-struct dicom_file {
+typedef struct dicom_file {
   char *filename;
 
   GMutex lock;
@@ -58,9 +58,9 @@ struct dicom_file {
   DcmDataSet *metadata;
   DcmDataSet *meta;
   DcmBOT *bot;
-};
+} DicomFile;
 
-struct level {
+typedef struct level {
   struct _openslide_level base;
   struct _openslide_grid *grid;
 
@@ -73,14 +73,14 @@ struct level {
   int64_t tiles_across;
   int64_t tiles_down;
 
-  struct dicom_file *file;
-};
+  DicomFile *file;
+} Level;
 
 struct associated {
   struct _openslide_associated_image base;
 
   const char *name;
-  struct dicom_file *file;
+  DicomFile *file;
 };
 
 // a set of allowed image types for a class of image
@@ -154,7 +154,7 @@ static void set_dcm_error_from_gerror(DcmError **dcm_error, GError **err)
 }
 
 #ifdef DEBUG
-static void print_file(struct dicom_file *f) {
+static void print_file(DicomFile *f) {
   printf("file:\n" );
   printf("  filename = %s\n", f->filename);
   printf("  filehandle = %p\n", f->filehandle);
@@ -163,7 +163,7 @@ static void print_file(struct dicom_file *f) {
   printf("  bot = %p\n", f->bot);
 }
 
-static void print_level(struct level *l) {
+static void print_level(Level *l) {
   printf("level:\n" );
   print_file(l->file);
   printf("  base.downsample = %g\n", l->base.downsample);
@@ -299,15 +299,17 @@ static bool dicom_detect(const char *filename,
   return true;
 }
 
-static void dicom_file_destroy(struct dicom_file *f) {
+static void dicom_file_destroy(DicomFile *f) {
   dcm_filehandle_destroy(f->filehandle);
   dcm_dataset_destroy(f->meta);
   dcm_dataset_destroy(f->metadata);
   dcm_bot_destroy(f->bot);
   g_mutex_clear(&f->lock);
   g_free(f->filename);
-  g_slice_free(struct dicom_file, f);
+  g_slice_free(DicomFile, f);
 }
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(DicomFile, dicom_file_destroy)
 
 static bool get_tag_int(DcmDataSet *dataset, 
                         const char *keyword, 
@@ -326,13 +328,12 @@ static bool get_tag_str(DcmDataSet *dataset,
   return dcm_element_get_value_string(NULL, element, index, result);
 }
 
-static struct dicom_file *dicom_file_new(char *filename, GError **err) {
-  struct dicom_file *f = g_slice_new0(struct dicom_file);
-  f->filename = g_strdup(filename);
+static DicomFile *dicom_file_new(char *filename, GError **err) {
+  g_autoptr(DicomFile) f = g_slice_new0(DicomFile);
 
+  f->filename = g_strdup(filename);
   f->filehandle = dicom_open_openslide_vfs(filename, err);
   if (!f->filehandle) {
-    dicom_file_destroy(f);
     return NULL;
   }
 
@@ -343,7 +344,6 @@ static struct dicom_file *dicom_file_new(char *filename, GError **err) {
                                           f->filehandle);
   if (!f->meta) {
     set_gerror_from_dcm_error(err, &dcm_error);
-    dicom_file_destroy(f);
     return NULL;
   }
 
@@ -352,20 +352,21 @@ static struct dicom_file *dicom_file_new(char *filename, GError **err) {
   if (!g_str_equal(sop, VLWholeSlideMicroscopyImageStorage)) {
     g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
                 "Not a WSI DICOM");
-    dicom_file_destroy(f);
     return NULL;
   }
 
-  return f;
+  return g_steal_pointer(&f);
 }
 
-static void level_destroy(struct level *l) {
+static void level_destroy(Level *l) {
   _openslide_grid_destroy(l->grid);
   if (l->file) {
     dicom_file_destroy(l->file);
   }
-  g_slice_free(struct level, l);
+  g_slice_free(Level, l);
 }
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(Level, level_destroy)
 
 static void destroy(openslide_t *osr) {
   struct dicom_ops_data *data = osr->data;
@@ -373,7 +374,7 @@ static void destroy(openslide_t *osr) {
   g_slice_free(struct dicom_ops_data, data);
 
   for (int32_t i = 0; i < osr->level_count; i++) {
-    level_destroy((struct level *) osr->levels[i]);
+    level_destroy((Level *) osr->levels[i]);
   }
   g_free(osr->levels);
 }
@@ -385,7 +386,7 @@ static bool read_tile(openslide_t *osr,
                       void *arg G_GNUC_UNUSED,
                       GError **err) {
   struct dicom_ops_data *data = osr->data;
-  struct level *l = (struct level *) level;
+  Level *l = (Level *) level;
   int32_t tile_size = data->tile_size;
 
 #ifdef DEBUG
@@ -482,7 +483,7 @@ static bool paint_region(openslide_t *osr,
                          int32_t h,
                          GError **err) {
   struct dicom_ops_data *data = osr->data;
-  struct level *l = (struct level *) level;
+  Level *l = (Level *) level;
 
 #ifdef DEBUG
   printf("paint_region: x = %" PRId64 ", y = %" PRId64 ", w = %d, h = %d\n", 
@@ -507,7 +508,7 @@ static const struct _openslide_ops dicom_ops = {
   .destroy = destroy,
 };
 
-static bool is_type(struct dicom_file *f, const struct allowed_types *types) {
+static bool is_type(DicomFile *f, const struct allowed_types *types) {
   // ImageType must be one of the combinations we accept
   int match = -1;
   for (int i = 0; i < types->n_types; i++) {
@@ -573,7 +574,7 @@ static const struct _openslide_associated_image_ops dicom_associated_ops = {
   .destroy = associated_destroy
 };
 
-static bool read_whole_file(struct dicom_file *f) {
+static bool read_whole_file(DicomFile *f) {
   // try to read the rest of the dicom file 
   if (!f->metadata) {
     f->metadata = dcm_filehandle_read_metadata(NULL, f->filehandle);
@@ -597,7 +598,7 @@ static bool read_whole_file(struct dicom_file *f) {
   return true;
 }
 
-static struct associated *associated_new(struct dicom_file *f) {
+static struct associated *associated_new(DicomFile *f) {
   // we use BOT to get the label and overview frames
   if (!read_whole_file(f)) { 
     return NULL;
@@ -636,30 +637,27 @@ static struct associated *associated_new(struct dicom_file *f) {
   return a;
 }
 
-static struct level *level_new(struct dicom_file *f) {
+static Level *level_new(DicomFile *f) {
   if (!read_whole_file(f)) { 
     return NULL;
   }
 
-  struct level *l = g_slice_new0(struct level);
+  g_autoptr(Level) l = g_slice_new0(Level);
 
   if (!get_tag_int(f->metadata, TotalPixelMatrixColumns, &l->image_width) ||
     !get_tag_int(f->metadata, TotalPixelMatrixRows, &l->image_height) ||
     !get_tag_int(f->metadata, Columns, &l->tile_w) ||
     !get_tag_int(f->metadata, Rows, &l->tile_h)) {
-    level_destroy(l);
     return NULL;
   }
 
   // ImageType must be one of the combinations we accept
   if (!is_type(f, &level_types)) {
-    level_destroy(l);
     return NULL;
   }
 
   // we only allow square tiles
   if (l->tile_w != l->tile_h) {
-    level_destroy(l);
     return NULL;
   }
 
@@ -674,15 +672,15 @@ static struct level *level_new(struct dicom_file *f) {
   l->tiles_across = (l->base.w / l->tile_w) + !!(l->base.w % l->tile_w);
   l->tiles_down = (l->base.h / l->tile_h) + !!(l->base.h % l->tile_h);
 
-  return l;
+  return g_steal_pointer(&l);
 }
 
 static int find_levels(gpointer key, gpointer value, gpointer user_data) {
   const char *filename = (const char *) key;
-  struct dicom_file *f = (struct dicom_file *) value;
+  DicomFile *f = (DicomFile *) value;
   GHashTable *level_hash = (GHashTable *) user_data;
 
-  struct level *l = level_new(f);
+  Level *l = level_new(f);
   if (l) {
     g_hash_table_insert(level_hash, (char *) filename, l);
     return true;
@@ -695,7 +693,7 @@ static int find_levels(gpointer key, gpointer value, gpointer user_data) {
 static int remove_bad_slide_id(gpointer key G_GNUC_UNUSED, 
                                gpointer value, 
                                gpointer user_data) {
-  struct dicom_file *f = (struct dicom_file *) value;
+  DicomFile *f = (DicomFile *) value;
   const char *slide_id = (const char *) user_data;
 
   // we might not have read all the metadta for this dicom yet
@@ -716,7 +714,7 @@ static int remove_bad_slide_id(gpointer key G_GNUC_UNUSED,
 static int add_level_array(gpointer key G_GNUC_UNUSED, 
                            gpointer value, 
                            gpointer user_data) {
-  struct level *l = (struct level *) value;
+  Level *l = (Level *) value;
   GPtrArray *level_array = (GPtrArray *) user_data;
 
   g_ptr_array_add(level_array, l);
@@ -728,7 +726,7 @@ static int add_level_array(gpointer key G_GNUC_UNUSED,
 static void print_file_from_hash(gpointer key G_GNUC_UNUSED, 
                                  gpointer value, 
                                  gpointer user_data G_GNUC_UNUSED) {
-  struct dicom_file *f = (struct dicom_file *) value;
+  DicomFile *f = (DicomFile *) value;
 
   print_file(f);
 }
@@ -736,7 +734,7 @@ static void print_file_from_hash(gpointer key G_GNUC_UNUSED,
 static void print_level_from_hash(gpointer key G_GNUC_UNUSED, 
                                   gpointer value, 
                                   gpointer user_data G_GNUC_UNUSED) {
-  struct level *l = (struct level *) value;
+  Level *l = (Level *) value;
 
   print_level(l);
 }
@@ -745,7 +743,7 @@ static void print_level_from_hash(gpointer key G_GNUC_UNUSED,
 static int find_associated(gpointer key G_GNUC_UNUSED, 
                             gpointer value, 
                             gpointer user_data) {
-  struct dicom_file *f = (struct dicom_file *) value;
+  DicomFile *f = (DicomFile *) value;
   openslide_t *osr = (openslide_t *) user_data; 
 
   struct associated *a = associated_new(f);
@@ -771,8 +769,8 @@ static int find_associated(gpointer key G_GNUC_UNUSED,
 }
 
 static gint compare_level_width(const void *a, const void *b) {
-  const struct level *aa = *((const struct level **) a);
-  const struct level *bb = *((const struct level **) b);
+  const Level *aa = *((const Level **) a);
+  const Level *bb = *((const Level **) b);
 
   return bb->image_width - aa->image_width;
 }
@@ -780,7 +778,7 @@ static gint compare_level_width(const void *a, const void *b) {
 static void make_grid(gpointer key G_GNUC_UNUSED, 
                       gpointer value, 
                       gpointer user_data) {
-  struct level *l = (struct level *) value;
+  Level *l = (Level *) value;
   openslide_t *osr = (openslide_t *) user_data; 
 
   l->grid = _openslide_grid_create_simple(osr,
@@ -791,7 +789,7 @@ static void make_grid(gpointer key G_GNUC_UNUSED,
                                           read_tile);
 }
 
-static void add_properties(openslide_t *osr, const struct level *l) {
+static void add_properties(openslide_t *osr, const Level *l) {
   // why not
   double mmpp = l->image_width;
   g_hash_table_insert(osr->properties,
@@ -802,7 +800,7 @@ static void add_properties(openslide_t *osr, const struct level *l) {
                       _openslide_format_double(mmpp * 1000));
 }
 
-static void file_hash(const struct dicom_file *f,
+static void file_hash(const DicomFile *f,
                       struct _openslide_hash *quickhash1) {
   uint32_t n = dcm_dataset_count(f->metadata);
   for(uint32_t i = 0; i < n; i++) {
@@ -838,15 +836,14 @@ static bool dicom_open(openslide_t *osr,
   // get the file metadata
   const char *name;
   while ((name = g_dir_read_name(dir))) {
-    char *filename = g_build_path("/", dirname, name, NULL);
+    g_autofree char *filename = g_build_path("/", dirname, name, NULL);
 
 #ifdef DEBUG
     printf("trying to open: %s ...\n", filename);
 #endif /*DEBUG*/
     GError *local_error = NULL;
-    struct dicom_file *f = dicom_file_new(filename, &local_error);
+    DicomFile *f = dicom_file_new(filename, &local_error);
     if (!f) {
-      g_free(filename);
 #ifdef DEBUG
       printf( "open failed: %s\n", local_error->message);
       g_error_free(local_error);
@@ -854,7 +851,7 @@ static bool dicom_open(openslide_t *osr,
       continue;
     }
 
-    g_hash_table_insert(dicom_file_hash, filename, f);
+    g_hash_table_insert(dicom_file_hash, g_steal_pointer(&filename), f);
   }
 
 #ifdef DEBUG
@@ -864,7 +861,7 @@ static bool dicom_open(openslide_t *osr,
 
   // the filename we were passed should be one of these WSI files ... get the
   // slide id from that
-  struct dicom_file *start = g_hash_table_lookup(dicom_file_hash, filename); 
+  DicomFile *start = g_hash_table_lookup(dicom_file_hash, filename); 
   if (!start) {
     g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED, 
         "%s is not a DICOM WSI", filename);
@@ -941,7 +938,7 @@ static bool dicom_open(openslide_t *osr,
   osr->ops = &dicom_ops;
 
   // take props from the largest pyr layer
-  const struct level *largest = (const struct level *) osr->levels[0];
+  const Level *largest = (const Level *) osr->levels[0];
   add_properties(osr, largest);
 
   // perhaps add all the top-level metadata we've loaded for the largest level
