@@ -346,7 +346,7 @@ static struct dicom_file *dicom_file_new(const char *filename,
   }
 
   if (load_metadata) {
-    f->metadata = dcm_filehandle_get_metadata(&dcm_error, f->filehandle);
+    f->metadata = dcm_filehandle_get_metadata_subset(&dcm_error, f->filehandle);
     if (!f->metadata) {
       _openslide_dicom_propagate_error(err, dcm_error);
       return NULL;
