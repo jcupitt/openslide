@@ -1,0 +1,91 @@
+- need a sample image
+
+	see ~/pics/openslide/dicom/openslide_dicom_test_files
+
+  from that dir:
+
+	dicom_tile_full_offset  	
+		all seem to work
+
+	tiled_sparse_no_offset
+		DS_A02R_01S/                    
+		DS_A07R_01S_16-9-2024_15-27-21/
+		DS_A07R_01S/                    
+			all fail with "Slide contains unexpected image"
+			level 4 and 5 are both split into multiple files
+
+	dicom_tile_full_no_offset       
+		DS_A02R_01S  
+		DS_A07R_01S  
+		DS_A07R_01S_16-9-2024_15-27-21
+			all fail with "Slide contains unexpected image"
+			level 4 and 5 are both split into multiple files
+
+	mrxs                    
+		all three scans work fine
+
+	tiled_sparse_offset
+		all seem to work
+
+  try dicom_tile_full_offset/DS_A02R_01S, it's the smallest
+
+- dcm-dump 13_0
+
+
+
+## Background
+
+https://github.com/ImagingDataCommons/libdicom/issues/88
+
+Discussion on openslide, with comments by dclunie
+
+https://github.com/openslide/openslide/issues/511#issuecomment-1774220332
+
+Sample java code for this:
+
+http://www.dclunie.com/pixelmed/software/javadoc/com/pixelmed/apps/MergeConcatenationInstances.html
+
+## What happens now
+
+we read tiles with
+
+	decode_frame(l->file, tile_col, tile_row,
+	      buf, l->base.tile_w, l->base.tile_h, &tmp_err))
+
+l is a dicom_level, it contains a single dicom_file->file field, and that
+contains the libdicom DcmFilehandle
+
+we then call dcm_filehandle_read_frame_position() which uses
+filehandle->frame_index[] (for sparse images) to find the frame number, then 
+filehandle->offset_table[] to get the position to read from
+
+## Proposal
+
+dicom_level needs file_index[num_tiles], with each entry pointing to a
+dicom_file
+
+need a separate table of all the dicom_file so we can free them ... how are
+they freed now?
+
+	dicom_file_destroy() is called when struct associated or struct
+	dicom_level are destroyed
+
+	level_destroy() is called in a loop from osr->levels[] in 
+	osr destroy
+
+during directory scan, load each DICOM, scan the available tiles, and fill out
+the file_index[] array
+
+1. Add osr->files[] array of dicom_file, and destroy in 
+
+	static void destroy(openslide_t *osr) {}
+
+	needs to be g_ptr_array, eg. 
+
+	  g_autoptr(GPtrArray) files =
+	    g_ptr_array_new_full(10, (GDestroyNotify) dicom_file_destroy);
+
+2. Add dicom_level->file_index[num_tiles], destroy in level_destroy
+
+3. in dicom_open(), 
+
